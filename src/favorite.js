@@ -3,6 +3,7 @@ import onSearchClick from './js/header';
 import { ThemeSwitcher } from './js/themeSwitcher';
 
 const newsContainerRef = document.querySelector('.news_container');
+const withoutNewsContainer = document.querySelector('.without-news_container')
 const body = document.querySelector('body');
 const searchInput = document.querySelector('.search_form');
 
@@ -18,6 +19,9 @@ let imgUrl = '';
 let totalNews = '';
 let resultsArr = '';
 let numberOfCard = 0;
+
+
+const STORAGE_FAVORITES_KEY = 'favorites';
 
 
 //============= перемикач теми початок ==========
@@ -49,7 +53,7 @@ function formatDate(date) {
 function padTo2Digits(num) {
   return num.toString().padStart(2, '0');
 }
-// конецю переформатирование даты
+// конец. переформатирование даты
 
 // Начало. Проверка на клик по Добавить в избранное
 function onAddToFavoritesClick(evt) {
@@ -100,3 +104,53 @@ function setFavoritesInLocalStor({ resultsArr, clickedArticleId }) {
 import './js/currentPage'
 
 //=== Подчеркивание активной ссылки на страницу -- конец
+
+
+
+//======  Добавляет карточки новостей на страницу favorite  ======
+
+
+function addFavorite() {
+  const favorites = localStorage.getItem(STORAGE_FAVORITES_KEY);
+  
+  if (!favorites) {
+    withoutNewsContainer.style.display =
+    'block';
+
+  } else {
+    const parsedFavorites = JSON.parse(favorites);
+    const favoritesKeys = Object.keys(parsedFavorites);
+
+    for (const favoriteKey of favoritesKeys) {
+      const parsedFavorite = parsedFavorites[`${favoriteKey}`]
+      const { abstract, published_date, section, title, media, url, id } = parsedFavorite;
+
+      articleId = id;
+      publishedDate = publishedDateFormatter(published_date);
+      sectionName = section;
+      articleTitle = title;
+      shortDescription = abstract;
+      urlOriginalArticle = url;
+
+      try {
+        imgUrl = media[0]['media-metadata'][2].url;
+          
+      } catch (error) {
+        imgUrl = 'Тут ссылку на заглушку';
+      }
+      
+      newsContainerRef.innerHTML = markupAll += createmarkup({
+        publishedDate,
+        sectionName,
+        articleTitle,
+        shortDescription,
+        urlOriginalArticle,
+        imgUrl,
+        articleId,
+      });
+    }
+  }
+}
+
+addFavorite()
+

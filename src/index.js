@@ -355,6 +355,12 @@ function onAddToFavoritesClick(evt) {
 
 //=== Подчеркивание активной ссылки на страницу -- начало
 
+
 import './js/currentPage';
 
 //=== Подчеркивание активной ссылки на страницу -- конец
+
+//== categs section test
+import './js/categories'
+// == categs section test end
+

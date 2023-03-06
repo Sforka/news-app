@@ -41,7 +41,7 @@ export default class PaginationLogicPopular {
           // console.log(media[0]['media-metadata']);
         } catch (error) {
           imgUrl =
-            'Тут ссылку на заглушку ../images/the-new-york-times-logo.jpg';
+            'https://t4.ftcdn.net/jpg/00/89/55/15/240_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg';
         }
 
         // деструктурував необхідні данні для розмітки

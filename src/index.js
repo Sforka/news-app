@@ -5,9 +5,8 @@ import onSearchClick from './js/header';
 import { ThemeSwitcher } from './js/themeSwitcher';
 import createWidget from './js/weatherApi';
 import calendar from './js/calendar';
-import { renderPagination } from './js/pagination';
 
-const newsContainerRef = document.querySelector('.js-card');
+const newsContainerRef = document.querySelector('.news_container');
 const body = document.querySelector('body');
 const searchInput = document.querySelector('.search_form');
 const newsFetchApi = new NewsFetchApi();
@@ -50,24 +49,13 @@ function getPopularNews() {
       //   загальна кількість знайдених новин
       totalNews = data.num_results;
       resultsArr = data.results;
-      console.log(totalNews);
-      console.log(resultsArr);
-      // renderPagination(totalNews);
       // проверка если нету новостей.
       if (resultsArr.length === 0) {
         newsContainerRef.innerHTML = '';
         document.querySelector('.without-news_container').style.display =
           'block';
       } else {
-  // newsPerPage form pagination
-        function test(num) {
-          return num;
-        } 
-        let currentPage
-       const newsPerPage = test(7); 
-        const resultsPerPage = resultsArr.slice(0, newsPerPage);
-        arrowRight.addEventListener('click', onArrowRightClick);
-        resultsPerPage.forEach(
+        resultsArr.forEach(
           //   Зверніть увагу дата публікації записана по різному
           ({ abstract, published_date, section, title, media, url, id }) => {
             articleId = id;
@@ -84,7 +72,8 @@ function getPopularNews() {
               //   якщо треба інший розмір картинки
               // console.log(media[0]['media-metadata']);
             } catch (error) {
-              imgUrl = "https://t4.ftcdn.net/jpg/00/89/55/15/240_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg";
+              imgUrl =
+                'https://t4.ftcdn.net/jpg/00/89/55/15/240_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg';
             }
 
             // проверяем ширину экрана для расположения погоды
@@ -166,7 +155,8 @@ function onCategoryClick(evt) {
               //   якщо треба інший розмір картинки
               // console.log(media[0]['media-metadata']);
             } catch (error) {
-              imgUrl = "https://t4.ftcdn.net/jpg/00/89/55/15/240_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg";
+              imgUrl =
+                'https://t4.ftcdn.net/jpg/00/89/55/15/240_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg';
             }
             if (numberOfCard === 0) {
               markupAll += '<div class="weatherWidget"></div>';
@@ -191,7 +181,7 @@ function onCategoryClick(evt) {
 
         // Блок добавления погоды
         const weatherWidgetContainer = document.querySelector('.weatherWidget');
-       
+
         createWidget(weatherWidgetContainer);
         // Конец. Блок добавления погоды
 
@@ -252,7 +242,8 @@ function onSearchInputClick(evt) {
               //   якщо треба інший розмір картинки
               // console.log(media[0]['media-metadata']);
             } catch (error) {
-              imgUrl = "https://t4.ftcdn.net/jpg/00/89/55/15/240_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg";
+              imgUrl =
+                'https://t4.ftcdn.net/jpg/00/89/55/15/240_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg';
             }
             if (numberOfCard === 0) {
               markupAll += '<div class="weatherWidget"></div>';
@@ -271,8 +262,6 @@ function onSearchInputClick(evt) {
         );
         newsContainerRef.innerHTML = markupAll;
         markupAll = '';
-
-        
 
         // Блок добавления погоды
         const weatherWidgetContainer = document.querySelector('.weatherWidget');
@@ -364,11 +353,12 @@ function onAddToFavoritesClick(evt) {
 
 // Конец. Проверка на клик по Добавить в избранное
 
-
 //=== Подчеркивание активной ссылки на страницу -- начало
-import './js/currentPage'
+
+// import './js/currentPage';
 //=== Подчеркивание активной ссылки на страницу -- конец
 
 //== categs section test
 import './js/categories'
 // == categs section test end
+

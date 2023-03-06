@@ -101,7 +101,7 @@ function setFavoritesInLocalStor({ resultsArr, clickedArticleId }) {
 
 //=== Подчеркивание активной ссылки на страницу -- начало
 
-import './js/currentPage'
+// import './js/currentPage'
 
 //=== Подчеркивание активной ссылки на страницу -- конец
 

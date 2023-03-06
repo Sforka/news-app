@@ -5,6 +5,8 @@ import onSearchClick from './js/header';
 import { ThemeSwitcher } from './js/themeSwitcher';
 import createWidget from './js/weatherApi';
 import calendar from './js/calendar';
+import { getReadArticlesFromLocStor } from './js/read-render';
+import { addClickListenerToCard } from './js/read-render';
 
 const newsContainerRef = document.querySelector('.news_container');
 const body = document.querySelector('body');
@@ -12,6 +14,7 @@ const searchInput = document.querySelector('.search_form');
 const newsFetchApi = new NewsFetchApi();
 
 const STORAGE_FAVORITES_KEY = 'favorites';
+const STORAGE_READ_KEY = 'read'
 
 let markupAll = '';
 
@@ -108,6 +111,7 @@ function getPopularNews() {
         body.addEventListener('click', onAddToFavoritesClick);
         // после отрисовки всех новостей, этот счётчик обнуляем так как если после вызывать другие новости счётчик сохраняет значение, так как не перезапускается его инициализация изначальная.
         numberOfCard = 0;
+        addClickListenerToCard()
       }
     })
     .catch(error => console.log(error));
@@ -171,7 +175,7 @@ function onCategoryClick(evt) {
               articleId,
             });
             numberOfCard += 1;
-
+            
             //   якщо треба інший розмір картинки
             // console.log(multimedia);
           }
@@ -189,6 +193,7 @@ function onCategoryClick(evt) {
         body.addEventListener('click', onAddToFavoritesClick);
         // после отрисовки всех новостей, этот счётчик обнуляем так как если после вызывать другие новости счётчик сохраняет значение, так как не перезапускается его инициализация изначальная.
         numberOfCard = 0;
+        addClickListenerToCard()
       }
     })
     .catch(error => console.log(error));
@@ -273,6 +278,7 @@ function onSearchInputClick(evt) {
         body.addEventListener('click', onAddToFavoritesClick);
         // после отрисовки всех новостей, этот счётчик обнуляем так как если после вызывать другие новости счётчик сохраняет значение, так как не перезапускается его инициализация изначальная.
         numberOfCard = 0;
+        addClickListenerToCard()
       }
     })
     .catch(error => console.log(error));
@@ -364,3 +370,5 @@ import './js/currentPage';
 import './js/categories'
 // == categs section test end
 
+//===отримання масиву статей з local storage ==========
+getReadArticlesFromLocStor();

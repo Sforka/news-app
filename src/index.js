@@ -7,6 +7,10 @@ import createWidget from './js/weatherApi';
 import calendar from './js/calendar';
 import PaginationLogicPopular from './js/paginationLogicPopular';
 import PaginationLogicCategory from './js/paginationLogicCategory';
+import { onPaginationPopularNextClick } from './js/paginationPopular';
+import { onPaginationPopularPrevClick } from './js/paginationPopular';
+import { onPaginationCategoryPrevClick } from './js/paginationCategory';
+import { onPaginationCategoryNextClick } from './js/paginationCategory';
 
 const pagRefs = {
   prev: document.querySelector('.pag-arrow--prev'),
@@ -17,9 +21,9 @@ const newsContainerRef = document.querySelector('.news_container');
 const body = document.querySelector('body');
 const searchInput = document.querySelector('.search_form');
 
-const newsFetchApi = new NewsFetchApi();
-const popularNewsPagination = new PaginationLogicPopular();
-const categoryNewsPagination = new PaginationLogicCategory();
+export const newsFetchApi = new NewsFetchApi();
+export const popularNewsPagination = new PaginationLogicPopular();
+export const categoryNewsPagination = new PaginationLogicCategory();
 
 const STORAGE_FAVORITES_KEY = 'favorites';
 
@@ -65,6 +69,7 @@ function getPopularNews() {
       } else {
         pagRefs.prev.addEventListener('click', onPaginationPopularPrevClick);
         pagRefs.next.addEventListener('click', onPaginationPopularNextClick);
+
         popularNewsPagination.resultsArr = resultsArr;
         const markupAll = popularNewsPagination.getMarkupAll();
         populateNews(markupAll);
@@ -83,15 +88,12 @@ function onCategoryClick(evt) {
   newsFetchApi
     .fetchBySection()
     .then(({ data }) => {
-      //   загальна кількість знайдених новин
+      //   загальна кількість знайдених новин, тут она врёт, на самом деле приходит меньше чем есть.
       totalNews = data.num_results;
       resultsArr = data.results;
 
-      console.log(totalNews);
-      console.log(resultsArr);
-
       // проверка если нету новостей.
-      if (resultsArr.length === 0) {
+      if (data.results === null) {
         newsContainerRef.innerHTML = '';
         document.querySelector('.without-news_container').style.display =
           'block';
@@ -263,43 +265,14 @@ function onAddToFavoritesClick(evt) {
 
 import './js/currentPage';
 
-
 //=== Подчеркивание активной ссылки на страницу -- конец
 
-//=== пагинация популярных новостей -- начало
-function onPaginationPopularPrevClick() {
-  popularNewsPagination.page -= 1;
-  popularNewsPagination.markupAll = '<div class="weatherWidget"></div>';
-  const markupAll = popularNewsPagination.getMarkupAll();
-  populateNews(markupAll);
-}
-function onPaginationPopularNextClick() {
-  popularNewsPagination.page += 1;
-  popularNewsPagination.markupAll = '<div class="weatherWidget"></div>';
-  const markupAll = popularNewsPagination.getMarkupAll();
-  populateNews(markupAll);
-}
-//=== пагинация популярных новостей -- конец
 
-//=== пагинация по категориям новостей -- начало
-function onPaginationCategoryPrevClick() {
-  // цифра 7 приходит из функции пагинации!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  categoryNewsPagination.page -= 7;
-  categoryNewsPagination.markupAll = '<div class="weatherWidget"></div>';
-  const markupAll = categoryNewsPagination.getMarkupAll();
-  populateNews(markupAll);
-}
-function onPaginationCategoryNextClick() {
-  // цифра 7 приходит из функции пагинации!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  categoryNewsPagination.page += 7;
-  categoryNewsPagination.markupAll = '<div class="weatherWidget"></div>';
-  const markupAll = categoryNewsPagination.getMarkupAll();
-  populateNews(markupAll);
-}
-//=== пагинация по категориям новостей -- конец
+
+
 
 // Рендеринг всех карточек на странице. начало
-function populateNews(markupAll) {
+export function populateNews(markupAll) {
   newsContainerRef.innerHTML = markupAll;
 
   // Блок добавления погоды

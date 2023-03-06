@@ -5,7 +5,7 @@ export default class PaginationLogicPopular {
     this.page = 0;
     this.resultsArr = [];
     // это приходит из функции пагинации
-    this.newsPerPage = 2;
+    this.newsPerPage = 7;
     this.markupAll = '<div class="weatherWidget"></div>';
   }
 
@@ -18,40 +18,43 @@ export default class PaginationLogicPopular {
 
   // перебор массива  части статтей  и рендеринг их с погодой
   getMarkupAll() {
-    this.getResultForPage().forEach(
-      ({ abstract, published_date, section, title, media, url, id }) => {
-        const articleId = id;
-        const publishedDate = publishedDateFormatter(published_date);
-        const sectionName = section;
-        const articleTitle = title;
-        const shortDescription = abstract;
-        const urlOriginalArticle = url;
-        let imgUrl;
+    if (this.getResultForPage().length < this.newsPerPage) {
+      console.log("отключить кнопку вперед");
+    }
+      this.getResultForPage().forEach(
+        ({ abstract, published_date, section, title, media, url, id }) => {
+          const articleId = id;
+          const publishedDate = publishedDateFormatter(published_date);
+          const sectionName = section;
+          const articleTitle = title;
+          const shortDescription = abstract;
+          const urlOriginalArticle = url;
+          let imgUrl;
 
-        //   перевіряемо чи є зображення, де помилка там є відео
-        try {
-          imgUrl = media[0]['media-metadata'][2].url;
+          //   перевіряемо чи є зображення, де помилка там є відео
+          try {
+            imgUrl = media[0]['media-metadata'][2].url;
 
-          //   якщо треба інший розмір картинки
-          // console.log(media[0]['media-metadata']);
-        } catch (error) {
-          imgUrl =
-            'Тут ссылку на заглушку ../images/the-new-york-times-logo.jpg';
+            //   якщо треба інший розмір картинки
+            // console.log(media[0]['media-metadata']);
+          } catch (error) {
+            imgUrl =
+              'Тут ссылку на заглушку ../images/the-new-york-times-logo.jpg';
+          }
+
+          // деструктурував необхідні данні для розмітки
+
+          this.markupAll += createmarkup({
+            publishedDate,
+            sectionName,
+            articleTitle,
+            shortDescription,
+            urlOriginalArticle,
+            imgUrl,
+            articleId,
+          });
         }
-
-        // деструктурував необхідні данні для розмітки
-
-        this.markupAll += createmarkup({
-          publishedDate,
-          sectionName,
-          articleTitle,
-          shortDescription,
-          urlOriginalArticle,
-          imgUrl,
-          articleId,
-        });
-      }
-    );
+      );
     return this.markupAll;
   }
 }

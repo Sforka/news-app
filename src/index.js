@@ -5,15 +5,26 @@ import onSearchClick from './js/header';
 import { ThemeSwitcher } from './js/themeSwitcher';
 import createWidget from './js/weatherApi';
 import calendar from './js/calendar';
+import PaginationLogic from './js/paginationLogic';
+
+const pagRefs = {
+  prev: document.querySelector('.pag-arrow--prev'),
+  next: document.querySelector('.pag-arrow--next'),
+};
+
+pagRefs.prev.addEventListener('click', onPaginationPrevClick);
+pagRefs.next.addEventListener('click', onPaginationNextClick);
 
 const newsContainerRef = document.querySelector('.news_container');
 const body = document.querySelector('body');
 const searchInput = document.querySelector('.search_form');
+
 const newsFetchApi = new NewsFetchApi();
+const popularNewsPagination = new PaginationLogic();
 
 const STORAGE_FAVORITES_KEY = 'favorites';
 
-let markupAll = '';
+let markupAll = '<div class="weatherWidget"></div>';
 
 let articleId = '';
 let publishedDate = '';
@@ -24,7 +35,7 @@ let urlOriginalArticle = '';
 let imgUrl = '';
 let totalNews = '';
 let resultsArr = '';
-let numberOfCard = 0;
+
 
 // приносить список тем
 function getSectionList(e) {
@@ -54,58 +65,10 @@ function getPopularNews() {
         document.querySelector('.without-news_container').style.display =
           'block';
       } else {
-        resultsArr.forEach(
-          //   Зверніть увагу дата публікації записана по різному
-          ({ abstract, published_date, section, title, media, url, id }) => {
-            articleId = id;
-            publishedDate = publishedDateFormatter(published_date);
-            sectionName = section;
-            articleTitle = title;
-            shortDescription = abstract;
-            urlOriginalArticle = url;
+        
+        popularNewsPagination.resultsArr = resultsArr
 
-            //   перевіряемо чи є зображення, де помилка там є відео
-            try {
-              imgUrl = media[0]['media-metadata'][2].url;
-
-              //   якщо треба інший розмір картинки
-              // console.log(media[0]['media-metadata']);
-            } catch (error) {
-              imgUrl = 'Тут ссылку на заглушку';
-            }
-
-            // проверяем ширину экрана для расположения погоды
-
-            if (numberOfCard === 0) {
-              markupAll += '<div class="weatherWidget"></div>';
-            }
-            // деструктурував необхідні данні для розмітки
-
-            markupAll += createmarkup({
-              publishedDate,
-              sectionName,
-              articleTitle,
-              shortDescription,
-              urlOriginalArticle,
-              imgUrl,
-              articleId,
-            });
-            numberOfCard += 1;
-          }
-        );
-        newsContainerRef.innerHTML = markupAll;
-        markupAll = '';
-
-        // Блок добавления погоды
-        const weatherWidgetContainer = document.querySelector('.weatherWidget');
-
-        createWidget(weatherWidgetContainer);
-        // Конец. Блок добавления погоды
-
-        // Слушатель на клик по Добавить в избранное
-        body.addEventListener('click', onAddToFavoritesClick);
-        // после отрисовки всех новостей, этот счётчик обнуляем так как если после вызывать другие новости счётчик сохраняет значение, так как не перезапускается его инициализация изначальная.
-        numberOfCard = 0;
+        populateNews();
       }
     })
     .catch(error => console.log(error));
@@ -155,9 +118,7 @@ function onCategoryClick(evt) {
             } catch (error) {
               imgUrl = 'Тут ссылку на заглушку';
             }
-            if (numberOfCard === 0) {
-              markupAll += '<div class="weatherWidget"></div>';
-            }
+
             markupAll += createmarkup({
               publishedDate,
               sectionName,
@@ -167,25 +128,25 @@ function onCategoryClick(evt) {
               imgUrl,
               articleId,
             });
-            numberOfCard += 1;
+
 
             //   якщо треба інший розмір картинки
             // console.log(multimedia);
           }
         );
         newsContainerRef.innerHTML = markupAll;
-        markupAll = '';
+        markupAll = '<div class="weatherWidget"></div>';
 
         // Блок добавления погоды
         const weatherWidgetContainer = document.querySelector('.weatherWidget');
-       
+
         createWidget(weatherWidgetContainer);
         // Конец. Блок добавления погоды
 
         // Слушатель на клик по Добавить в избранное
         body.addEventListener('click', onAddToFavoritesClick);
         // после отрисовки всех новостей, этот счётчик обнуляем так как если после вызывать другие новости счётчик сохраняет значение, так как не перезапускается его инициализация изначальная.
-        numberOfCard = 0;
+
       }
     })
     .catch(error => console.log(error));
@@ -237,9 +198,7 @@ function onSearchInputClick(evt) {
             } catch (error) {
               imgUrl = 'Тут ссылку на заглушку';
             }
-            if (numberOfCard === 0) {
-              markupAll += '<div class="weatherWidget"></div>';
-            }
+
             markupAll += createmarkup({
               publishedDate,
               sectionName,
@@ -253,7 +212,7 @@ function onSearchInputClick(evt) {
           }
         );
         newsContainerRef.innerHTML = markupAll;
-        markupAll = '';
+        markupAll = '<div class="weatherWidget"></div>';
 
         // Блок добавления погоды
         const weatherWidgetContainer = document.querySelector('.weatherWidget');
@@ -264,7 +223,7 @@ function onSearchInputClick(evt) {
         // Слушатель на клик по Добавить в избранное
         body.addEventListener('click', onAddToFavoritesClick);
         // после отрисовки всех новостей, этот счётчик обнуляем так как если после вызывать другие новости счётчик сохраняет значение, так как не перезапускается его инициализация изначальная.
-        numberOfCard = 0;
+
       }
     })
     .catch(error => console.log(error));
@@ -345,9 +304,72 @@ function onAddToFavoritesClick(evt) {
 
 // Конец. Проверка на клик по Добавить в избранное
 
-
 //=== Подчеркивание активной ссылки на страницу -- начало
 
-import './js/currentPage'
+import './js/currentPage';
 
 //=== Подчеркивание активной ссылки на страницу -- конец
+
+//=== пагинация популярных новостей -- начало
+
+function onPaginationPrevClick() {
+  popularNewsPagination.page -= 1;
+  populateNews();
+}
+function onPaginationNextClick() {
+  popularNewsPagination.page += 1;
+  populateNews();
+}
+//=== пагинация популярных новостей -- конец
+
+// Рендеринг всех карточек на странице. начало
+function populateNews() {
+  // перебор массива  части статтей  и рендеринг их с погодой
+  popularNewsPagination
+    .getResultForPage()
+    .forEach(({ abstract, published_date, section, title, media, url, id }) => {
+      articleId = id;
+      publishedDate = publishedDateFormatter(published_date);
+      sectionName = section;
+      articleTitle = title;
+      shortDescription = abstract;
+      urlOriginalArticle = url;
+
+      //   перевіряемо чи є зображення, де помилка там є відео
+      try {
+        imgUrl = media[0]['media-metadata'][2].url;
+
+        //   якщо треба інший розмір картинки
+        // console.log(media[0]['media-metadata']);
+      } catch (error) {
+        imgUrl = '.../images/the-new-york-times-logo.jpg';
+      }
+   
+      // деструктурував необхідні данні для розмітки
+
+      markupAll += createmarkup({
+        publishedDate,
+        sectionName,
+        articleTitle,
+        shortDescription,
+        urlOriginalArticle,
+        imgUrl,
+        articleId,
+      });
+      
+    });
+ newsContainerRef.innerHTML = markupAll;
+  markupAll = '<div class="weatherWidget"></div>';
+
+  // Блок добавления погоды
+  const weatherWidgetContainer = document.querySelector('.weatherWidget');
+
+  createWidget(weatherWidgetContainer);
+  // Конец. Блок добавления погоды
+
+  // Слушатель на клик по Добавить в избранное
+  body.addEventListener('click', onAddToFavoritesClick);
+ 
+}
+
+// Рендеринг всех карточек на странице. конец

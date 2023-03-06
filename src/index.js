@@ -12,8 +12,8 @@ import { onPaginationPopularNextClick } from './js/paginationPopular';
 import { onPaginationPopularPrevClick } from './js/paginationPopular';
 import { onPaginationCategoryPrevClick } from './js/paginationCategory';
 import { onPaginationCategoryNextClick } from './js/paginationCategory';
-import { onPaginationCategoryPrevClick } from './js/paginationCategory';
-import { onPaginationCategoryNextClick } from './js/paginationCategory';
+import { onPaginationSearchPrevClick } from './js/paginationSearch';
+import { onPaginationSearchNextClick } from './js/paginationSearch';
 // import publishedDateFormatter from './js/publishedDateFormatter';
 
 const pagRefs = {
@@ -62,10 +62,18 @@ function getPopularNews() {
         document.querySelector('.without-news_container').style.display =
           'block';
       } else {
+        pagRefs.prev.removeEventListener(
+          'click',
+          onPaginationCategoryPrevClick
+        );
+        pagRefs.next.removeEventListener(
+          'click',
+          onPaginationCategoryNextClick
+        );
+        pagRefs.prev.removeEventListener('click', onPaginationSearchPrevClick);
+        pagRefs.next.removeEventListener('click', onPaginationSearchNextClick);
         pagRefs.prev.addEventListener('click', onPaginationPopularPrevClick);
         pagRefs.next.addEventListener('click', onPaginationPopularNextClick);
-        pagRefs.prev.removeEventListener('click', onPaginationCategoryPrevClick);
-        pagRefs.next.removeEventListener('click', onPaginationCategoryNextClick);
 
         popularNewsPagination.resultsArr = resultsArr;
         const markupAllPopular = popularNewsPagination.getMarkupAll();
@@ -107,6 +115,8 @@ function onCategoryClick(evt) {
         categoryNewsPagination.resultsArr = [];
         pagRefs.prev.removeEventListener('click', onPaginationPopularPrevClick);
         pagRefs.next.removeEventListener('click', onPaginationPopularNextClick);
+        pagRefs.prev.removeEventListener('click', onPaginationSearchPrevClick);
+        pagRefs.next.removeEventListener('click', onPaginationSearchNextClick);
         pagRefs.prev.addEventListener('click', onPaginationCategoryPrevClick);
         pagRefs.next.addEventListener('click', onPaginationCategoryNextClick);
         categoryNewsPagination.resultsArr = resultsArr;
@@ -129,6 +139,9 @@ function onSearchInputClick(evt) {
   newsFetchApi
     .fetchBySearchQuery()
     .then(({ data: { response } }) => {
+      pagRefs.prev.removeEventListener('click', onPaginationSearchPrevClick);
+      pagRefs.next.removeEventListener('click', onPaginationSearchNextClick);
+
       //   загальна кількість знайдених новин
       totalNews = response.meta.hits;
       // это нужно для избранного
@@ -143,14 +156,11 @@ function onSearchInputClick(evt) {
         searchNewsPagination.resultsArr = [];
         pagRefs.prev.removeEventListener('click', onPaginationPopularPrevClick);
         pagRefs.next.removeEventListener('click', onPaginationPopularNextClick);
-        pagRefs.prev.removeEventListener(
-          'click',
-          onPaginationCategoryPrevClick
-        );
-        pagRefs.next.removeEventListener(
-          'click',
-          onPaginationCategoryNextClick
-        );
+        pagRefs.prev.removeEventListener('click', onPaginationCategoryPrevClick);
+        pagRefs.next.removeEventListener('click', onPaginationCategoryNextClick);
+        pagRefs.prev.addEventListener('click', onPaginationSearchPrevClick);
+        pagRefs.next.addEventListener('click', onPaginationSearchNextClick);
+   
         searchNewsPagination.resultsArr = resultsArr;
         const markupAllSearch = searchNewsPagination.getMarkupAll();
         populateNews(markupAllSearch);
@@ -221,7 +231,6 @@ function onAddToFavoritesClick(evt) {
 import './js/currentPage';
 
 //=== Подчеркивание активной ссылки на страницу -- конец
-
 
 // Рендеринг всех карточек на странице с календарём. начало
 export function populateNews(markupAllPopular) {

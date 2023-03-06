@@ -18,6 +18,7 @@ export default class PaginationLogicPopular {
 
   // перебор массива  части статтей  и рендеринг их с погодой
   getMarkupAll() {
+    this.markupAll = '<div class="weatherWidget"></div>';
     if (this.getResultForPage().length < this.newsPerPage) {
       console.log("отключить кнопку вперед");
     }

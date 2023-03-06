@@ -48,8 +48,8 @@ function getPopularNews() {
     .fetchPopularNews()
     .then(({ data }) => {
       //   загальна кількість знайдених новин
-      totalNews = data.num_results;
-      resultsArr = data.results;
+     const totalNews = data.num_results;
+     const resultsArr = data.results;
       // проверка если нету новостей.
       if (resultsArr.length === 0) {
         newsContainerRef.innerHTML = '';
@@ -67,11 +67,14 @@ function getPopularNews() {
     })
     .catch(error => console.log(error));
 }
+
 document.querySelector('.test').removeEventListener('click', onCategoryClick);
 
 document.querySelector('.test').addEventListener('click', onCategoryClick);
+
 // приносить дані новин по категоріям
 function onCategoryClick(evt) {
+  newsFetchApi.offset = 0;
   // evt.preventDefault();
   // тут треба записати значення обраної категорії з події на яку кнопку клацнули
   newsFetchApi.searchSection = 'business';
@@ -88,8 +91,8 @@ function onCategoryClick(evt) {
              onPaginationCategoryNextClick
            );
       //   загальна кількість знайдених новин, тут она врёт, на самом деле приходит меньше чем есть.
-      totalNews = data.num_results;
-      resultsArr = data.results;
+     const totalNews = data.num_results;
+      const resultsArr = data.results;
 
       // проверка если нету новостей.
       if (data.results === null) {
@@ -97,6 +100,7 @@ function onCategoryClick(evt) {
         document.querySelector('.without-news_container').style.display =
           'block';
       } else {
+        categoryNewsPagination.resultsArr = [];
         pagRefs.prev.removeEventListener('click', onPaginationPopularPrevClick);
         pagRefs.next.removeEventListener('click', onPaginationPopularNextClick);
         pagRefs.prev.addEventListener('click', onPaginationCategoryPrevClick);

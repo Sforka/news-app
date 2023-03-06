@@ -63,10 +63,8 @@ function getPopularNews() {
         document.querySelector('.without-news_container').style.display =
           'block';
       } else {
-        pagRefs.prev.removeEventListener(
-          'click',
-          onPaginationCategoryPrevClick
-        resultsArr.forEach(
+        pagRefs.prev.removeEventListener('click',onPaginationCategoryPrevClick)
+          resultsArr.forEach(
           //   Зверніть увагу дата публікації записана по різному
           ({ abstract, published_date, section, title, media, url, id }) => {
             articleId = id;

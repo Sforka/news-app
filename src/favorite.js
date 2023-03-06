@@ -118,13 +118,6 @@ function addFavorite() {
     'block';
 
   } else {
-/*  const parsedFavorites = '';
-
-    try {
-      parsedFavorites = JSON.parse(favorites);
-    } catch(error) {
-      console.log(error);
-    } */
     const parsedFavorites = JSON.parse(favorites);
     const favoritesKeys = Object.keys(parsedFavorites);
 

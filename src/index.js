@@ -11,6 +11,7 @@ import { onPaginationPopularNextClick } from './js/paginationPopular';
 import { onPaginationPopularPrevClick } from './js/paginationPopular';
 import { onPaginationCategoryPrevClick } from './js/paginationCategory';
 import { onPaginationCategoryNextClick } from './js/paginationCategory';
+import publishedDateFormatter from './js/publishedDateFormatter';
 
 const pagRefs = {
   prev: document.querySelector('.pag-arrow--prev'),
@@ -180,29 +181,11 @@ function onSearchInputClick(evt) {
 
         // Слушатель на клик по Добавить в избранное
         body.addEventListener('click', onAddToFavoritesClick);
-        // после отрисовки всех новостей, этот счётчик обнуляем так как если после вызывать другие новости счётчик сохраняет значение, так как не перезапускается его инициализация изначальная.
+     
       }
     })
     .catch(error => console.log(error));
 }
-
-// начало. переформатирование даты
-function publishedDateFormatter(date) {
-  return formatDate(new Date(date));
-}
-
-function formatDate(date) {
-  return [
-    padTo2Digits(date.getDate()),
-    padTo2Digits(date.getMonth() + 1),
-    date.getFullYear(),
-  ].join('/');
-}
-
-function padTo2Digits(num) {
-  return num.toString().padStart(2, '0');
-}
-// конецю переформатирование даты
 
 //===добавляет избранное в локальное хранилище ==========
 function setFavoritesInLocalStor({ resultsArr, clickedArticleId }) {
@@ -266,9 +249,6 @@ function onAddToFavoritesClick(evt) {
 import './js/currentPage';
 
 //=== Подчеркивание активной ссылки на страницу -- конец
-
-
-
 
 
 // Рендеринг всех карточек на странице. начало

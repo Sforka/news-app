@@ -1,4 +1,5 @@
 import createmarkup from './news-card';
+import publishedDateFormatter from './publishedDateFormatter';
 
 export default class PaginationLogicCategory {
   constructor() {
@@ -63,20 +64,4 @@ export default class PaginationLogicCategory {
   }
 }
 
-// начало. переформатирование даты
-function publishedDateFormatter(date) {
-  return formatDate(new Date(date));
-}
 
-function formatDate(date) {
-  return [
-    padTo2Digits(date.getDate()),
-    padTo2Digits(date.getMonth() + 1),
-    date.getFullYear(),
-  ].join('/');
-}
-
-function padTo2Digits(num) {
-  return num.toString().padStart(2, '0');
-}
-// конецю переформатирование даты

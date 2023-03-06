@@ -45,7 +45,7 @@ function getSectionList(e) {
   });
 }
 
-// getPopularNews();
+getPopularNews();
 
 // приносить дані популярних новин
 function getPopularNews() {

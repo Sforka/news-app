@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { categoryNewsPagination } from '../index';
+
 const URL = 'https://api.nytimes.com/svc/';
 const KEY = 'u4NcxmWo2uFBK0OuatwBNClB29lN33d8';
 
@@ -12,13 +14,14 @@ export default class NewsFetchApi {
     //   для пагінації за пошуковим словом
     this.page = 0;
     //   для пагінації пошуку за категоріями,  0,20,40,...,500
-    this.offset = 0;
+    // цифра 7 приходит из функции пагинации!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        this.offset = 0
   }
 
   fetchSectionList() {
     try {
       return axios.get(
-        `${URL}news/v3/content/section-list.json?api-key=${KEY}`
+        `${URL}news/v3/content/section-list.json?${this.offset}&api-key=${KEY}`
       );
     } catch (error) {
       console.log(error);

@@ -62,4 +62,8 @@ export default class PaginationLogicCategory {
     );
     return this.markupAll;
   }
+
+  resetPage() {
+   return this.page = 0;
+  }
 }

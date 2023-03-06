@@ -1,4 +1,5 @@
 import createmarkup from './news-card';
+import publishedDateFormatter from './publishedDateFormatter';
 
 export default class PaginationLogicPopular {
   constructor() {
@@ -20,60 +21,42 @@ export default class PaginationLogicPopular {
   getMarkupAll() {
     this.markupAll = '<div class="weatherWidget"></div>';
     if (this.getResultForPage().length < this.newsPerPage) {
-      console.log("отключить кнопку вперед");
+      console.log('отключить кнопку вперед');
     }
-      this.getResultForPage().forEach(
-        ({ abstract, published_date, section, title, media, url, id }) => {
-          const articleId = id;
-          const publishedDate = publishedDateFormatter(published_date);
-          const sectionName = section;
-          const articleTitle = title;
-          const shortDescription = abstract;
-          const urlOriginalArticle = url;
-          let imgUrl;
+    this.getResultForPage().forEach(
+      ({ abstract, published_date, section, title, media, url, id }) => {
+        const articleId = id;
+        const publishedDate = publishedDateFormatter(published_date);
+        const sectionName = section;
+        const articleTitle = title;
+        const shortDescription = abstract;
+        const urlOriginalArticle = url;
+        let imgUrl;
 
-          //   перевіряемо чи є зображення, де помилка там є відео
-          try {
-            imgUrl = media[0]['media-metadata'][2].url;
+        //   перевіряемо чи є зображення, де помилка там є відео
+        try {
+          imgUrl = media[0]['media-metadata'][2].url;
 
-            //   якщо треба інший розмір картинки
-            // console.log(media[0]['media-metadata']);
-          } catch (error) {
-            imgUrl =
-              'Тут ссылку на заглушку ../images/the-new-york-times-logo.jpg';
-          }
-
-          // деструктурував необхідні данні для розмітки
-
-          this.markupAll += createmarkup({
-            publishedDate,
-            sectionName,
-            articleTitle,
-            shortDescription,
-            urlOriginalArticle,
-            imgUrl,
-            articleId,
-          });
+          //   якщо треба інший розмір картинки
+          // console.log(media[0]['media-metadata']);
+        } catch (error) {
+          imgUrl =
+            'Тут ссылку на заглушку ../images/the-new-york-times-logo.jpg';
         }
-      );
+
+        // деструктурував необхідні данні для розмітки
+
+        this.markupAll += createmarkup({
+          publishedDate,
+          sectionName,
+          articleTitle,
+          shortDescription,
+          urlOriginalArticle,
+          imgUrl,
+          articleId,
+        });
+      }
+    );
     return this.markupAll;
   }
 }
-
-// начало. переформатирование даты
-function publishedDateFormatter(date) {
-  return formatDate(new Date(date));
-}
-
-function formatDate(date) {
-  return [
-    padTo2Digits(date.getDate()),
-    padTo2Digits(date.getMonth() + 1),
-    date.getFullYear(),
-  ].join('/');
-}
-
-function padTo2Digits(num) {
-  return num.toString().padStart(2, '0');
-}
-// конецю переформатирование даты

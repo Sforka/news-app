@@ -56,4 +56,6 @@ export default class NewsFetchApi {
       console.log(error);
     }
   }
+
+  resetPage() { return this.page = 0}
 }

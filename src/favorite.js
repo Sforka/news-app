@@ -1,15 +1,18 @@
-import './js/header';
+import { onSearchClick } from './js/header';
 import { ThemeSwitcher } from './js/themeSwitcher';
-import { onSearchInputClick } from './index.js';
+import { calendar } from './js/calendar';
 
 const newsContainerRef = document.querySelector('.news_container');
 const withoutNewsContainer = document.querySelector('.without-news_container');
 // const body = document.querySelector('body');
 const searchInput = document.querySelector('.search_form');
+const STORAGE_FAVORITES_KEY = 'favorites';
+const btnSearch = document.querySelector('.search_mob_btn');
 
 let markupAll = '';
 
-const STORAGE_FAVORITES_KEY = 'favorites';
+btnSearch.addEventListener('click', onSearchClick);
+
 
 //============= перемикач теми початок ==========
 
@@ -24,7 +27,6 @@ themeSwitcherEl.addEventListener('change', themeSwitcher.onThemeToggle);
 themeSwitcher.renderTheme();
 //============= перемикач теми кінець ============
 
-// ------------------------------------------------------ GBPLTW -------------------------------- //
 import publishedDateFormatter from './js/publishedDateFormatter';
 import createmarkup from './js/news-card';
 import { setFavoritesInLocalStor } from './index.js';
@@ -49,6 +51,7 @@ function addFavorite() {
 
     for (const favoriteKey of favoritesKeys) {
       const parsedFavorite = parsedFavorites[`${favoriteKey}`];
+
       favoritesArrFedor.push(parsedFavorite);
       const {
         abstract,
@@ -73,18 +76,31 @@ function addFavorite() {
       const articleTitle = title || headline.main;
       const shortDescription = abstract;
       const urlOriginalArticle = url || web_url;
-      let imgUrl = '0';
+
+      let imgUrl = '';
+      
 
       //   перевіряемо чи є зображення, де помилка там є відео
       try {
-        if (media[0]['media-metadata'][2].url === undefined) {
+        if (articleId === id) {
           imgUrl = media[0]['media-metadata'][2].url;
-        } else if ('https://www.nytimes.com/' + multimedia[0].url === undefined) {
-          imgUrl = 'https://www.nytimes.com/' + multimedia[0].url;
-        } else( multimedia[2].url=== undefined)
-        {
-          imgUrl = multimedia[2]?.url;
+          console.log(imgUrl);
         }
+        if (articleId === slug_name) {
+          imgUrl = multimedia[2].url;
+          console.log(imgUrl);
+        }
+        if (articleId === _id) {
+          imgUrl = 'https://www.nytimes.com/' + multimedia[0].url;
+          console.log(imgUrl);
+        }
+
+        //   якщо треба інший розмір картинки
+        // console.log(media[0]['media-metadata']);
+      } catch (error) {
+        imgUrl =
+          'https://t4.ftcdn.net/jpg/00/89/55/15/240_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg';
+      }
 
         //   якщо треба інший розмір картинки
         // console.log(media[0]['media-metadata']);
@@ -122,3 +138,4 @@ function onAddToFavoritesClick(evt) {
     });
   }
 }
+

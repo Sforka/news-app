@@ -1,10 +1,9 @@
 // треба зробити перевірку чи вибрана дата.
 import createmarkup from './js/news-card';
 import NewsFetchApi from './js/newsApi';
-import onSearchClick from './js/header';
 import { ThemeSwitcher } from './js/themeSwitcher';
 import createWidget from './js/weatherApi';
-import calendar from './js/calendar';
+import { calendar } from './js/calendar';
 import category from './js/categories';
 import PaginationLogicPopular from './js/paginationLogicPopular';
 import PaginationLogicCategory from './js/paginationLogicCategory';
@@ -16,7 +15,10 @@ import { onPaginationCategoryNextClick } from './js/paginationCategory';
 import { onPaginationSearchPrevClick } from './js/paginationSearch';
 import { onPaginationSearchNextClick } from './js/paginationSearch';
 // import publishedDateFormatter from './js/publishedDateFormatter';
+import { onSearchClick } from './js/header';
+const btnSearch = document.querySelector('.search_mob_btn');
 
+btnSearch.addEventListener('click', onSearchClick);
 const pagRefs = {
   prev: document.querySelector('.pag-arrow--prev'),
   next: document.querySelector('.pag-arrow--next'),

@@ -5,6 +5,10 @@ import onSearchClick from './js/header';
 import { ThemeSwitcher } from './js/themeSwitcher';
 import createWidget from './js/weatherApi';
 import calendar from './js/calendar';
+
+import { getReadArticlesFromLocStor } from './js/read-render';
+import { addClickListenerToCard } from './js/read-render';
+
 import PaginationLogicPopular from './js/paginationLogicPopular';
 import PaginationLogicCategory from './js/paginationLogicCategory';
 import PaginationLogicSearch from './js/paginationLogicSearch';
@@ -19,16 +23,23 @@ import { onPaginationSearchNextClick } from './js/paginationSearch';
 const pagRefs = {
   prev: document.querySelector('.pag-arrow--prev'),
   next: document.querySelector('.pag-arrow--next'),
-};
+
 
 const newsContainerRef = document.querySelector('.news_container');
 const body = document.querySelector('body');
 const searchInput = document.querySelector('.search_form');
 
+
+const STORAGE_FAVORITES_KEY = 'favorites';
+const STORAGE_READ_KEY = 'read'
+
+let markupAll = '';
+
 export const newsFetchApi = new NewsFetchApi();
 export const popularNewsPagination = new PaginationLogicPopular();
 export const categoryNewsPagination = new PaginationLogicCategory();
 export const searchNewsPagination = new PaginationLogicSearch();
+
 
 const STORAGE_FAVORITES_KEY = 'favorites';
 let resultsArr = [];
@@ -104,6 +115,22 @@ function getPopularNews() {
             numberOfCard += 1;
           }
         );
+
+        newsContainerRef.innerHTML = markupAll;
+        markupAll = '';
+
+        // Блок добавления погоды
+        const weatherWidgetContainer = document.querySelector('.weatherWidget');
+
+        createWidget(weatherWidgetContainer);
+        // Конец. Блок добавления погоды
+
+        // Слушатель на клик по Добавить в избранное
+        body.addEventListener('click', onAddToFavoritesClick);
+        // после отрисовки всех новостей, этот счётчик обнуляем так как если после вызывать другие новости счётчик сохраняет значение, так как не перезапускается его инициализация изначальная.
+        numberOfCard = 0;
+        addClickListenerToCard()
+
         pagRefs.next.removeEventListener(
           'click',
           onPaginationCategoryNextClick
@@ -116,6 +143,7 @@ function getPopularNews() {
         popularNewsPagination.resultsArr = resultsArr;
         const markupAllPopular = popularNewsPagination.getMarkupAll();
         populateNews(markupAllPopular);
+
       }
     })
     .catch(error => console.log(error));
@@ -201,7 +229,7 @@ function onCategoryClick(evt) {
               articleId,
             });
             numberOfCard += 1;
-
+            
             //   якщо треба інший розмір картинки
             // console.log(multimedia);
           }
@@ -219,6 +247,10 @@ function onCategoryClick(evt) {
         body.addEventListener('click', onAddToFavoritesClick);
         // после отрисовки всех новостей, этот счётчик обнуляем так как если после вызывать другие новости счётчик сохраняет значение, так как не перезапускается его инициализация изначальная.
         numberOfCard = 0;
+
+        addClickListenerToCard()
+
+
 
       }
     })
@@ -326,6 +358,10 @@ function onSearchInputClick(evt) {
         // после отрисовки всех новостей, этот счётчик обнуляем так как если после вызывать другие новости счётчик сохраняет значение, так как не перезапускается его инициализация изначальная.
         numberOfCard = 0;
 
+        addClickListenerToCard()
+=======
+
+
       }
     })
     .catch(error => console.log(error));
@@ -411,4 +447,7 @@ import './js/currentPage';
 import './js/categories'
 // == categs section test end
 
+
+//===отримання масиву статей з local storage ==========
+getReadArticlesFromLocStor();
 

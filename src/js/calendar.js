@@ -206,9 +206,8 @@ function onOpenCalendar() {
 
 btnCalendarClose.addEventListener("click", onCloseCalendar);
 
-function onCloseCalendar() {   
-
-    calendar.style.transform = "translateY(-100%)";
+function onCloseCalendar() {  
+    calendar.style.transform = "translateY(-100%)";    
 
     calendar.classList.toggle('visually-hidden');
    
@@ -220,11 +219,4 @@ function onCloseCalendar() {
     dateField.style.backgroundColor = "transparent";
     iconCalendar.style.fill = "#4440F7";
 }
-
-
-
-
-
-
-
 

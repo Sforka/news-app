@@ -1,4 +1,4 @@
-import './home';
+
 import './js/header';
 import { ThemeSwitcher } from './js/themeSwitcher';
 import { calendar } from './js/calendar';
@@ -31,7 +31,7 @@ themeSwitcher.renderTheme();
 
 import publishedDateFormatter from './js/publishedDateFormatter';
 import createmarkup from './js/news-card';
-import { onAddToFavoritesClick } from './home.js';
+import { onAddToFavoritesClick } from './index';
 
 const body = document.querySelector('body');
 body.addEventListener('click', onAddToFavoritesClick);
@@ -108,7 +108,7 @@ function addFavorite() {
   }
 }
 
-
+addFavorite();
 
 function onAddToFavoritesClick(evt) {
 

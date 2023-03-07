@@ -1,6 +1,6 @@
-import { categoryNewsPagination } from '../home';
-import { populateNews } from '../home';
-import { newsFetchApi } from '../home';
+import { categoryNewsPagination } from '../index';
+import { populateNews } from '../index';
+import { newsFetchApi } from '../index';
 
 //=== пагинация по категориям новостей -- начало
 export function onPaginationCategoryPrevClick() {

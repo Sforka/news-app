@@ -5,8 +5,11 @@ import { ThemeSwitcher } from './js/themeSwitcher';
 const newsContainerRef = document.querySelector('.news_container');
 const withoutNewsContainer = document.querySelector('.without-news_container')
 // const body = document.querySelector('body');
-
 const searchInput = document.querySelector('.search_form');
+
+let markupAll = '';
+
+
 const STORAGE_FAVORITES_KEY = 'favorites';
 
 

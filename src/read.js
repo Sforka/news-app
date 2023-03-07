@@ -1,10 +1,12 @@
 import createmarkup from './js/news-card';
 import onSearchClick from './js/header';
 import { ThemeSwitcher } from './js/themeSwitcher';
+import { getReadArticlesFromLocStor, getUniqeDateOfRead} from './js/read-render';
 
 const newsContainerRef = document.querySelector('.news_container');
 const body = document.querySelector('body');
 const searchInput = document.querySelector('.search_form');
+const withoutNewsContainer = document.querySelector('.without-news_container')
 
 let markupAll = '';
 
@@ -18,6 +20,10 @@ let imgUrl = '';
 let totalNews = '';
 let resultsArr = '';
 let numberOfCard = 0;
+
+// getReadArticlesFromLocStor();
+// getUniqeDateOfRead();
+// renderPage();   
 
 //============= перемикач теми початок ==========
 
@@ -99,3 +105,4 @@ function setFavoritesInLocalStor({ resultsArr, clickedArticleId }) {
 // import './js/currentPage'
 
 //=== Подчеркивание активной ссылки на страницу -- конец
+

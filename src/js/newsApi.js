@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { categoryNewsPagination } from '../index';
+
 const URL = 'https://api.nytimes.com/svc/';
 const KEY = 'u4NcxmWo2uFBK0OuatwBNClB29lN33d8';
 
@@ -9,16 +11,17 @@ export default class NewsFetchApi {
     this.searchSection = '';
     // період популярних новин можна вибрати 1, 7 або 30 днів
     this.popularPeriod = 1;
+    // Эта страница для запроса на сервер
     //   для пагінації за пошуковим словом
     this.page = 0;
-    //   для пагінації пошуку за категоріями,  0,20,40,...,500
+    //   для пагінації пошуку за категоріями,  
     this.offset = 0;
   }
 
   fetchSectionList() {
     try {
       return axios.get(
-        `${URL}news/v3/content/section-list.json?api-key=${KEY}`
+        `${URL}news/v3/content/section-list.json?${this.offset}&api-key=${KEY}`
       );
     } catch (error) {
       console.log(error);
@@ -54,4 +57,6 @@ export default class NewsFetchApi {
       console.log(error);
     }
   }
+
+  resetPage() { return this.page = 0}
 }

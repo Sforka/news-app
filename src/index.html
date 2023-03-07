@@ -9,17 +9,20 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./sass/index.scss" />
-    
   </head>
   <body data-current-page="index">
 
-
+    
     
     <include src="./partials/header.html"></include>
+    <button type="button" class="test">1111111111</button>
 
-    <include src="./partials/categories.html"></include>
+
+    
 
     <div class="search_container container">
+      <include src="./partials/categories.html"></include>
+      <include src="./partials/categories.html"></include>
       <p>Search date news</p>
       <include src="./partials/calendar.html"></include>
     </div>
@@ -39,12 +42,13 @@
         <img src="./images/noNews_mobile.png" alt="No news founded/">
       </picture>
     </div>
-
+    
     <div class="news_container container"></div>
     
     <include src="./partials/pagination.html"></include>
     
     <include src="./partials/mob-menu.html"></include>
+
     <script type="module" src="./index.js"></script>
   </body>
 </html>

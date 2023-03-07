@@ -5,29 +5,44 @@ import onSearchClick from './js/header';
 import { ThemeSwitcher } from './js/themeSwitcher';
 import createWidget from './js/weatherApi';
 import calendar from './js/calendar';
+
 import { getReadArticlesFromLocStor } from './js/read-render';
 import { addClickListenerToCard } from './js/read-render';
+
+import PaginationLogicPopular from './js/paginationLogicPopular';
+import PaginationLogicCategory from './js/paginationLogicCategory';
+import PaginationLogicSearch from './js/paginationLogicSearch';
+import { onPaginationPopularNextClick } from './js/paginationPopular';
+import { onPaginationPopularPrevClick } from './js/paginationPopular';
+import { onPaginationCategoryPrevClick } from './js/paginationCategory';
+import { onPaginationCategoryNextClick } from './js/paginationCategory';
+import { onPaginationSearchPrevClick } from './js/paginationSearch';
+import { onPaginationSearchNextClick } from './js/paginationSearch';
+// import publishedDateFormatter from './js/publishedDateFormatter';
+
+const pagRefs = {
+  prev: document.querySelector('.pag-arrow--prev'),
+  next: document.querySelector('.pag-arrow--next'),
+
 
 const newsContainerRef = document.querySelector('.news_container');
 const body = document.querySelector('body');
 const searchInput = document.querySelector('.search_form');
-const newsFetchApi = new NewsFetchApi();
+
 
 const STORAGE_FAVORITES_KEY = 'favorites';
 const STORAGE_READ_KEY = 'read'
 
 let markupAll = '';
 
-let articleId = '';
-let publishedDate = '';
-let sectionName = '';
-let articleTitle = '';
-let shortDescription = '';
-let urlOriginalArticle = '';
-let imgUrl = '';
-let totalNews = '';
-let resultsArr = '';
-let numberOfCard = 0;
+export const newsFetchApi = new NewsFetchApi();
+export const popularNewsPagination = new PaginationLogicPopular();
+export const categoryNewsPagination = new PaginationLogicCategory();
+export const searchNewsPagination = new PaginationLogicSearch();
+
+
+const STORAGE_FAVORITES_KEY = 'favorites';
+let resultsArr = [];
 
 // приносить список тем
 function getSectionList(e) {
@@ -50,7 +65,8 @@ function getPopularNews() {
     .then(({ data }) => {
       console.log(data);
       //   загальна кількість знайдених новин
-      totalNews = data.num_results;
+      const totalNews = data.num_results;
+      // это нужно для избранного
       resultsArr = data.results;
       // проверка если нету новостей.
       if (resultsArr.length === 0) {
@@ -58,7 +74,8 @@ function getPopularNews() {
         document.querySelector('.without-news_container').style.display =
           'block';
       } else {
-        resultsArr.forEach(
+        pagRefs.prev.removeEventListener('click',onPaginationCategoryPrevClick)
+          resultsArr.forEach(
           //   Зверніть увагу дата публікації записана по різному
           ({ abstract, published_date, section, title, media, url, id }) => {
             articleId = id;
@@ -98,6 +115,7 @@ function getPopularNews() {
             numberOfCard += 1;
           }
         );
+
         newsContainerRef.innerHTML = markupAll;
         markupAll = '';
 
@@ -112,13 +130,34 @@ function getPopularNews() {
         // после отрисовки всех новостей, этот счётчик обнуляем так как если после вызывать другие новости счётчик сохраняет значение, так как не перезапускается его инициализация изначальная.
         numberOfCard = 0;
         addClickListenerToCard()
+
+        pagRefs.next.removeEventListener(
+          'click',
+          onPaginationCategoryNextClick
+        );
+        pagRefs.prev.removeEventListener('click', onPaginationSearchPrevClick);
+        pagRefs.next.removeEventListener('click', onPaginationSearchNextClick);
+        pagRefs.prev.addEventListener('click', onPaginationPopularPrevClick);
+        pagRefs.next.addEventListener('click', onPaginationPopularNextClick);
+
+        popularNewsPagination.resultsArr = resultsArr;
+        const markupAllPopular = popularNewsPagination.getMarkupAll();
+        populateNews(markupAllPopular);
+
       }
     })
     .catch(error => console.log(error));
 }
 
+document.querySelector('.test').removeEventListener('click', onCategoryClick);
+
+document.querySelector('.test').addEventListener('click', onCategoryClick);
+
 // приносить дані новин по категоріям
 function onCategoryClick(evt) {
+  newsFetchApi.offset = 0;
+  categoryNewsPagination.resetPage();
+
   // evt.preventDefault();
   // тут треба записати значення обраної категорії з події на яку кнопку клацнули
   newsFetchApi.searchSection = 'business';
@@ -126,16 +165,31 @@ function onCategoryClick(evt) {
   newsFetchApi
     .fetchBySection()
     .then(({ data }) => {
-      //   загальна кількість знайдених новин
-      totalNews = data.num_results;
+      pagRefs.prev.removeEventListener('click', onPaginationCategoryPrevClick);
+      pagRefs.next.removeEventListener('click', onPaginationCategoryNextClick);
+      //   загальна кількість знайдених новин, тут она врёт, на самом деле приходит меньше чем есть.
+      const totalNews = data.num_results;
+      // это нужно для избранного
       resultsArr = data.results;
 
       // проверка если нету новостей.
-      if (resultsArr.length === 0) {
+      if (data.results === null) {
         newsContainerRef.innerHTML = '';
         document.querySelector('.without-news_container').style.display =
           'block';
       } else {
+
+        categoryNewsPagination.resultsArr = [];
+        pagRefs.prev.removeEventListener('click', onPaginationPopularPrevClick);
+        pagRefs.next.removeEventListener('click', onPaginationPopularNextClick);
+        pagRefs.prev.removeEventListener('click', onPaginationSearchPrevClick);
+        pagRefs.next.removeEventListener('click', onPaginationSearchNextClick);
+        pagRefs.prev.addEventListener('click', onPaginationCategoryPrevClick);
+        pagRefs.next.addEventListener('click', onPaginationCategoryNextClick);
+        categoryNewsPagination.resultsArr = resultsArr;
+        const markupAllCategory = categoryNewsPagination.getMarkupAll();
+        populateNews(markupAllCategory);
+
         resultsArr.forEach(
           ({
             abstract,
@@ -193,10 +247,14 @@ function onCategoryClick(evt) {
         body.addEventListener('click', onAddToFavoritesClick);
         // после отрисовки всех новостей, этот счётчик обнуляем так как если после вызывать другие новости счётчик сохраняет значение, так как не перезапускается его инициализация изначальная.
         numberOfCard = 0;
+
         addClickListenerToCard()
+
+
+
       }
     })
-    .catch(error => console.log(error));
+    .catch(error => console.log(error.response.statusText));
 }
 
 searchInput.addEventListener('submit', onSearchInputClick);
@@ -206,16 +264,24 @@ function onSearchInputClick(evt) {
   evt.preventDefault();
   //  значення пошукового запиту
   newsFetchApi.searchQuery = evt.target.elements.searchQuery.value;
+
+  newsFetchApi.resetPage();
+
   localStorage.setItem(
     'searchQuery',
     JSON.stringify(evt.target.elements.searchQuery.value)
   );
 
+
   newsFetchApi
     .fetchBySearchQuery()
     .then(({ data: { response } }) => {
+      pagRefs.prev.removeEventListener('click', onPaginationSearchPrevClick);
+      pagRefs.next.removeEventListener('click', onPaginationSearchNextClick);
+
       //   загальна кількість знайдених новин
       totalNews = response.meta.hits;
+      // это нужно для избранного
       resultsArr = response.docs;
 
       // проверка если нету новостей.
@@ -224,6 +290,19 @@ function onSearchInputClick(evt) {
         document.querySelector('.without-news_container').style.display =
           'block';
       } else {
+
+        searchNewsPagination.resultsArr = [];
+        pagRefs.prev.removeEventListener('click', onPaginationPopularPrevClick);
+        pagRefs.next.removeEventListener('click', onPaginationPopularNextClick);
+        pagRefs.prev.removeEventListener('click', onPaginationCategoryPrevClick);
+        pagRefs.next.removeEventListener('click', onPaginationCategoryNextClick);
+        pagRefs.prev.addEventListener('click', onPaginationSearchPrevClick);
+        pagRefs.next.addEventListener('click', onPaginationSearchNextClick);
+   
+        searchNewsPagination.resultsArr = resultsArr;
+        const markupAllSearch = searchNewsPagination.getMarkupAll();
+        populateNews(markupAllSearch);
+
         resultsArr.forEach(
           ({
             abstract,
@@ -278,29 +357,15 @@ function onSearchInputClick(evt) {
         body.addEventListener('click', onAddToFavoritesClick);
         // после отрисовки всех новостей, этот счётчик обнуляем так как если после вызывать другие новости счётчик сохраняет значение, так как не перезапускается его инициализация изначальная.
         numberOfCard = 0;
+
         addClickListenerToCard()
+=======
+
+
       }
     })
     .catch(error => console.log(error));
 }
-
-// начало. переформатирование даты
-function publishedDateFormatter(date) {
-  return formatDate(new Date(date));
-}
-
-function formatDate(date) {
-  return [
-    padTo2Digits(date.getDate()),
-    padTo2Digits(date.getMonth() + 1),
-    date.getFullYear(),
-  ].join('/');
-}
-
-function padTo2Digits(num) {
-  return num.toString().padStart(2, '0');
-}
-// конецю переформатирование даты
 
 //===добавляет избранное в локальное хранилище ==========
 function setFavoritesInLocalStor({ resultsArr, clickedArticleId }) {
@@ -359,7 +424,19 @@ function onAddToFavoritesClick(evt) {
 
 // Конец. Проверка на клик по Добавить в избранное
 
-//=== Подчеркивание активной ссылки на страницу -- начало
+// Рендеринг всех карточек на странице с календарём. начало
+export function populateNews(markupAllPopular) {
+  newsContainerRef.innerHTML = markupAllPopular;
+
+  // Блок добавления погоды
+  const weatherWidgetContainer = document.querySelector('.weatherWidget');
+
+  createWidget(weatherWidgetContainer);
+
+  // Слушатель на клик по Добавить в избранное
+  body.addEventListener('click', onAddToFavoritesClick);
+}
+// Рендеринг всех карточек на странице с календарём. конец
 
 
 import './js/currentPage';
@@ -370,5 +447,7 @@ import './js/currentPage';
 import './js/categories'
 // == categs section test end
 
+
 //===отримання масиву статей з local storage ==========
 getReadArticlesFromLocStor();
+

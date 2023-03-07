@@ -259,7 +259,7 @@ function onAddToFavoritesClick(evt) {
       evt.target.closest('.card')?.id ||
       evt.target.closest('.card')?.slug_name ||
       evt.target.closest('.card')?._id;
-    console.log(evt.target.textContent);
+
           if ((evt.target.textContent.contains = "Add to favorites")){evt.target.textContent = 'Remove from favorites';} 
             setFavoritesInLocalStor({
               resultsArr,

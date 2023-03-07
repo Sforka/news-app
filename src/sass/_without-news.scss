@@ -23,18 +23,20 @@
   }
 
   &__picture {
-    width: 248px;
-    height: 198px;
+    margin: 0 auto;
+    display: block;
+    max-width: 248px;
+    max-height: 198px;
     margin: 0 auto;;
 
     @include tablet {
-      width: 560px;
-      height: 444px;
+      max-width: 560px;
+      max-height: 444px;
     }
 
     @include desktop {
-      width: 601px;
-      height: 478px;
+      max-width: 601px;
+      max-height: 478px;
     }
   }
 }

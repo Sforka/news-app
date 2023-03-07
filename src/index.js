@@ -23,7 +23,7 @@ import { onPaginationSearchNextClick } from './js/paginationSearch';
 const pagRefs = {
   prev: document.querySelector('.pag-arrow--prev'),
   next: document.querySelector('.pag-arrow--next'),
-
+}
 
 const newsContainerRef = document.querySelector('.news_container');
 const body = document.querySelector('body');
@@ -40,8 +40,6 @@ export const popularNewsPagination = new PaginationLogicPopular();
 export const categoryNewsPagination = new PaginationLogicCategory();
 export const searchNewsPagination = new PaginationLogicSearch();
 
-
-const STORAGE_FAVORITES_KEY = 'favorites';
 let resultsArr = [];
 
 // приносить список тем
@@ -359,9 +357,6 @@ function onSearchInputClick(evt) {
         numberOfCard = 0;
 
         addClickListenerToCard()
-=======
-
-
       }
     })
     .catch(error => console.log(error));

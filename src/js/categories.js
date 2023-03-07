@@ -42,6 +42,7 @@ async function getSectionListData() {
     }
 
     sectionMarkup += '</div>'
+    sectionMarkup += '<div class="dropdown-ruler"></div>'
     sectionMarkup += '</div>';
     renderSectionMarkup(sectionMarkup);
   }
@@ -51,14 +52,13 @@ function renderSectionMarkup(sectionMarkup) {
 };
 
 function onCategoryClick(e) {
-  // console.dir(e.target);
-  // console.log(e.target.dataset.section);
-  // console.log(e.currentTarget);
   const target = e.target;
 
   // проверяем, является ли элемент кнопкой или элементом списка
   if (target.classList.contains('section-btn') || target.classList.contains('dropdown-item')) {
     const section = target.dataset.section;
-    console.log(section);
+    // console.log(section);
+  // вызываем 
+  onCategoryClick(evt)
   }
 }

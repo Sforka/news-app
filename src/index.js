@@ -96,8 +96,16 @@ function onCategoryClick(evt) {
   categoryNewsPagination.resetPage();
 
   // evt.preventDefault();
+  
+// add by Volyanskiy -- start
+const target = e.target;
+
+  if (target.classList.contains('section-btn') || target.classList.contains('dropdown-item')) {
+    const newsSection = target.dataset.section;
+// add by Volyanskiy -- end
+
   // тут треба записати значення обраної категорії з події на яку кнопку клацнули
-  newsFetchApi.searchSection = 'arts';
+  newsFetchApi.searchSection = 'newsSection';
 
   newsFetchApi
     .fetchBySection()
@@ -247,21 +255,21 @@ themeSwitcher.renderTheme();
 //============= перемикач теми кінець ============
 
 // Начало. Проверка на клик по Добавить в избранное
-export function onAddToFavoritesClick(evt) {
-  if (evt.target.className === 'card__btn') {
-    const clickedArticleId =
-      evt.target.closest('.card')?.id ||
-      evt.target.closest('.card')?.slug_name ||
-      evt.target.closest('.card')?._id;
-    setFavoritesInLocalStor({
-      resultsArr,
-      clickedArticleId,
+// export function onAddToFavoritesClick(evt) {
+//   if (evt.target.className === 'card__btn') {
+//     const clickedArticleId =
+//       evt.target.closest('.card')?.id ||
+//       evt.target.closest('.card')?.slug_name ||
+//       evt.target.closest('.card')?._id;
+//     setFavoritesInLocalStor({
+//       resultsArr,
+//       clickedArticleId,
       
-    });
-  }
-}
+//     });
+//   }
+// }
 
-// Конец. Проверка на клик по Добавить в избранное
+// // Конец. Проверка на клик по Добавить в избранное
 
 //=== Подчеркивание активной ссылки на страницу -- начало
 

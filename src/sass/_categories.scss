@@ -1,7 +1,11 @@
+.categories__btn {
+  
+}
 
 .dropdown {
     position: relative;
     display: inline-block;
+    padding-right: 50px;
   }
   
   /* Стили для выпадающего списка */
@@ -9,7 +13,7 @@
     position: absolute;
     display: none;
     max-height: 380px;
-    overflow-y: auto;
+    overflow-y: scroll;
     background-color: #F8F8F8;
     border-radius: 30px;
     padding: 14px 24px;
@@ -17,16 +21,30 @@
     z-index: 100;
   }
   
-  /* Изменение внешнего вида полосы прокрутки */
-  .dropdown-content::-webkit-scrollbar {
+  .ruler {
+    position: absolute;
+    top: calc(40px + 30px); /* учитываем отступ от верхней границы списка */
+    left: calc(300px + 10px + 10px); /* добавляем 10px для отступа справа от списка */
     width: 6px;
-    background-color: #F8F8F8;
+    height: calc(100% - 60px); /* учитываем отступы сверху и снизу списка */
+    background-color: #a8a8a8;
+    opacity: 0.3;
   }
+
+  // /* Изменение внешнего вида полосы прокрутки */
+  // .dropdown-content::-webkit-scrollbar {
+  //   position: relative;
+  //   width: 6px;
+  //   background-color: #F8F8F8;
+  //   top: 30px;
+  //   bottom: 30px;
+  //   right: -10px; /* 10px правее раскрывающегося списка */
+  // }
   
-  .dropdown-content::-webkit-scrollbar-thumb {
-    background-color: #000000;
-    border-radius: 3px;
-  }
+  // .dropdown-content::-webkit-scrollbar-thumb {
+  //   background-color: #000000;
+  //   border-radius: 3px;
+  // }
 
   .dropdown:hover .dropdown-content {
     display: block;
@@ -68,8 +86,3 @@
   .dropdown-list.show {
     display: block;
   }
-
-.search_container {
-    display: flex;
-}
-

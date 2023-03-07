@@ -31,7 +31,7 @@ export const popularNewsPagination = new PaginationLogicPopular();
 export const categoryNewsPagination = new PaginationLogicCategory();
 export const searchNewsPagination = new PaginationLogicSearch();
 
-const STORAGE_FAVORITES_KEY = 'favorites';
+// const STORAGE_FAVORITES_KEY = 'favorites';
 let resultsArr = [];
 
 // приносить список тем
@@ -131,7 +131,7 @@ function onCategoryClick(evt) {
 searchInput.addEventListener('submit', onSearchInputClick);
 
 // приносить дані за пошуковим запитом
-function onSearchInputClick(evt) {
+ export function onSearchInputClick(evt) {
   // если не нашли новостей, а потом ввели нормальный запрос, делаем заново  display none
   document.querySelector('.without-news_container').style.display = 'none';
   evt.preventDefault();
@@ -204,7 +204,9 @@ function onSearchInputClick(evt) {
 }
 
 //===добавляет избранное в локальное хранилище ==========
-function setFavoritesInLocalStor({ resultsArr, clickedArticleId }) {
+export function setFavoritesInLocalStor({ resultsArr, clickedArticleId }) {
+  console.log(resultsArr);
+  const STORAGE_FAVORITES_KEY = 'favorites';
   resultsArr.forEach(article => {
     if (
       article.id == clickedArticleId ||
@@ -245,7 +247,7 @@ themeSwitcher.renderTheme();
 //============= перемикач теми кінець ============
 
 // Начало. Проверка на клик по Добавить в избранное
-export function onAddToFavoritesClick(evt) {
+function onAddToFavoritesClick(evt) {
   if (evt.target.className === 'card__btn') {
     const clickedArticleId =
       evt.target.closest('.card')?.id ||

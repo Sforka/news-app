@@ -43,7 +43,7 @@ export default class PaginationLogicSearch {
             const urlOriginalArticle = web_url;
            let imgUrl = '';
             try {
-              imgUrl = imgUrl = 'https://www.nytimes.com/' + multimedia[0].url;
+              imgUrl = 'https://www.nytimes.com/' + multimedia[0].url;
               //   якщо треба інший розмір картинки
               // console.log(media[0]['media-metadata']);
             } catch (error) {

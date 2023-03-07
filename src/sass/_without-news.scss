@@ -1,0 +1,40 @@
+.without-news {
+  &__container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &_title {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 27px;
+    text-align: center;
+    letter-spacing: -0.01em;
+
+    color: #111321;
+
+    margin: 40px 0;
+
+    @include tablet {
+      font-size: 40px;
+      line-height: 55px;
+    }
+  }
+
+  &__picture {
+    width: 248px;
+    height: 198px;
+    margin: 0 auto;;
+
+    @include tablet {
+      width: 560px;
+      height: 444px;
+    }
+
+    @include desktop {
+      width: 601px;
+      height: 478px;
+    }
+  }
+}

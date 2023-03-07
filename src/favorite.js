@@ -1,6 +1,6 @@
 import { onSearchClick } from './js/header';
 import { ThemeSwitcher } from './js/themeSwitcher';
-
+import { calendar } from './js/calendar';
 
 const newsContainerRef = document.querySelector('.news_container');
 const withoutNewsContainer = document.querySelector('.without-news_container');

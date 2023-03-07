@@ -1,14 +1,11 @@
-// дублируется вызов и создание экземпляра
 import NewsFetchApi from './newsApi';
-const newsFetchApi = new NewsFetchApi();
+const newsFetchApi = new NewsFetchApi()
 
-// дублируется переменная из currentPage.js
-let currentPage = document.querySelector('body').getAttribute('data-current-page'); 
-const categsBlockEL = document.querySelector('.wrap__categories')
-
-if (currentPage === "index") {
-    document.addEventListener('DOMContentLoaded', getSectionListData)
-    categsBlockEL.addEventListener('click', onCategoryClick)
+const categRefs = {
+currentPage: document.querySelector('body').getAttribute('data-current-page'),
+categsBlockEL: document.querySelector('.categories__wrap'),
+newsSection: '',
+buttonsQuantity: '',
 }
 
 async function getSectionListData() {
@@ -22,43 +19,39 @@ async function getSectionListData() {
     createSectionMarkup (sectionName, displayName);
     
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 }
 
-  function createSectionMarkup(sectionName, displayName) {
-    let sectionMarkup = '';
-    // Create 6 buttons for first 6 results
-    for (let i = 0; i < 6; i++) {
-      sectionMarkup += `<button data-section="${sectionName[i]}" class="section-btn">${displayName[i]}</button>`;
-    }
-    // Create dropdown list for rest of results
-    sectionMarkup += '<div class="dropdown">';
-    sectionMarkup += '<button class="other-btn">Other</button>';
-    sectionMarkup += '<div class="dropdown-content">';
+// function calcButtonsQuantity(mediaType) {
+//   if () {};
+//   if () {};
+//   else {};
+// }
 
-    for (let j = 6; j < sectionName.length; j++) {
-      sectionMarkup += `<button class ="dropdown-item" type='button' data-section="${sectionName[j]}">${displayName[j]}</button>`;
-    }
-
-    sectionMarkup += '</div>'
-    sectionMarkup += '<div class="dropdown-ruler"></div>'
-    sectionMarkup += '</div>';
-    renderSectionMarkup(sectionMarkup);
+function createSectionMarkup(sectionName, displayName) {
+  let sectionMarkup = '';
+  // Create 6 buttons for first 6 results
+  for (let i = 0; i < 6; i++) {
+    sectionMarkup += `<button data-section="${sectionName[i]}" class="section-btn">${displayName[i]}</button>`;
   }
+  // Create dropdown list for rest of results
+  sectionMarkup += '<div class="dropdown">';
+  sectionMarkup += '<button class="other-btn">Other</button>';
+  sectionMarkup += '<div class="dropdown-content">';
+
+  for (let j = 6; j < sectionName.length; j++) {
+    sectionMarkup += `<button class ="dropdown-item" type='button' data-section="${sectionName[j]}">${displayName[j]}</button>`;
+  }
+
+  sectionMarkup += '</div>'
+  sectionMarkup += '<div class="dropdown-ruler"></div>'
+  sectionMarkup += '</div>';
+  renderSectionMarkup(sectionMarkup);
+}
 
 function renderSectionMarkup(sectionMarkup) {
-  categsBlockEL.innerHTML = sectionMarkup;
+categRefs.categsBlockEL.innerHTML = sectionMarkup;
 };
 
-function onCategoryClick(e) {
-  const target = e.target;
-
-  // проверяем, является ли элемент кнопкой или элементом списка
-  if (target.classList.contains('section-btn') || target.classList.contains('dropdown-item')) {
-    const section = target.dataset.section;
-    // console.log(section);
-  // вызываем 
-  onCategoryClick(evt)
-  }
-}
+export {categRefs, getSectionListData, createSectionMarkup, renderSectionMarkup};

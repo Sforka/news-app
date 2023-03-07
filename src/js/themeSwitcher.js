@@ -2,6 +2,7 @@ export class ThemeSwitcher {
     constructor(deskSwitchEl, mobSwitchEl) {
       this.themeSwitcherEl = deskSwitchEl;
       this.mobileSwitcherEl = mobSwitchEl;
+      this.dataSelected = document.querySelector(".data_selected");
       this.THEME_STORAGE_KEY = 'theme';
       this.Theme = {
         LIGHT: 'light',
@@ -31,10 +32,12 @@ export class ThemeSwitcher {
         this.themeSwitcherEl.setAttribute('checked', true);
         this.mobileSwitcherEl.setAttribute('checked', true);
         this.changeBodyClass(this.Theme.DARK, this.Theme.LIGHT);
+        this.dataSelected.style.color = "#F4F4F4";
       }
   
       if (isLightTheme) {
         this.changeBodyClass(this.Theme.LIGHT, this.Theme.DARK);
+        this.dataSelected.style.color = "#111321";
       }
     }
   

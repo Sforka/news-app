@@ -4,7 +4,7 @@ import NewsFetchApi from './js/newsApi';
 import { ThemeSwitcher } from './js/themeSwitcher';
 import createWidget from './js/weatherApi';
 import { calendar } from './js/calendar';
-import category from './js/categories';
+import { categRefs, getSectionListData, createSectionMarkup, renderSectionMarkup } from './js/categories';
 import PaginationLogicPopular from './js/paginationLogicPopular';
 import PaginationLogicCategory from './js/paginationLogicCategory';
 import PaginationLogicSearch from './js/paginationLogicSearch';
@@ -86,9 +86,16 @@ function getPopularNews() {
     .catch(error => console.log(error));
 }
 
-document.querySelector('.test').removeEventListener('click', onCategoryClick);
+// add by Volyanskiy start
+if (categRefs.currentPage === "index") {
+  document.addEventListener('DOMContentLoaded', getSectionListData)
+  categRefs.categsBlockEL.addEventListener('click', onCategoryClick)
+}
+// add by Volyanskiy end
 
-document.querySelector('.test').addEventListener('click', onCategoryClick);
+// document.querySelector('.test').removeEventListener('click', onCategoryClick);
+
+// document.querySelector('.test').addEventListener('click', onCategoryClick);
 
 // приносить дані новин по категоріям
 function onCategoryClick(evt) {
@@ -96,16 +103,17 @@ function onCategoryClick(evt) {
   categoryNewsPagination.resetPage();
 
   // evt.preventDefault();
-  
-// add by Volyanskiy -- start
-const target = e.target;
-
-  if (target.classList.contains('section-btn') || target.classList.contains('dropdown-item')) {
-    const newsSection = target.dataset.section;
-// add by Volyanskiy -- end
-
   // тут треба записати значення обраної категорії з події на яку кнопку клацнули
-  newsFetchApi.searchSection = 'newsSection';
+
+  // add by Volyanskiy start
+  const target = evt.target;
+  if (target.classList.contains('section-btn') || target.classList.contains('dropdown-item')) {
+  categRefs.newsSection = target.dataset.section;
+  // console.log(String(categRefs.newsSection))
+  newsFetchApi.searchSection = String(categRefs.newsSection);
+}
+  // add by Volyanskiy end
+  // newsFetchApi.searchSection = 'business';
 
   newsFetchApi
     .fetchBySection()
@@ -255,21 +263,21 @@ themeSwitcher.renderTheme();
 //============= перемикач теми кінець ============
 
 // Начало. Проверка на клик по Добавить в избранное
-// export function onAddToFavoritesClick(evt) {
-//   if (evt.target.className === 'card__btn') {
-//     const clickedArticleId =
-//       evt.target.closest('.card')?.id ||
-//       evt.target.closest('.card')?.slug_name ||
-//       evt.target.closest('.card')?._id;
-//     setFavoritesInLocalStor({
-//       resultsArr,
-//       clickedArticleId,
+export function onAddToFavoritesClick(evt) {
+  if (evt.target.className === 'card__btn') {
+    const clickedArticleId =
+      evt.target.closest('.card')?.id ||
+      evt.target.closest('.card')?.slug_name ||
+      evt.target.closest('.card')?._id;
+    setFavoritesInLocalStor({
+      resultsArr,
+      clickedArticleId,
       
-//     });
-//   }
-// }
+    });
+  }
+}
 
-// // Конец. Проверка на клик по Добавить в избранное
+// Конец. Проверка на клик по Добавить в избранное
 
 //=== Подчеркивание активной ссылки на страницу -- начало
 

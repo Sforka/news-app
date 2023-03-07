@@ -1,10 +1,10 @@
-import createmarkup from './js/news-card';
+
 import onSearchClick from './js/header';
 import { ThemeSwitcher } from './js/themeSwitcher';
 
 const newsContainerRef = document.querySelector('.news_container');
 const withoutNewsContainer = document.querySelector('.without-news_container')
-const body = document.querySelector('body');
+// const body = document.querySelector('body');
 const searchInput = document.querySelector('.search_form');
 
 let markupAll = '';
@@ -110,35 +110,47 @@ function setFavoritesInLocalStor({ resultsArr, clickedArticleId }) {
 //======  Добавляет карточки новостей на страницу favorite  ======
 
 
+
+
+// ------------------------------------------------------ GBPLTW -------------------------------- //
+import publishedDateFormatter from './js/publishedDateFormatter';
+import createmarkup from './js/news-card';
+import { onAddToFavoritesClick } from './index.js';
+
+const body = document.querySelector('body');
+body.addEventListener('click', onAddToFavoritesClick);
+
 function addFavorite() {
   const favorites = localStorage.getItem(STORAGE_FAVORITES_KEY);
-  
-  if (!favorites) {
-    withoutNewsContainer.style.display =
-    'block';
 
+  if (!favorites) {
+    withoutNewsContainer.style.display = 'block';
   } else {
     const parsedFavorites = JSON.parse(favorites);
     const favoritesKeys = Object.keys(parsedFavorites);
 
     for (const favoriteKey of favoritesKeys) {
-      const parsedFavorite = parsedFavorites[`${favoriteKey}`]
-      const { abstract, published_date, section, title, media, url, id } = parsedFavorite;
+      const parsedFavorite = parsedFavorites[`${favoriteKey}`];
+      const { abstract, published_date, section, title, media, url, id } =
+        parsedFavorite;
 
       articleId = id;
       publishedDate = publishedDateFormatter(published_date);
-      sectionName = section;
+      sectionName = section || section_name;
       articleTitle = title;
       shortDescription = abstract;
       urlOriginalArticle = url;
 
       try {
-        imgUrl = media[0]['media-metadata'][2].url;
-          
-      } catch (error) {
-        imgUrl = 'Тут ссылку на заглушку';
-      }
-      
+          imgUrl = media[0]['media-metadata'][2].url;
+
+          //   якщо треба інший розмір картинки
+          // console.log(media[0]['media-metadata']);
+        } catch (error) {
+          imgUrl =
+            'https://t4.ftcdn.net/jpg/00/89/55/15/240_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg';
+        }
+
       newsContainerRef.innerHTML = markupAll += createmarkup({
         publishedDate,
         sectionName,
@@ -152,5 +164,45 @@ function addFavorite() {
   }
 }
 
-addFavorite()
+addFavorite();
 
+// getMarkupAll() {
+//     if (this.getResultForPage().length < this.newsPerPage) {
+//       console.log('отключить кнопку вперед');
+//     }
+//     this.getResultForPage().forEach(
+//       ({ abstract, published_date, section, title, media, url, id }) => {
+//         const articleId = id;
+//         const publishedDate = publishedDateFormatter(published_date);
+//         const sectionName = section;
+//         const articleTitle = title;
+//         const shortDescription = abstract;
+//         const urlOriginalArticle = url;
+//         let imgUrl;
+
+//         //   перевіряемо чи є зображення, де помилка там є відео
+//         try {
+//           imgUrl = media[0]['media-metadata'][2].url;
+
+//           //   якщо треба інший розмір картинки
+//           // console.log(media[0]['media-metadata']);
+//         } catch (error) {
+//           imgUrl =
+//             'https://t4.ftcdn.net/jpg/00/89/55/15/240_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg';
+//         }
+
+//         // деструктурував необхідні данні для розмітки
+
+//         this.markupAll += createmarkup({
+//           publishedDate,
+//           sectionName,
+//           articleTitle,
+//           shortDescription,
+//           urlOriginalArticle,
+//           imgUrl,
+//           articleId,
+//         });
+//       }
+//     );
+//     return this.markupAll;
+//   }

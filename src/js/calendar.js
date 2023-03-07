@@ -206,10 +206,11 @@ function onOpenCalendar() {
 
 btnCalendarClose.addEventListener("click", onCloseCalendar);
 
-function onCloseCalendar() {
-    calendar.classList.toggle('visually-hidden');
+function onCloseCalendar() {   
 
     calendar.style.transform = "translateY(-100%)";
+
+    calendar.classList.toggle('visually-hidden');
    
     btnCalendarClose.style.display = "none";
     btnCalendarOpen.style.display = "block";

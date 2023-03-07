@@ -3,6 +3,7 @@ import publishedDateFormatter from './publishedDateFormatter';
 
 export default class PaginationLogicPopular {
   constructor() {
+    // эта страница для уже загруженных новостей
     this.page = 0;
     this.resultsArr = [];
     // это приходит из функции пагинации

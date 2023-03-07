@@ -94,7 +94,7 @@ function onCategoryClick(evt) {
 
   // evt.preventDefault();
   // тут треба записати значення обраної категорії з події на яку кнопку клацнули
-  newsFetchApi.searchSection = 'business';
+  newsFetchApi.searchSection = 'arts';
 
   newsFetchApi
     .fetchBySection()
@@ -131,6 +131,8 @@ searchInput.addEventListener('submit', onSearchInputClick);
 
 // приносить дані за пошуковим запитом
 function onSearchInputClick(evt) {
+  // если не нашли новостей, а потом ввели нормальный запрос, делаем заново  display none
+  document.querySelector('.without-news_container').style.display = 'none';
   evt.preventDefault();
   //  значення пошукового запиту
   newsFetchApi.searchQuery = evt.target.elements.searchQuery.value;
@@ -168,6 +170,31 @@ function onSearchInputClick(evt) {
         pagRefs.next.addEventListener('click', onPaginationSearchNextClick);
 
         searchNewsPagination.resultsArr = resultsArr;
+        // ++++++++++++++++++++++
+        // приходит по 10 новостей, проверяем если сразу пришло 11-19 для второй страницы
+        if (
+          searchNewsPagination.page ===
+          Math.floor(
+            searchNewsPagination.resultsArr.length /
+              searchNewsPagination.newsPerPage
+            // тут -1 - загружаем следующую страницу за 1 страницу раньше, на случай если догрузим не полный массив, что б отображалось по 7, а не 6, потом догрузили 7, и потом остаток
+          ) -
+            1
+        ) {
+          newsFetchApi.page += 1;
+
+          newsFetchApi
+            .fetchBySearchQuery()
+            .then(({data: { response }} ) => {
+              console.log(response);
+              const extraResultsArr = response.docs;
+
+              searchNewsPagination.resultsArr.push(...extraResultsArr);
+            })
+            .catch(error => console.log(error));
+        }
+
+        // ++++++++++++++++++++++
         const markupAllSearch = searchNewsPagination.getMarkupAll();
         populateNews(markupAllSearch);
       }

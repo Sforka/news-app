@@ -204,8 +204,9 @@ searchInput.addEventListener('submit', onSearchInputClick);
 }
 
 //===добавляет избранное в локальное хранилище ==========
-export function setFavoritesInLocalStor({ resultsArr, clickedArticleId }) {
-  console.log(resultsArr);
+export function setFavoritesInLocalStor({ resultsArr, clickedArticleId, evt }) {
+  console.log(evt);
+  
   const STORAGE_FAVORITES_KEY = 'favorites';
   resultsArr.forEach(article => {
     if (
@@ -220,6 +221,10 @@ export function setFavoritesInLocalStor({ resultsArr, clickedArticleId }) {
 
       if (savedData[clickedArticleId]) {
         delete savedData[`${clickedArticleId}`];
+
+if ((evt.target.textContent.contains = 'Remove from favorites')) {
+            evt.target.textContent = 'Add to favorites';
+          }
 
         localStorage.setItem(STORAGE_FAVORITES_KEY, JSON.stringify(savedData));
         return;
@@ -253,11 +258,12 @@ function onAddToFavoritesClick(evt) {
       evt.target.closest('.card')?.id ||
       evt.target.closest('.card')?.slug_name ||
       evt.target.closest('.card')?._id;
-    setFavoritesInLocalStor({
-      resultsArr,
-      clickedArticleId,
-      
-    });
+    console.log(evt.target.textContent);
+          if ((evt.target.textContent.contains = "Add to favorites")){evt.target.textContent = 'Remove from favorites';} 
+            setFavoritesInLocalStor({
+              resultsArr,
+              clickedArticleId, evt
+            });
   }
 }
 

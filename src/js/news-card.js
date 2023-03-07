@@ -30,7 +30,7 @@ export default function createmarkup({
             ${sectionName}
           </p>
           <button class="card__btn" type="button">
-            Add to favorite <span class="card__btn-heart">&#9825;</span>
+            Add to favorite &#9825
           </button>
         </div>
         <h2 class="card__title">

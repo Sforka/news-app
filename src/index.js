@@ -5,6 +5,7 @@ import onSearchClick from './js/header';
 import { ThemeSwitcher } from './js/themeSwitcher';
 import createWidget from './js/weatherApi';
 import calendar from './js/calendar';
+import category from './js/categories';
 import PaginationLogicPopular from './js/paginationLogicPopular';
 import PaginationLogicCategory from './js/paginationLogicCategory';
 import PaginationLogicSearch from './js/paginationLogicSearch';
@@ -253,6 +254,7 @@ export function onAddToFavoritesClick(evt) {
     setFavoritesInLocalStor({
       resultsArr,
       clickedArticleId,
+      
     });
   }
 }

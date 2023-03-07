@@ -1,6 +1,6 @@
-import { searchNewsPagination } from '../index';
-import { populateNews } from '../index';
-import { newsFetchApi } from '../index';
+import { searchNewsPagination } from '../home';
+import { populateNews } from '../home';
+import { newsFetchApi } from '../home';
 
 //=== пагинация по категориям новостей -- начало
 export function onPaginationSearchPrevClick() {
@@ -20,8 +20,7 @@ export function onPaginationSearchNextClick() {
   if (
     searchNewsPagination.page ===
     Math.floor(
-      searchNewsPagination.resultsArr.length /
-        searchNewsPagination.newsPerPage
+      searchNewsPagination.resultsArr.length / searchNewsPagination.newsPerPage
       // тут -1 - загружаем следующую страницу за 1 страницу раньше, на случай если догрузим не полный массив, что б отображалось по 7, а не 6, потом догрузили 7, и потом остаток
     ) -
       1
@@ -31,7 +30,6 @@ export function onPaginationSearchNextClick() {
     newsFetchApi
       .fetchBySearchQuery()
       .then(({ data: { response } }) => {
-    
         const extraResultsArr = response.docs;
 
         searchNewsPagination.resultsArr.push(...extraResultsArr);

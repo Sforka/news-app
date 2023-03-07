@@ -40,7 +40,7 @@ function addFavorite() {
   const favorites = localStorage.getItem(STORAGE_FAVORITES_KEY);
 
   if (!favorites) {
-    withoutNewsContainer.style.display = 'block';
+    withoutNewsContainer.style.display = 'flex';
   } else {
     const parsedFavorites = JSON.parse(favorites);
     const favoritesKeys = Object.keys(parsedFavorites);

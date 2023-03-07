@@ -1,20 +1,18 @@
-import './index';
-import './js/header';
+import { onSearchClick } from './js/header';
 import { ThemeSwitcher } from './js/themeSwitcher';
 import { calendar } from './js/calendar';
+
 const newsContainerRef = document.querySelector('.news_container');
 const withoutNewsContainer = document.querySelector('.without-news_container');
 // const body = document.querySelector('body');
 const searchInput = document.querySelector('.search_form');
+const STORAGE_FAVORITES_KEY = 'favorites';
+const btnSearch = document.querySelector('.search_mob_btn');
 
 let markupAll = '';
 
-import { onSearchClick } from './js/header';
-const btnSearch = document.querySelector('.search_mob_btn');
-
 btnSearch.addEventListener('click', onSearchClick);
 
-const STORAGE_FAVORITES_KEY = 'favorites';
 
 //============= перемикач теми початок ==========
 
@@ -31,10 +29,12 @@ themeSwitcher.renderTheme();
 
 import publishedDateFormatter from './js/publishedDateFormatter';
 import createmarkup from './js/news-card';
-import { onAddToFavoritesClick } from './index.js';
+import { setFavoritesInLocalStor } from './index.js';
+
 
 const body = document.querySelector('body');
-body.addEventListener('click', onAddToFavoritesClick);
+let favoritesArrFedor = [];
+
 
 function addFavorite() {
   const favorites = localStorage.getItem(STORAGE_FAVORITES_KEY);
@@ -42,15 +42,21 @@ function addFavorite() {
   if (!favorites) {
     withoutNewsContainer.style.display = 'block';
   } else {
-    const parsedFavorites = JSON.parse(favorites);
+   const parsedFavorites = JSON.parse(favorites);
+    
     const favoritesKeys = Object.keys(parsedFavorites);
+   
+    body.addEventListener('click',onAddToFavoritesClick);
+
 
     for (const favoriteKey of favoritesKeys) {
       const parsedFavorite = parsedFavorites[`${favoriteKey}`];
+
+      favoritesArrFedor.push(parsedFavorite);
       const {
         abstract,
-        published_date,
         pub_date,
+        published_date,
         section,
         section_name,
         title,
@@ -70,8 +76,9 @@ function addFavorite() {
       const articleTitle = title || headline.main;
       const shortDescription = abstract;
       const urlOriginalArticle = url || web_url;
+
       let imgUrl = '';
-      let imgLink = 'https://www.nytimes.com/';
+      
 
       //   перевіряемо чи є зображення, де помилка там є відео
       try {
@@ -95,6 +102,13 @@ function addFavorite() {
           'https://t4.ftcdn.net/jpg/00/89/55/15/240_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg';
       }
 
+        //   якщо треба інший розмір картинки
+        // console.log(media[0]['media-metadata']);
+      } catch (error) {
+        imgUrl =
+          'https://t4.ftcdn.net/jpg/00/89/55/15/240_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg';
+      }
+
       newsContainerRef.innerHTML = markupAll += createmarkup({
         publishedDate,
         sectionName,
@@ -109,3 +123,19 @@ function addFavorite() {
 }
 
 addFavorite();
+
+function onAddToFavoritesClick(evt) {
+
+  if (evt.target.className === 'card__btn') {
+    const clickedArticleId =
+      evt.target.closest('.card')?.id ||
+      evt.target.closest('.card')?.slug_name ||
+      evt.target.closest('.card')?._id;
+    const resultsArr = favoritesArrFedor
+    setFavoritesInLocalStor({
+      resultsArr,
+      clickedArticleId,
+    });
+  }
+}
+

@@ -26,14 +26,13 @@ export function onPaginationSearchNextClick() {
     ) -
       1
   ) {
-    newsFetchApi.offset += 20;
+    newsFetchApi.page += 1;
 
     newsFetchApi
-      .fetchBySection()
-      .then(({ data }) => {
-        //   загальна кількість знайдених новин
-        totalNews = data.num_results;
-        const extraResultsArr = data.results;
+      .fetchBySearchQuery()
+      .then(({ data: { response } }) => {
+    
+        const extraResultsArr = response.docs;
 
         searchNewsPagination.resultsArr.push(...extraResultsArr);
       })

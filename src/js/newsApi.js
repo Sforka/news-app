@@ -14,7 +14,7 @@ export default class NewsFetchApi {
     // Эта страница для запроса на сервер
     //   для пагінації за пошуковим словом
     this.page = 0;
-    //   для пагінації пошуку за категоріями,  
+    //   для пагінації пошуку за категоріями,
     this.offset = 0;
   }
 
@@ -58,5 +58,7 @@ export default class NewsFetchApi {
     }
   }
 
-  resetPage() { return this.page = 0}
+  resetPage() {
+    return (this.page = 0);
+  }
 }

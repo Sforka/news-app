@@ -1,5 +1,5 @@
-import { popularNewsPagination } from "../index";
-import { populateNews } from "../index";
+import { popularNewsPagination } from '../index';
+import { populateNews } from '../index';
 
 //=== пагинация популярных новостей -- начало
 export function onPaginationPopularPrevClick() {

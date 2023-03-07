@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { categoryNewsPagination } from '../index';
+import { categoryNewsPagination } from '../home';
 
 const URL = 'https://api.nytimes.com/svc/';
 const KEY = 'u4NcxmWo2uFBK0OuatwBNClB29lN33d8';

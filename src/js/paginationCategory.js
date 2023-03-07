@@ -1,6 +1,6 @@
-import { categoryNewsPagination } from '../index';
-import { populateNews } from '../index';
-import { newsFetchApi } from '../index';
+import { categoryNewsPagination } from '../home';
+import { populateNews } from '../home';
+import { newsFetchApi } from '../home';
 
 //=== пагинация по категориям новостей -- начало
 export function onPaginationCategoryPrevClick() {
@@ -30,7 +30,7 @@ export function onPaginationCategoryNextClick() {
 
     newsFetchApi
       .fetchBySection()
-      .then(({ data }) => {  
+      .then(({ data }) => {
         //   загальна кількість знайдених новин
         totalNews = data.num_results;
         const extraResultsArr = data.results;

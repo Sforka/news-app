@@ -1,25 +1,24 @@
-// дублируется
+// дублируется вызов и создание экземпляра
 import NewsFetchApi from './newsApi';
 const newsFetchApi = new NewsFetchApi();
 
-// дублируется переменная из currentPage.js !
+// дублируется переменная из currentPage.js
 let currentPage = document.querySelector('body').getAttribute('data-current-page'); 
 const categsBlockEL = document.querySelector('.wrap__categories')
 
 if (currentPage === "index") {
     document.addEventListener('DOMContentLoaded', getSectionListData)
+    categsBlockEL.addEventListener('click', onCategoryClick)
 }
 
-//getSectionListData
 async function getSectionListData() {
   try {
     const response = await newsFetchApi.fetchSectionList();
     const { data: { results } } = response;
 
-    // console.log({ results }) 
     const sectionName = results.map(({ section }) => section);
     const displayName = results.map(({ display_name }) => display_name);
-    // return { sectionName, displayName };
+
     createSectionMarkup (sectionName, displayName);
     
   } catch (error) {
@@ -29,22 +28,37 @@ async function getSectionListData() {
 
   function createSectionMarkup(sectionName, displayName) {
     let sectionMarkup = '';
-  
     // Create 6 buttons for first 6 results
     for (let i = 0; i < 6; i++) {
-      sectionMarkup += `<button data-attribute="${sectionName[i]}" class="btn">${displayName[i]}</button>`;
+      sectionMarkup += `<button data-section="${sectionName[i]}" class="section-btn">${displayName[i]}</button>`;
     }
-  
     // Create dropdown list for rest of results
-    sectionMarkup += '<select>';
+    sectionMarkup += '<div class="dropdown">';
+    sectionMarkup += '<button class="other-btn">Other</button>';
+    sectionMarkup += '<div class="dropdown-content">';
+
     for (let j = 6; j < sectionName.length; j++) {
-      sectionMarkup += `<li data-attribute="${sectionName[j]}">${displayName[j]}</li>`;
+      sectionMarkup += `<button class ="dropdown-item" type='button' data-section="${sectionName[j]}">${displayName[j]}</button>`;
     }
-    sectionMarkup += '</select>';
-    console.log(sectionMarkup);
+
+    sectionMarkup += '</div>'
+    sectionMarkup += '</div>';
     renderSectionMarkup(sectionMarkup);
   }
 
 function renderSectionMarkup(sectionMarkup) {
   categsBlockEL.innerHTML = sectionMarkup;
 };
+
+function onCategoryClick(e) {
+  // console.dir(e.target);
+  // console.log(e.target.dataset.section);
+  // console.log(e.currentTarget);
+  const target = e.target;
+
+  // проверяем, является ли элемент кнопкой или элементом списка
+  if (target.classList.contains('section-btn') || target.classList.contains('dropdown-item')) {
+    const section = target.dataset.section;
+    console.log(section);
+  }
+}

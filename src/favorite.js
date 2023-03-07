@@ -1,7 +1,7 @@
-
-import onSearchClick from './js/header';
+import './index'
+import './js/header';
 import { ThemeSwitcher } from './js/themeSwitcher';
-
+import { calendar } from './js/calendar';
 const newsContainerRef = document.querySelector('.news_container');
 const withoutNewsContainer = document.querySelector('.without-news_container')
 // const body = document.querySelector('body');
@@ -10,7 +10,13 @@ const searchInput = document.querySelector('.search_form');
 let markupAll = '';
 
 
-const STORAGE_FAVORITES_KEY = 'favorites';
+import { onSearchClick } from './js/header';
+const btnSearch = document.querySelector('.search_mob_btn');
+
+btnSearch.addEventListener('click', onSearchClick);
+
+
+const STORAGE_FAVORITES_KEY = 'favorites';  
 
 
 //============= перемикач теми початок ==========
@@ -47,11 +53,11 @@ function addFavorite() {
 
     for (const favoriteKey of favoritesKeys) {
       const parsedFavorite = parsedFavorites[`${favoriteKey}`];
-      const { abstract, published_date, section, section_name, title, headline, media, multimedia, url,web_url, id, _id, slug_name, } =
+      const { abstract, published_date, pub_date, section, section_name, title, headline, media, multimedia, url,web_url, id, _id, slug_name, } =
         parsedFavorite;
 
       const articleId = id || _id || slug_name;
-        const publishedDate = publishedDateFormatter(published_date);
+        const publishedDate = publishedDateFormatter(published_date || pub_date);
         const sectionName = section || section_name ;
         const articleTitle = title || headline.main;
         const shortDescription = abstract;

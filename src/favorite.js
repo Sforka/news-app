@@ -109,7 +109,7 @@ function addFavorite() {
 addFavorite();
 
 function onAddToFavoritesClick(evt) {
-  console.log(favoritesArrFedor);
+
   if (evt.target.className === 'card__btn') {
     const clickedArticleId =
       evt.target.closest('.card')?.id ||

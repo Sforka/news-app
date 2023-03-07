@@ -205,7 +205,6 @@ searchInput.addEventListener('submit', onSearchInputClick);
 
 //===добавляет избранное в локальное хранилище ==========
 export function setFavoritesInLocalStor({ resultsArr, clickedArticleId, evt }) {
-  console.log(evt);
   
   const STORAGE_FAVORITES_KEY = 'favorites';
   resultsArr.forEach(article => {

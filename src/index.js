@@ -95,9 +95,7 @@ if (categRefs.currentPage === "index") {
 }
 // add by Volyanskiy end
 
-// document.querySelector('.test').removeEventListener('click', onCategoryClick);
 
-// document.querySelector('.test').addEventListener('click', onCategoryClick);
 
 // приносить дані новин по категоріям
 function onCategoryClick(evt) {
@@ -115,7 +113,7 @@ function onCategoryClick(evt) {
   newsFetchApi.searchSection = String(categRefs.newsSection);
 }
   // add by Volyanskiy end
-  // newsFetchApi.searchSection = 'business';
+ 
 
   newsFetchApi
     .fetchBySection()

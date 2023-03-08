@@ -32,7 +32,9 @@ export default async function createWidget(weatherWidgetContainer) {
 
     
     weatherWidgetContainer.innerHTML = markup;
+   const weatherWeekBtnRef = document.querySelector('.weatherBtn');
 
+   weatherWeekBtnRef.removeEventListener('click', onWeatherWeekBtnClick);
     function onWeatherWeekBtnClick() {
       fetchWeekWeather({
         city,
@@ -43,7 +45,7 @@ export default async function createWidget(weatherWidgetContainer) {
         
       });
     }
-    const weatherWeekBtnRef = document.querySelector('.weatherBtn');
+  
 
     weatherWeekBtnRef.addEventListener('click', onWeatherWeekBtnClick);
   });

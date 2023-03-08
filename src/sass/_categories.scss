@@ -21,7 +21,7 @@
     z-index: 100;
   }
   
-  .ruler {
+  .dropdown-ruler {
     position: absolute;
     top: calc(40px + 30px); /* учитываем отступ от верхней границы списка */
     left: calc(300px + 10px + 10px); /* добавляем 10px для отступа справа от списка */

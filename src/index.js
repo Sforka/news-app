@@ -3,7 +3,7 @@ import NewsFetchApi from './js/newsApi';
 import { ThemeSwitcher } from './js/themeSwitcher';
 import createWidget from './js/weatherApi';
 import { calendar } from './js/calendar';
-import { categRefs, getSectionListData, createSectionMarkup, renderSectionMarkup } from './js/categories';
+import { categRefs, getSectionListData, createSectionMarkup, renderSectionMarkup, nameListButtonByMedia, nameListButtonByClick } from './js/categories';
 import PaginationLogicPopular from './js/paginationLogicPopular';
 import PaginationLogicCategory from './js/paginationLogicCategory';
 import PaginationLogicSearch from './js/paginationLogicSearch';
@@ -109,8 +109,13 @@ function onCategoryClick(evt) {
   const target = evt.target;
   if (target.classList.contains('section-btn') || target.classList.contains('dropdown-item')) {
   categRefs.newsSection = target.dataset.section;
-  // console.log(String(categRefs.newsSection))
-  newsFetchApi.searchSection = String(categRefs.newsSection);
+  // console.log(target);
+  // console.log(target.textContent);
+  // console.log(categRefs.categsListBtn)
+  // console.log(categRefs.categsListBtn.textContent)
+  // categRefs.categsListBtn.textContent=target.textContent;
+  nameListButtonByClick(String(target.textContent))
+  // newsFetchApi.searchSection = String(categRefs.newsSection);
 }
   // add by Volyanskiy end
  

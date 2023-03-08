@@ -218,5 +218,9 @@ function onCloseCalendar() {
     dataSelected.style.opacity = "0.4";
     dateField.style.backgroundColor = "transparent";
     iconCalendar.style.fill = "#4440F7";
+
+    // if (localStorage.getItem("theme") === "dark") {
+    //     dataSelected.style.color = "#F4F4F4";
+    // } 
 }
 

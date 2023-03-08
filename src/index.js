@@ -86,10 +86,10 @@ function getPopularNews() {
 }
 
 // add by Volyanskiy start
-if (categRefs.currentPage === "index") {
-  document.addEventListener('DOMContentLoaded', getSectionListData)
-  categRefs.categsBlockEL.addEventListener('click', onCategoryClick)
-}
+// if (categRefs.currentPage === "index") {
+//   document.addEventListener('DOMContentLoaded', getSectionListData)
+//   categRefs.categsBlockEL.addEventListener('click', onCategoryClick)
+// }
 // add by Volyanskiy end
 
 // document.querySelector('.test').removeEventListener('click', onCategoryClick);

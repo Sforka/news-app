@@ -15,6 +15,9 @@ import { onPaginationSearchPrevClick } from './js/paginationSearch';
 import { onPaginationSearchNextClick } from './js/paginationSearch';
 // import publishedDateFormatter from './js/publishedDateFormatter';
 import { onSearchClick } from './js/header';
+import setFavoritesInLocalStor from './js/setFavoritesInLocalStore';
+
+
 const btnSearch = document.querySelector('.search_mob_btn');
 
 btnSearch.addEventListener('click', onSearchClick);
@@ -220,38 +223,7 @@ export function onSearchInputClick(evt) {
     .catch(error => console.log(error));
 }
 
-//===добавляет избранное в локальное хранилище ==========
-export function setFavoritesInLocalStor({ resultsArr, clickedArticleId, evt }) {
-  const STORAGE_FAVORITES_KEY = 'favorites';
-  resultsArr.forEach(article => {
-    if (
-      article.id == clickedArticleId ||
-      article.slug_name == clickedArticleId ||
-      article._id == clickedArticleId
-    ) {
-      let savedData = localStorage.getItem(STORAGE_FAVORITES_KEY);
 
-      // проверка или есть уже обьект
-      savedData = savedData ? JSON.parse(savedData) : {};
-
-      if (savedData[clickedArticleId]) {
-        delete savedData[`${clickedArticleId}`];
-
-        if ((evt.target.textContent.contains = 'Remove from favorites')) {
-          evt.target.textContent = 'Add to favorites';
-        }
-
-        localStorage.setItem(STORAGE_FAVORITES_KEY, JSON.stringify(savedData));
-        return;
-      } else {
-        savedData[clickedArticleId] = article;
-
-        localStorage.setItem(STORAGE_FAVORITES_KEY, JSON.stringify(savedData));
-      }
-    }
-  });
-}
-//== добавляет избранное в локальное хранилище. конец ==========
 
 //============= перемикач теми початок ==========
 

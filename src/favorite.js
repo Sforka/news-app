@@ -2,7 +2,7 @@ import createmarkup from './js/news-card';
 import onSearchClick from './js/header';
 import { ThemeSwitcher } from './js/themeSwitcher';
 import publishedDateFormatter from './js/publishedDateFormatter';
-
+import setFavoritesInLocalStor from './js/setFavoritesInLocalStore';
 const newsContainerRef = document.querySelector('.news_container');
 const body = document.querySelector('body');
 const searchInput = document.querySelector('.search_form');
@@ -24,6 +24,7 @@ themeSwitcher.renderTheme();
 //============= перемикач теми кінець ============
 
 body.addEventListener('click', onAddToFavoritesClick);
+let favoritesArrFedor = [];
 
 function addFavorite() {
   console.log('1');
@@ -37,6 +38,7 @@ function addFavorite() {
 
     for (const favoriteKey of favoritesKeys) {
       const parsedFavorite = parsedFavorites[`${favoriteKey}`];
+       favoritesArrFedor.push(parsedFavorite);
       const {
         abstract,
         published_date,

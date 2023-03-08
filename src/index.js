@@ -18,6 +18,7 @@ import { onSearchClick } from './js/header';
 import setFavoritesInLocalStor from './js/setFavoritesInLocalStore';
 
 
+
 const btnSearch = document.querySelector('.search_mob_btn');
 
 btnSearch.addEventListener('click', onSearchClick);
@@ -34,6 +35,21 @@ export const newsFetchApi = new NewsFetchApi();
 export const popularNewsPagination = new PaginationLogicPopular();
 export const categoryNewsPagination = new PaginationLogicCategory();
 export const searchNewsPagination = new PaginationLogicSearch();
+
+if (innerWidth < 768) {
+  popularNewsPagination.newsPerPage = 4;
+  categoryNewsPagination.newsPerPage = 4;
+  searchNewsPagination.newsPerPage = 4;
+} else if (innerWidth < 1280) {
+  popularNewsPagination.newsPerPage = 7;
+  categoryNewsPagination.newsPerPage = 7;
+  searchNewsPagination.newsPerPage = 7;
+}
+else {
+  popularNewsPagination.newsPerPage = 8;
+  categoryNewsPagination.newsPerPage = 8;
+  searchNewsPagination.newsPerPage = 8;
+}
 
 // const STORAGE_FAVORITES_KEY = 'favorites';
 let resultsArr = [];

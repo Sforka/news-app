@@ -212,16 +212,17 @@ function onCloseCalendar() {
     calendar.classList.toggle('visually-hidden');
    
     btnCalendarClose.style.display = "none";
-    btnCalendarOpen.style.display = "block";
-    
-    dataSelected.style.color = "#111321";
-    dataSelected.style.opacity = "0.4";
-    dateField.style.backgroundColor = "transparent";
-    iconCalendar.style.fill = "#4440F7";
+    btnCalendarOpen.style.display = "block";    
 
     if (localStorage.getItem("theme") === "dark") {       
         dataSelected.style.color = "#F4F4F4";
+    } else {
+        dataSelected.style.color = "#111321";
     }
+
+    dataSelected.style.opacity = "0.4";
+    dateField.style.backgroundColor = "transparent";
+    iconCalendar.style.fill = "#4440F7";
      
 }
 

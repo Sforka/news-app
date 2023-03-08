@@ -80,9 +80,9 @@ li {
     border-radius: 20px;
     padding: 15px 16px 15px;
     z-index: 2;
-
     top: 31px;
     left: 0;
+    transform: translateY(-100%);
     transition-property: transform;
     transition-duration: 500ms;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -213,9 +213,6 @@ li {
     border-radius: 50%;
     cursor: pointer;
     border: 10px solid #4440F7;
-    transition-property: transform;
-    transition-duration: 250ms;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .today{

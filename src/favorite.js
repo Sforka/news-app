@@ -1,20 +1,14 @@
-
-import './js/header';
+import createmarkup from './js/news-card';
+import onSearchClick from './js/header';
 import { ThemeSwitcher } from './js/themeSwitcher';
-import { calendar } from './js/calendar';
+import publishedDateFormatter from './js/publishedDateFormatter';
+
 const newsContainerRef = document.querySelector('.news_container');
-const withoutNewsContainer = document.querySelector('.without-news_container');
-// const body = document.querySelector('body');
+const body = document.querySelector('body');
 const searchInput = document.querySelector('.search_form');
-
-let markupAll = '';
-
-import { onSearchClick } from './js/header';
-const btnSearch = document.querySelector('.search_mob_btn');
-
-btnSearch.addEventListener('click', onSearchClick);
-
+const withoutNewsContainer = document.querySelector('.without-news_container');
 const STORAGE_FAVORITES_KEY = 'favorites';
+let markupAll = '';
 
 //============= перемикач теми початок ==========
 
@@ -29,14 +23,10 @@ themeSwitcherEl.addEventListener('change', themeSwitcher.onThemeToggle);
 themeSwitcher.renderTheme();
 //============= перемикач теми кінець ============
 
-import publishedDateFormatter from './js/publishedDateFormatter';
-import createmarkup from './js/news-card';
-import { onAddToFavoritesClick } from './index';
-
-const body = document.querySelector('body');
 body.addEventListener('click', onAddToFavoritesClick);
 
 function addFavorite() {
+  console.log('1');
   const favorites = localStorage.getItem(STORAGE_FAVORITES_KEY);
 
   if (!favorites) {
@@ -77,15 +67,12 @@ function addFavorite() {
       try {
         if (articleId === id) {
           imgUrl = media[0]['media-metadata'][2].url;
-          console.log(imgUrl);
         }
         if (articleId === slug_name) {
           imgUrl = multimedia[2].url;
-          console.log(imgUrl);
         }
         if (articleId === _id) {
           imgUrl = 'https://www.nytimes.com/' + multimedia[0].url;
-          console.log(imgUrl);
         }
 
         //   якщо треба інший розмір картинки
@@ -95,7 +82,7 @@ function addFavorite() {
           'https://t4.ftcdn.net/jpg/00/89/55/15/240_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg';
       }
 
-      newsContainerRef.innerHTML = markupAll += createmarkup({
+      markupAll += createmarkup({
         publishedDate,
         sectionName,
         articleTitle,
@@ -105,26 +92,26 @@ function addFavorite() {
         articleId,
       });
     }
+    newsContainerRef.innerHTML = markupAll;
   }
 }
 
 addFavorite();
 
 function onAddToFavoritesClick(evt) {
-
   if (evt.target.className === 'card__btn') {
     const clickedArticleId =
       evt.target.closest('.card')?.id ||
       evt.target.closest('.card')?.slug_name ||
       evt.target.closest('.card')?._id;
-    const resultsArr = favoritesArrFedor
+    const resultsArr = favoritesArrFedor;
     if ((evt.target.textContent.contains = 'Add to favorites')) {
       evt.target.textContent = 'Remove from favorites';
-    } 
+    }
     setFavoritesInLocalStor({
       resultsArr,
-      clickedArticleId, evt
+      clickedArticleId,
+      evt,
     });
   }
 }
-

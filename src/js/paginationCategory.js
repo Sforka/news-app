@@ -30,7 +30,7 @@ export function onPaginationCategoryNextClick() {
 
     newsFetchApi
       .fetchBySection()
-      .then(({ data }) => {  
+      .then(({ data }) => {
         //   загальна кількість знайдених новин
         totalNews = data.num_results;
         const extraResultsArr = data.results;

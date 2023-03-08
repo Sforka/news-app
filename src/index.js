@@ -1,10 +1,9 @@
-// треба зробити перевірку чи вибрана дата.
 import createmarkup from './js/news-card';
 import NewsFetchApi from './js/newsApi';
 import { ThemeSwitcher } from './js/themeSwitcher';
 import createWidget from './js/weatherApi';
 import { calendar } from './js/calendar';
-import category from './js/categories';
+import { categRefs, getSectionListData, createSectionMarkup, renderSectionMarkup } from './js/categories';
 import PaginationLogicPopular from './js/paginationLogicPopular';
 import PaginationLogicCategory from './js/paginationLogicCategory';
 import PaginationLogicSearch from './js/paginationLogicSearch';
@@ -33,7 +32,7 @@ export const popularNewsPagination = new PaginationLogicPopular();
 export const categoryNewsPagination = new PaginationLogicCategory();
 export const searchNewsPagination = new PaginationLogicSearch();
 
-const STORAGE_FAVORITES_KEY = 'favorites';
+// const STORAGE_FAVORITES_KEY = 'favorites';
 let resultsArr = [];
 
 // приносить список тем
@@ -63,7 +62,7 @@ function getPopularNews() {
       if (resultsArr.length === 0) {
         newsContainerRef.innerHTML = '';
         document.querySelector('.without-news_container').style.display =
-          'block';
+          'flex';
       } else {
         pagRefs.prev.removeEventListener(
           'click',
@@ -86,9 +85,16 @@ function getPopularNews() {
     .catch(error => console.log(error));
 }
 
-document.querySelector('.test').removeEventListener('click', onCategoryClick);
+// add by Volyanskiy start
+if (categRefs.currentPage === "index") {
+  document.addEventListener('DOMContentLoaded', getSectionListData)
+  categRefs.categsBlockEL.addEventListener('click', onCategoryClick)
+}
+// add by Volyanskiy end
 
-document.querySelector('.test').addEventListener('click', onCategoryClick);
+// document.querySelector('.test').removeEventListener('click', onCategoryClick);
+
+// document.querySelector('.test').addEventListener('click', onCategoryClick);
 
 // приносить дані новин по категоріям
 function onCategoryClick(evt) {
@@ -97,7 +103,16 @@ function onCategoryClick(evt) {
 
   // evt.preventDefault();
   // тут треба записати значення обраної категорії з події на яку кнопку клацнули
-  newsFetchApi.searchSection = 'arts';
+
+  // add by Volyanskiy start
+  const target = evt.target;
+  if (target.classList.contains('section-btn') || target.classList.contains('dropdown-item')) {
+  categRefs.newsSection = target.dataset.section;
+  // console.log(String(categRefs.newsSection))
+  newsFetchApi.searchSection = String(categRefs.newsSection);
+}
+  // add by Volyanskiy end
+  // newsFetchApi.searchSection = 'business';
 
   newsFetchApi
     .fetchBySection()
@@ -113,7 +128,7 @@ function onCategoryClick(evt) {
       if (data.results === null) {
         newsContainerRef.innerHTML = '';
         document.querySelector('.without-news_container').style.display =
-          'block';
+          'flex';
       } else {
         categoryNewsPagination.resultsArr = [];
         pagRefs.prev.removeEventListener('click', onPaginationPopularPrevClick);
@@ -133,7 +148,7 @@ function onCategoryClick(evt) {
 searchInput.addEventListener('submit', onSearchInputClick);
 
 // приносить дані за пошуковим запитом
-function onSearchInputClick(evt) {
+export function onSearchInputClick(evt) {
   // если не нашли новостей, а потом ввели нормальный запрос, делаем заново  display none
   document.querySelector('.without-news_container').style.display = 'none';
   evt.preventDefault();
@@ -156,7 +171,7 @@ function onSearchInputClick(evt) {
       if (resultsArr.length === 0) {
         newsContainerRef.innerHTML = '';
         document.querySelector('.without-news_container').style.display =
-          'block';
+          'flex';
       } else {
         searchNewsPagination.resultsArr = [];
         pagRefs.prev.removeEventListener('click', onPaginationPopularPrevClick);
@@ -188,7 +203,7 @@ function onSearchInputClick(evt) {
 
           newsFetchApi
             .fetchBySearchQuery()
-            .then(({data: { response }} ) => {
+            .then(({ data: { response } }) => {
               console.log(response);
               const extraResultsArr = response.docs;
 
@@ -206,7 +221,8 @@ function onSearchInputClick(evt) {
 }
 
 //===добавляет избранное в локальное хранилище ==========
-function setFavoritesInLocalStor({ resultsArr, clickedArticleId }) {
+export function setFavoritesInLocalStor({ resultsArr, clickedArticleId, evt }) {
+  const STORAGE_FAVORITES_KEY = 'favorites';
   resultsArr.forEach(article => {
     if (
       article.id == clickedArticleId ||
@@ -220,6 +236,10 @@ function setFavoritesInLocalStor({ resultsArr, clickedArticleId }) {
 
       if (savedData[clickedArticleId]) {
         delete savedData[`${clickedArticleId}`];
+
+        if ((evt.target.textContent.contains = 'Remove from favorites')) {
+          evt.target.textContent = 'Add to favorites';
+        }
 
         localStorage.setItem(STORAGE_FAVORITES_KEY, JSON.stringify(savedData));
         return;
@@ -247,16 +267,20 @@ themeSwitcher.renderTheme();
 //============= перемикач теми кінець ============
 
 // Начало. Проверка на клик по Добавить в избранное
-export function onAddToFavoritesClick(evt) {
+function onAddToFavoritesClick(evt) {
   if (evt.target.className === 'card__btn') {
     const clickedArticleId =
       evt.target.closest('.card')?.id ||
       evt.target.closest('.card')?.slug_name ||
       evt.target.closest('.card')?._id;
+
+    if ((evt.target.textContent.contains = 'Add to favorites')) {
+      evt.target.textContent = 'Remove from favorites';
+    }
     setFavoritesInLocalStor({
       resultsArr,
       clickedArticleId,
-      
+      evt,
     });
   }
 }

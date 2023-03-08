@@ -12,26 +12,26 @@
   </head>
   <body data-current-page="index">
 
-    
-    
+
+
     <include src="./partials/header.html"></include>
     <button type="button" class="test">1111111111</button>
 
 
-    
+
 
     <div class="search_container container">
       <include src="./partials/categories.html"></include>
       <p>Search date news</p>
       <include src="./partials/calendar.html"></include>
     </div>
-    
+
 
     <div class="without-news_container">
       <h1 class="without-news_title">
         We haven’t found news from this category
       </h1>
-      <picture>
+      <picture class="without-news__picture">
         <source srcset="./images/noNews_desktop.png"
         media="(min-width: 1280px)">
         <source srcset="./images/noNews_tablet.png"
@@ -41,11 +41,11 @@
         <img src="./images/noNews_mobile.png" alt="No news founded/">
       </picture>
     </div>
-    
+
     <div class="news_container container"></div>
-    
+
     <include src="./partials/pagination.html"></include>
-    
+
     <include src="./partials/mob-menu.html"></include>
 
     <script type="module" src="./index.js"></script>

@@ -44,7 +44,7 @@ function addFavorite() {
   const favorites = localStorage.getItem(STORAGE_FAVORITES_KEY);
   
   if (!favorites) {
-    withoutNewsContainer.style.display = 'flex';
+    withoutNewsContainer.style.display = 'block';
   } else {
     const parsedFavorites = JSON.parse(favorites);
     const favoritesKeys = Object.keys(parsedFavorites);
@@ -139,7 +139,7 @@ function onAddToReadClick(evt) {
       evt.target.closest('.card')?.slug_name ||
       evt.target.closest('.card')?._id;
     const resultsArr = favoritesArrFedor;
-    
+      console.log( evt.target.closest('.card').elements("."))
     setReadInLocalStor({
       resultsArr,
       clickedArticleId,

@@ -47,6 +47,7 @@ let favoritesBtnText = "Add to favorite"
           <p class="card__section-name">
             ${sectionName}
           </p>
+          <p class="card__alredyRead">Already read ✓</p>
           <button class="card__btn" type="button">
            ${favoritesBtnText}
           </button>

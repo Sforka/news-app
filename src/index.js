@@ -32,6 +32,7 @@ const newsContainerRef = document.querySelector('.news_container');
 const body = document.querySelector('body');
 const searchInput = document.querySelector('.search_form');
 
+
 export const newsFetchApi = new NewsFetchApi();
 export const popularNewsPagination = new PaginationLogicPopular();
 export const categoryNewsPagination = new PaginationLogicCategory();
@@ -67,7 +68,10 @@ function getSectionList(e) {
   });
 }
 
-getPopularNews();
+if(!localStorage.getItem('searchQueryFromFavorites'))
+{getPopularNews();} else {
+  onSearchInputClick()
+}
 
 // приносить дані популярних новин
 export function getPopularNews() {
@@ -181,16 +185,20 @@ export function onSearchInputClick(event) {
  evt = event;
 // текущий поиск - по ключевому слову
  changeSearchType('searchInput')
- 
 
- if(evt.target.className === 'search_form') {// если не нашли новостей, а потом ввели нормальный запрос, делаем заново  display none
-  evt.preventDefault();
-  //  значення пошукового запиту
-  newsFetchApi.searchQuery = evt.target.elements.searchQuery.value;
+if(localStorage.getItem('searchQueryFromFavorites') === null) {
+  if(evt.target.className === 'search_form') {// если не нашли новостей, а потом ввели нормальный запрос, делаем заново  display none
+    evt.preventDefault();
+    //  значення пошукового запиту
+    newsFetchApi.searchQuery = evt.target.elements.searchQuery.value;
+
  }
   newsFetchApi.resetPage();
-  document.querySelector('.without-news_container').style.display = 'none';
-  
+  document.querySelector('.without-news_container').style.display = 'none';} else
+ { newsFetchApi.searchQuery = localStorage.getItem('searchQueryFromFavorites');}
+
+  localStorage.removeItem('searchQueryFromFavorites')
+  console.log(localStorage.getItem('searchQueryFromFavorites'));
   newsFetchApi
     .fetchBySearchQuery()
     .then(({ data: { response } }) => {
@@ -239,7 +247,7 @@ export function onSearchInputClick(event) {
           newsFetchApi
             .fetchBySearchQuery()
             .then(({ data: { response } }) => {
-              console.log(response);
+
               const extraResultsArr = response.docs;
 
               searchNewsPagination.resultsArr.push(...extraResultsArr);

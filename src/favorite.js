@@ -13,6 +13,15 @@ const withoutNewsContainer = document.querySelector('.without-news_container');
 const STORAGE_FAVORITES_KEY = 'favorites';
 let markupAll = '';
 
+searchInput.addEventListener('submit', onSearchInputClickAtFavorites);
+
+function onSearchInputClickAtFavorites(evt) {
+  evt.preventDefault()
+  const query = evt.target.elements.searchQuery.value
+  localStorage.setItem("searchQueryFromFavorites", query)
+window.open('index.html', '_self')
+}
+
 
 //============= перемикач теми початок ==========
 

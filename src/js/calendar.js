@@ -220,7 +220,9 @@ function onCloseCalendar() {
 
 
 // тут, проверяем какой ти поиска, event это переменная пустышка
+if(newsFetchApi.date !== null){
   if(currentTypeOfSearch.searchInput) {
+    console.log('12');
     onSearchInputClick(event)    
   }
   if(currentTypeOfSearch.popular) {
@@ -229,6 +231,7 @@ function onCloseCalendar() {
   if(currentTypeOfSearch.category) {
     onCategoryClick(event)    
   }
+}
 
     calendar.style.transform = "translateY(-100%)";    
 

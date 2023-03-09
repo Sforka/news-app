@@ -1,6 +1,11 @@
-import { onSearchInputClick } from "../index";
+import { onCategoryClick, onSearchInputClick, getPopularNews } from "../index";
+import { currentlyOpenedPage } from "./curentlyOpenedPage";
 import { newsFetchApi } from "../index";
+import { currentTypeOfSearch } from "./currentTypeOfSearch";
 
+if(!currentlyOpenedPage.index)
+{return}
+console.log(currentlyOpenedPage);
 const CalendarDates = require("calendar-dates");
 const calendarDates = new CalendarDates();
 
@@ -154,7 +159,9 @@ function onDateSelection(event) {
 
     dataSelected.textContent = `${addLeadingZero(event.target.textContent)}/${addLeadingZero(months.indexOf(month.textContent) + 1)}/${year.textContent}`;
 
-    newsFetchApi.data = dataSelected.textContent;
+    // записали дату поиска в для запроса newsFetchApi
+    newsFetchApi.date = (dataSelected.textContent).split('/').reverse().join('');
+
   
     onCloseCalendar(); 
 }
@@ -213,9 +220,17 @@ btnCalendarClose.addEventListener("click", onCloseCalendar);
 
 function onCloseCalendar() {  
 
-  newsFetchApi.date
-// тут event это переменная пустышка
-  onSearchInputClick(event)
+
+// тут, проверяем какой ти поиска, event это переменная пустышка
+  if(currentTypeOfSearch.searchInput) {
+    onSearchInputClick(event)    
+  }
+  if(currentTypeOfSearch.popular) {
+    getPopularNews(event)    
+  }
+  if(currentTypeOfSearch.category) {
+    onCategoryClick(event)    
+  }
 
     calendar.style.transform = "translateY(-100%)";    
 

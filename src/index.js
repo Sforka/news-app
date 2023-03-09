@@ -16,8 +16,12 @@ import { onPaginationSearchNextClick } from './js/paginationSearch';
 // import publishedDateFormatter from './js/publishedDateFormatter';
 import { onSearchClick } from './js/header';
 import setFavoritesInLocalStor from './js/setFavoritesInLocalStore';
-
-
+import { changeSearchType } from './js/currentTypeOfSearch';
+import { currentTypeOfSearch } from './js/currentTypeOfSearch';
+import { changeOpenedPage } from './js/curentlyOpenedPage';
+import { currentlyOpenedPage } from './js/curentlyOpenedPage';
+console.log("3");
+changeOpenedPage('index');
 
 const btnSearch = document.querySelector('.search_mob_btn');
 
@@ -66,10 +70,12 @@ function getSectionList(e) {
   });
 }
 
-getPopularNews();
+// getPopularNews();
 
 // приносить дані популярних новин
-function getPopularNews() {
+export function getPopularNews() {
+  // текущий поиск - популярных новостей
+ changeSearchType('popular')
   newsFetchApi
     .fetchPopularNews()
     .then(({ data }) => {
@@ -104,6 +110,8 @@ function getPopularNews() {
     .catch(error => console.log(error));
 }
 
+
+categRefs.categsBlockEL.removeEventListener('click', onCategoryClick)
 // add by Volyanskiy start
 if (categRefs.currentPage === "index") {
   document.addEventListener('DOMContentLoaded', getSectionListData)
@@ -114,7 +122,10 @@ if (categRefs.currentPage === "index") {
 
 
 // приносить дані новин по категоріям
-function onCategoryClick(evt) {
+export function onCategoryClick(evt) {
+// текущий поиск - по категориям
+changeSearchType('category')
+
   newsFetchApi.offset = 0;
   categoryNewsPagination.resetPage();
 
@@ -172,6 +183,10 @@ searchInput.addEventListener('submit', onSearchInputClick);
 // приносить дані за пошуковим запитом
 export function onSearchInputClick(event) {
  evt = event;
+// текущий поиск - по ключевому слову
+ changeSearchType('searchInput')
+ 
+
  if(evt.target.className === 'search_form') {// если не нашли новостей, а потом ввели нормальный запрос, делаем заново  display none
   evt.preventDefault();
   //  значення пошукового запиту

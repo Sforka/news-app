@@ -1,8 +1,11 @@
+import { changeOpenedPage } from './js/curentlyOpenedPage';
 import createmarkup from './js/news-card';
 import onSearchClick from './js/header';
 import { ThemeSwitcher } from './js/themeSwitcher';
 import publishedDateFormatter from './js/publishedDateFormatter';
 import setFavoritesInLocalStor from './js/setFavoritesInLocalStore';
+import { calendar } from './js/calendar';
+import { onSearchInputClick } from './index';
 const newsContainerRef = document.querySelector('.news_container');
 const body = document.querySelector('body');
 const searchInput = document.querySelector('.search_form');
@@ -10,6 +13,13 @@ const withoutNewsContainer = document.querySelector('.without-news_container');
 const STORAGE_FAVORITES_KEY = 'favorites';
 let markupAll = '';
 
+changeOpenedPage('favorite');
+import { currentlyOpenedPage } from './js/curentlyOpenedPage';
+console.log(currentlyOpenedPage);
+
+searchInput.removeEventListener('submit', onSearchInputClick);
+
+searchInput.addEventListener('submit', onSearchInputClick);
 //============= перемикач теми початок ==========
 
 const themeSwitcherEl = document.querySelector('.switch_input');
@@ -27,22 +37,21 @@ body.addEventListener('click', onAddToFavoritesClick);
 let favoritesArrFedor = [];
 
 function addFavorite() {
-  console.log('1');
   const favorites = localStorage.getItem(STORAGE_FAVORITES_KEY);
-
+  
   if (!favorites) {
     withoutNewsContainer.style.display = 'flex';
   } else {
     const parsedFavorites = JSON.parse(favorites);
     const favoritesKeys = Object.keys(parsedFavorites);
-
+    
     for (const favoriteKey of favoritesKeys) {
       const parsedFavorite = parsedFavorites[`${favoriteKey}`];
        favoritesArrFedor.push(parsedFavorite);
-      const {
-        abstract,
-        published_date,
-        pub_date,
+       const {
+         abstract,
+         published_date,
+         pub_date,
         section,
         section_name,
         title,
@@ -55,7 +64,7 @@ function addFavorite() {
         _id,
         slug_name,
       } = parsedFavorite;
-
+      
       const articleId = id || _id || slug_name;
       const publishedDate = publishedDateFormatter(published_date || pub_date);
       const sectionName = section || section_name;
@@ -64,7 +73,7 @@ function addFavorite() {
       const urlOriginalArticle = url || web_url;
       let imgUrl = '';
       let imgLink = 'https://www.nytimes.com/';
-
+      
       //   перевіряемо чи є зображення, де помилка там є відео
       try {
         if (articleId === id) {
@@ -76,14 +85,14 @@ function addFavorite() {
         if (articleId === _id) {
           imgUrl = 'https://www.nytimes.com/' + multimedia[0].url;
         }
-
+        
         //   якщо треба інший розмір картинки
         // console.log(media[0]['media-metadata']);
       } catch (error) {
         imgUrl =
-          'https://t4.ftcdn.net/jpg/00/89/55/15/240_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg';
+        'https://t4.ftcdn.net/jpg/00/89/55/15/240_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg';
       }
-
+      
       markupAll += createmarkup({
         publishedDate,
         sectionName,
@@ -103,7 +112,7 @@ addFavorite();
 function onAddToFavoritesClick(evt) {
   if (evt.target.className === 'card__btn') {
     const clickedArticleId =
-      evt.target.closest('.card')?.id ||
+    evt.target.closest('.card')?.id ||
       evt.target.closest('.card')?.slug_name ||
       evt.target.closest('.card')?._id;
     const resultsArr = favoritesArrFedor;

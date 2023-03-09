@@ -295,5 +295,8 @@ export function populateNews(markupAllPopular) {
 
   // Слушатель на клик по Добавить в избранное
   body.addEventListener('click', onAddToFavoritesClick);
+  
 }
 // Рендеринг всех карточек на странице с календарём. конец
+
+  

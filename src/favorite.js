@@ -3,6 +3,7 @@ import onSearchClick from './js/header';
 import { ThemeSwitcher } from './js/themeSwitcher';
 import publishedDateFormatter from './js/publishedDateFormatter';
 import setFavoritesInLocalStor from './js/setFavoritesInLocalStore';
+import setReadInLocalStor from './js/setReadInLocalStore';
 const newsContainerRef = document.querySelector('.news_container');
 const body = document.querySelector('body');
 const searchInput = document.querySelector('.search_form');
@@ -24,6 +25,7 @@ themeSwitcher.renderTheme();
 //============= перемикач теми кінець ============
 
 body.addEventListener('click', onAddToFavoritesClick);
+body.addEventListener('click', onAddToReadClick);
 let favoritesArrFedor = [];
 
 function addFavorite() {
@@ -63,7 +65,7 @@ function addFavorite() {
       const shortDescription = abstract;
       const urlOriginalArticle = url || web_url;
       let imgUrl = '';
-      let imgLink = 'https://www.nytimes.com/';
+      
 
       //   перевіряемо чи є зображення, де помилка там є відео
       try {
@@ -111,6 +113,23 @@ function onAddToFavoritesClick(evt) {
       evt.target.textContent = 'Remove from favorites';
     }
     setFavoritesInLocalStor({
+      resultsArr,
+      clickedArticleId,
+      evt,
+    });
+  }
+}
+
+
+function onAddToReadClick(evt) {
+  if (evt.target.className === 'card__read-more-search') {
+    const clickedArticleId =
+      evt.target.closest('.card')?.id ||
+      evt.target.closest('.card')?.slug_name ||
+      evt.target.closest('.card')?._id;
+    const resultsArr = favoritesArrFedor;
+    
+    setReadInLocalStor({
       resultsArr,
       clickedArticleId,
       evt,

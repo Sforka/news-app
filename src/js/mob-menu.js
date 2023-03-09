@@ -37,7 +37,7 @@ function checkOne(){
         rigthSvgOne.style.display = "inherit"
         rigthSvgTwo.style.display = "none"
         rigthSvgTree.style.display = "none"
-        
+
     }
 // Ссылка Favorite
 function checkTwo(){
@@ -81,6 +81,7 @@ const backdrop = document.querySelector(".backdrop")
 
 closeModal.addEventListener("click", e => {
     backdrop.classList.add("is-hidden")
+    document.body.style.overflow = 'auto';
 })
 // Open modal
 const modal = document.querySelector(".menu_mob_btn")

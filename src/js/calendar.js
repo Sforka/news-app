@@ -14,6 +14,7 @@ const btnCalendarClose = document.querySelector(".btn_calendar_close");
 const days = document.querySelector(".days");
 const calendar = document.querySelector(".calendar");
 const iconCalendar = document.querySelector(".calendar_icon");
+const calendarBox = document.querySelector(".calendar-box");
 
 
 //    formData.day, formData.month, formData.year  для даних дня місяця і року
@@ -191,10 +192,9 @@ function createMarkup(mayDates) {
 btnCalendarOpen.addEventListener("click", onOpenCalendar);
 
 function onOpenCalendar() {
-    calendar.classList.toggle('visually-hidden');
-
+    // calendar.classList.toggle('visually-hidden');
     calendar.style.transform = "translateY(0)";
-   
+            
     btnCalendarClose.style.display = "block";
     btnCalendarOpen.style.display = "none";
 
@@ -207,31 +207,22 @@ function onOpenCalendar() {
 btnCalendarClose.addEventListener("click", onCloseCalendar);
 
 function onCloseCalendar() {  
-    calendar.style.transform = "translateY(-100%)";    
-
-    calendar.classList.toggle('visually-hidden');
-   
+    // calendar.classList.toggle('visually-hidden');
+    calendar.style.transform = "translateY(-120%)"; 
+      
     btnCalendarClose.style.display = "none";
     btnCalendarOpen.style.display = "block";    
 
     if (localStorage.getItem("theme") === "dark") {       
         dataSelected.style.color = "#F4F4F4";
+        dateField.style.backgroundColor = "#2E2E2E";
     } else {
         dataSelected.style.color = "#111321";
-    }
-
-
-    // dataSelected.style.color = "#111321";
-    if (localStorage.getItem("theme") === "dark") { 
-        dataSelected.style.color = "#F4F4F4"; 
-    }
-    else {
-        dataSelected.style.color = "#111321";
+        dateField.style.backgroundColor = "#F4F4F4";
     }
 
     dataSelected.style.opacity = "0.4";
-    dateField.style.backgroundColor = "transparent";
-    iconCalendar.style.fill = "#4440F7";
-     
+    // dateField.style.backgroundColor = "transparent";
+    iconCalendar.style.fill = "#4440F7";     
 }
 

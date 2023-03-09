@@ -1,98 +1,83 @@
-import createmarkup from './news-card';
-import publishedDateFormatter from './publishedDateFormatter';
+import {addClickListenerToCard} from "./read-localstorage";
 let arrDateOfRead = [];
 let arrUniqueDateOfRead = [];
-let arrArticlesPerDate = [];
-let favoritesArrFedor = [];
+// let arrArticlesPerDate = [];
+let arrArticlesPerDate = [ {articleId: "100000008796668",
+articleTitle: "Inside the Panic at Fox News After the 2020 Election",
+dateOfReading: "6/3/2023",
+imgUrl: "https://static01.nyt.com/images/2023/03/04/multimedia/04dc-foxnews-topart-01-wlfc/04dc-foxnews-topart-01-wlfc-mediumThreeByTwo440.jpg",
+publishedDate: "04/03/2023",
+sectionName: "U.S.",
+shortDescription: "“If we hadn’t called Arizona,” said Suzanne Scott, the network’s chief executive, according to a recording reviewed...",
+urlOriginalArticle: "https://www.nytimes.com/2023/03/04/us/politics/panic-fox-news-2020-election.html",
+}];
+
+
+// let arrArticlesFromLocStor = [];
+let arrArticlesFromLocStor = [
+  {articleId: "100000008796668",
+  articleTitle: "Inside the Panic at Fox News After the 2020 Election",
+  dateOfReading: "6/3/2023",
+  imgUrl: "https://static01.nyt.com/images/2023/03/04/multimedia/04dc-foxnews-topart-01-wlfc/04dc-foxnews-topart-01-wlfc-mediumThreeByTwo440.jpg",
+  publishedDate: "04/03/2023",
+  sectionName: "U.S.",
+  shortDescription: "“If we hadn’t called Arizona,” said Suzanne Scott, the network’s chief executive, according to a recording reviewed...",
+  urlOriginalArticle: "https://www.nytimes.com/2023/03/04/us/politics/panic-fox-news-2020-election.html",
+  },
+  
+  {articleId: "100000008794897",
+  articleTitle: "The Daring Ruse That Exposed China’s Campaign...",
+  dateOfReading: "7/3/2023",
+  imgUrl: "https://static01.nyt.com/images/2023/03/12/magazine/12mag-spy/12mag-spy-mediumThreeByTwo440-v2.jpg",
+  publishedDate: "07/03/2023",
+  sectionName: "Magazine",
+  shortDescription: "How the downfall of one intelligence agent revealed the astonishing depth of Chinese industrial espionage.",
+  urlOriginalArticle: "https://www.nytimes.com/2023/03/07/magazine/china-spying-intellectual-property.html"
+  },
+  
+  {articleId: "100000008798772",
+    articleTitle: "The Rumored ‘Vanderpump Rules’ Affair, Explained",
+    dateOfReading: "8/3/2023",
+    imgUrl: "https://static01.nyt.com/images/2023/03/06/multimedia/06VANDERPUMP-AFFAIR-bwmv/06VANDERPUMP-AFFAIR-bwmv-mediumThreeByTwo440.jpg",
+    publishedDate: "06/03/2023",
+    sectionName: "Style",
+    shortDescription: "Word of a cheating scandal involving the cast members of a Bravo reality television show has taken the internet...",
+    urlOriginalArticle: "https://www.nytimes.com/2023/03/06/style/vanderpump-rules-cheating-explainer.html",
+  }]
+
 
 let fullMarkup = '';
 let sectionMarkup = '';
 let startSectionMarkup = '';
 let blockMarkup = '';
-const endSectionMarkup = '</ul></section>';
-const STORAGE_READ_KEY = 'read';
-//===отримання масиву статей з local storage ==========
-function getReadArticlesFromLocStor() {
-  read = localStorage.getItem(STORAGE_READ_KEY);
-  if (!read) {
-    withoutNewsContainer.style.display = 'block';
-  } else {
-    arrArticlesFromLocStor = JSON.parse(read);
-    getUniqeDateOfRead(arrArticlesFromLocStor);
-    console.log(arrArticlesFromLocStor);
-  }
-}
+const endSectionMarkup = '</ul></section>'
 
-//===отримання масиву дат для створення секцій із даних local storage ==========
-//добавити перевірку на пустий масив
-function getUniqeDateOfRead(arr) {
-  const parsedFavorites = arr;
-  const favoritesKeys = Object.keys(parsedFavorites);
-
-  for (const favoriteKey of favoritesKeys) {
-    const parsedFavorite = parsedFavorites[`${favoriteKey}`];
-    favoritesArrFedor.push(parsedFavorite);
-    const {
-      abstract,
-      published_date,
-      pub_date,
-      section,
-      section_name,
-      title,
-      headline,
-      media,
-      multimedia,
-      url,
-      web_url,
-      id,
-      _id,
-      slug_name,
-      dateOfReading,
-    } = parsedFavorite;
-    console.log(favoritesArrFedor);
-    favoritesArrFedor.forEach(article => {
-      return arrDateOfRead.push(article.dateOfReading);
-    });
-    arrUniqueDateOfRead = arrDateOfRead.filter(getOnlyUniqueArray);
-    console.log(arrUniqueDateOfRead);
-    return renderPage(arrUniqueDateOfRead);
-  }
-}
-
-
-
-
-
-
-
-//=== створення масиву статей по даті для блоку секції ==========
+const body = document.querySelector('body');
 
 
 //добавити перевірку на пустий масив
-function renderPage(arrUniqueDateOfRead) {
-  if (!read) {
-    withoutNewsContainer.style.display = 'block';
-  }
-  fullMarkup = '';
-  arrUniqueDateOfRead.forEach(date => {
-    console.log(date);
+function renderPage(arrUniqueDateOfRead){
+    if (!arrUniqueDateOfRead) {
+      console.log("немаэ ще");
+    } else {
+    fullMarkup = '';
+    arrUniqueDateOfRead.forEach(date => {
+    console.log("дата в ітерації", date)
     createSectionMarkup(date);
-    getArticlesPerDate(date);
-    console.log(arrArticlesPerDate);
+    getArticlesPerDate(arrArticlesFromLocStor, date);
     createBlockMarkup(arrArticlesPerDate);
     sectionMarkup = startSectionMarkup + blockMarkup + endSectionMarkup;
     fullMarkup = fullMarkup + sectionMarkup;
-    console.log(fullMarkup);
     return fullMarkup;
-  });
-  body.inserAdjacentHTML('beforeend', fullMarkup);
-  body.addEventListener('click', onAddToFavoritesClick);
-  addClickListenerToCard();
+    })
+    body.insertAdjacentHTML('beforeend', fullMarkup);
+    // body.addEventListener('click', onAddToFavoritesClick); 
+    addClickListenerToCard()
+    }
 }
 
-function createSectionMarkup(date) {
-  console.log(date);
-  startSectionMarkup = `
+function createSectionMarkup(date){
+    startSectionMarkup = `
     <section class = "secction"
     <div class = "section-title">
     <p class = "section-title"__text>${date}</p>
@@ -100,85 +85,54 @@ function createSectionMarkup(date) {
         <use href="./images/symbol-defs.svg#"icon-Vector-Down"></use>
     </svg>
     </div>
-    <ul class = "article-list>`;
-  return startSectionMarkup;
+    <ul class = "article-list>`
+    return startSectionMarkup;
 }
 
-function getArticlesPerDate(date) {
-  arrArticlesPerDate = favoritesArrFedor.filter(
-    article => article.dateOfReading === date
-  );
-  return arrArticlesPerDate;
-}
-
-function createBlockMarkup(arr) {
+function createBlockMarkup(arr){
   console.log(arr);
-  const parsedFavorites = arr;
-  const favoritesKeys = Object.keys(parsedFavorites);
-  for (const favoriteKey of favoritesKeys) {
-    const parsedFavorite = parsedFavorites[`${favoriteKey}`];
-    favoritesArrFedor.push(parsedFavorite);
-    const {
-      abstract,
-      published_date,
-      pub_date,
-      section,
-      section_name,
-      title,
-      headline,
-      media,
-      multimedia,
-      url,
-      web_url,
-      id,
-      _id,
-      slug_name,
-    } = parsedFavorite;
-
-    const articleId = id || _id || slug_name;
-    const publishedDate = publishedDateFormatter(published_date || pub_date);
-    const sectionName = section || section_name;
-    const articleTitle = title || headline.main;
-    const shortDescription = abstract;
-    const urlOriginalArticle = url || web_url;
-    let imgUrl = '';
-
-    //   перевіряемо чи є зображення, де помилка там є відео
-    try {
-      if (articleId === id) {
-        imgUrl = media[0]['media-metadata'][2].url;
-      }
-      if (articleId === slug_name) {
-        imgUrl = multimedia[2].url;
-      }
-      if (articleId === _id) {
-        imgUrl = 'https://www.nytimes.com/' + multimedia[0].url;
-      }
-
-      //   якщо треба інший розмір картинки
-      // console.log(media[0]['media-metadata']);
-    } catch (error) {
-      imgUrl =
-        'https://t4.ftcdn.net/jpg/00/89/55/15/240_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg';
-    }
-
-    blockMarkup += createmarkup({
-      publishedDate,
-      sectionName,
-      articleTitle,
-      shortDescription,
-      urlOriginalArticle,
-      imgUrl,
-      articleId,
-    });
+    arr.forEach(({ publishedDate, sectionName,articleTitle, shortDescription, urlOriginalArticle, imgUrl }) => blockMarkup += createmarkup(publishedDate, sectionName,articleTitle, shortDescription, urlOriginalArticle, imgUrl))
 
     return blockMarkup;
+}
+
+//===отримання масиву статей з local storage ==========
+function getReadArticlesFromLocStor(){
+  const STORAGE_READ_KEY = 'read';
+    read = localStorage.getItem(STORAGE_READ_KEY);
+  if (!read) {
+    return
+  } else {
+    arrArticlesFromLocStor = JSON.parse(read);
+    console.log("консоль з функції getReadArticlesFromLocStor", arrArticlesFromLocStor)
+    return arrArticlesFromLocStor;
+  }
+
+}
+
+   //===отримання масиву дат для створення секцій із даних local storage ==========
+function getUniqeDateOfRead(arr){
+    if (!arr) {
+      console.log("немаэ ще")
+    } else {
+    arr.forEach(article => arrDateOfRead.push(article.dateOfReading))
+    arrUniqueDateOfRead = arrDateOfRead.filter(getOnlyUniqueArray) 
+    console.log("консоль з функції getUniqeDateOfRead", arrUniqueDateOfRead)
+    return arrUniqueDateOfRead
   }
 }
-
-//===функція фільтрації для function getUniqeDateOfRead(arr) ==========
-function getOnlyUniqueArray(value, index, self) {
+  
+  //===функція фільтрації для function getUniqeDateOfRead(arr) ==========
+  function getOnlyUniqueArray(value, index, self) {
   return self.indexOf(value) === index;
-}
+  }
+  
+  //=== створення масиву статей по даті для блоку секції ==========
+  function getArticlesPerDate(arr, date){
 
-export { renderPage };
+    arrArticlesPerDate = arr.filter(article => article.DateOfRead === date)
+    console.log("консоль з функції arrArticlesPerDate", arrArticlesPerDate)
+    return arrArticlesPerDate;
+  }
+
+  export { getReadArticlesFromLocStor, renderPage, getUniqeDateOfRead, getArticlesPerDate} 

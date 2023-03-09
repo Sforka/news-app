@@ -17,6 +17,7 @@ let arrDateOfRead = [];
 let arrUniqueDateOfRead = [];
 let arrArticlesPerDate = [];
 let favoritesArrFedor = [];
+let createArrFedor = [];
 
 let fullMarkup = '';
 let sectionMarkup = '';
@@ -24,6 +25,7 @@ let startSectionMarkup = '';
 let blockMarkup = '';
 const endSectionMarkup = '</ul></section>';
 const STORAGE_READ_KEY = 'read';
+getReadArticlesFromLocStor();
 //===отримання масиву статей з local storage ==========
 function getReadArticlesFromLocStor() {
   read = localStorage.getItem(STORAGE_READ_KEY);
@@ -39,14 +41,13 @@ function getReadArticlesFromLocStor() {
 //===отримання масиву дат для створення секцій із даних local storage ==========
 //добавити перевірку на пустий масив
 function getUniqeDateOfRead(arr) {
-  console.log(arr);
   const parsedFavorites = arr;
-  console.log(parsedFavorites);
   const favoritesKeys = Object.keys(parsedFavorites);
-
+  console.log(parsedFavorites)
+  console.log(favoritesKeys);
+  
   for (const favoriteKey of favoritesKeys) {
     const parsedFavorite = parsedFavorites[`${favoriteKey}`];
-    console.dir(parsedFavorite)
     favoritesArrFedor.push(parsedFavorite);
     const {
       abstract,
@@ -65,16 +66,17 @@ function getUniqeDateOfRead(arr) {
       slug_name,
       dateOfReading,
     } = parsedFavorite;
-    console.log(favoritesArrFedor);
+    
     favoritesArrFedor.forEach(article => {
-      return arrDateOfRead.push(article.dateOfReading);
+     arrDateOfRead.push(article.dateOfReading);
     });
     arrUniqueDateOfRead = arrDateOfRead.filter(getOnlyUniqueArray);
    
-    return renderPage(arrUniqueDateOfRead);
   }
-}
-
+} 
+console.log(favoritesArrFedor)
+renderPage(arrUniqueDateOfRead)
+ 
 //=== створення масиву статей по даті для блоку секції ==========
 
 //добавити перевірку на пустий масив
@@ -100,28 +102,22 @@ function renderPage(arrUniqueDateOfRead) {
 function createSectionMarkup(date) {
   
   startSectionMarkup = `
-    <section class = "section"
+    <section class = "section container"
     <div class = "section-title">
     <p class = "section-title"__text>${date}</p>
     <svg class="section-title__icon" width="12" height="8">
         <use href="./images/symbol-defs.svg#"icon-Vector-Down"></use>
     </svg>
     </div>
-    <ul class = "article-list>`;
+    <ul class = "news_container">`;
   return startSectionMarkup;
 }
 
 function getArticlesPerDate(date) {
-  console.log(favoritesArrFedor);
-  favoritesArrFedor.forEach(
-    article => {
-      console.log(article.dateOfReading)
-      // if (article.dateOfReading == date){
-      //   arrArticlesPerDate.push(article);
-      // }
-     }
+  arrArticlesPerDate = favoritesArrFedor.filter(
+    article => article.dateOfReading == date
   );
-  console.log(arrArticlesPerDate)
+  
   return arrArticlesPerDate;
 }
 
@@ -130,7 +126,7 @@ function createBlockMarkup(arr) {
   const favoritesKeys = Object.keys(parsedFavorites);
   for (const favoriteKey of favoritesKeys) {
     const parsedFavorite = parsedFavorites[`${favoriteKey}`];
-    favoritesArrFedor.push(parsedFavorite);
+    createArrFedor.push(parsedFavorite);
     const {
       abstract,
       published_date,
@@ -184,8 +180,8 @@ function createBlockMarkup(arr) {
       imgUrl,
       articleId,
     });
-
-    return blockMarkup;
+    console.log(blockMarkup);
+    blockMarkup;
   }
 }
 
@@ -194,7 +190,8 @@ function getOnlyUniqueArray(value, index, self) {
   return self.indexOf(value) === index;
 }
 
-getReadArticlesFromLocStor();
+
+
 body.insertAdjacentHTML('beforeend', fullMarkup);
 
 

@@ -171,7 +171,6 @@ function onDateSelection(event) {
     const data = new Date(Number(year.textContent), months.indexOf(month.textContent));
 
     const mayDates = await calendarDates.getDates(data);
-    // console.log(mayDates);  
     
      // -------колір поточної дати
 
@@ -202,7 +201,6 @@ function createMarkup(mayDates) {
 btnCalendarOpen.addEventListener("click", onOpenCalendar);
 
 function onOpenCalendar() {
-    // calendar.classList.toggle('visually-hidden');
     calendar.classList.remove('calendar-open');    
     calendar.classList.add('calendar-close'); 
             

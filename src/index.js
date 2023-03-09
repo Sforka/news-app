@@ -13,7 +13,7 @@ import { onPaginationCategoryPrevClick } from './js/paginationCategory';
 import { onPaginationCategoryNextClick } from './js/paginationCategory';
 import { onPaginationSearchPrevClick } from './js/paginationSearch';
 import { onPaginationSearchNextClick } from './js/paginationSearch';
-// import publishedDateFormatter from './js/publishedDateFormatter';
+import publishedDateFormatter from './js/publishedDateFormatter';
 import { onSearchClick } from './js/header';
 import setFavoritesInLocalStor from './js/setFavoritesInLocalStore';
 import { changeSearchType } from './js/currentTypeOfSearch';
@@ -75,6 +75,7 @@ if(!localStorage.getItem('searchQueryFromFavorites'))
 
 // приносить дані популярних новин
 export function getPopularNews() {
+  popularNewsPagination.resultsArr = []
   // текущий поиск - популярных новостей
   newsFetchApi
     .fetchPopularNews()
@@ -101,8 +102,11 @@ export function getPopularNews() {
         pagRefs.next.removeEventListener('click', onPaginationSearchNextClick);
         pagRefs.prev.addEventListener('click', onPaginationPopularPrevClick);
         pagRefs.next.addEventListener('click', onPaginationPopularNextClick);
-
-        popularNewsPagination.resultsArr = resultsArr;
+          if(newsFetchApi.date){resultsArr.forEach((el)=>{
+            const publishedDate = publishedDateFormatter(el.published_date).split('/').reverse().join('')
+            if(publishedDate === newsFetchApi.date){ popularNewsPagination.resultsArr.push(el)}
+          })} else
+        {popularNewsPagination.resultsArr = resultsArr;}
         const markupAllPopular = popularNewsPagination.getMarkupAll();
         populateNews(markupAllPopular);
       }

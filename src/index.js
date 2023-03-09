@@ -170,14 +170,16 @@ function onCategoryClick(evt) {
 searchInput.addEventListener('submit', onSearchInputClick);
 
 // приносить дані за пошуковим запитом
-export function onSearchInputClick(evt) {
-  // если не нашли новостей, а потом ввели нормальный запрос, делаем заново  display none
-  document.querySelector('.without-news_container').style.display = 'none';
+export function onSearchInputClick(event) {
+ evt = event;
+ if(evt.target.className === 'search_form') {// если не нашли новостей, а потом ввели нормальный запрос, делаем заново  display none
   evt.preventDefault();
   //  значення пошукового запиту
   newsFetchApi.searchQuery = evt.target.elements.searchQuery.value;
+ }
   newsFetchApi.resetPage();
-
+  document.querySelector('.without-news_container').style.display = 'none';
+  
   newsFetchApi
     .fetchBySearchQuery()
     .then(({ data: { response } }) => {

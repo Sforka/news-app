@@ -1,3 +1,6 @@
+import { onSearchInputClick } from "../index";
+import { newsFetchApi } from "../index";
+
 const CalendarDates = require("calendar-dates");
 const calendarDates = new CalendarDates();
 
@@ -28,7 +31,7 @@ let currYear = dates.getFullYear();
 let currDate = dates.getDate();
 
 
-dataSelected.textContent = `${addLeadingZero(currDate)}/${addLeadingZero(currMonth + 1)}/${currYear}`;
+dataSelected.textContent = 'Pick a date';
 
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -150,6 +153,8 @@ function onDateSelection(event) {
     localStorage.setItem("data_select", JSON.stringify(formData)); 
 
     dataSelected.textContent = `${addLeadingZero(event.target.textContent)}/${addLeadingZero(months.indexOf(month.textContent) + 1)}/${year.textContent}`;
+
+    newsFetchApi.data = dataSelected.textContent;
   
     onCloseCalendar(); 
 }
@@ -207,6 +212,11 @@ function onOpenCalendar() {
 btnCalendarClose.addEventListener("click", onCloseCalendar);
 
 function onCloseCalendar() {  
+
+  newsFetchApi.date
+// тут event это переменная пустышка
+  onSearchInputClick(event)
+
     calendar.style.transform = "translateY(-100%)";    
 
     calendar.classList.toggle('visually-hidden');

@@ -11,7 +11,6 @@ export default function setReadInLocalStor({
       article.slug_name == clickedArticleId ||
       article._id == clickedArticleId
     ) {
-      console.log(article)
       let savedData = localStorage.getItem(STORAGE_READ_KEY);
       
       // проверка или есть уже обьект
@@ -21,7 +20,7 @@ export default function setReadInLocalStor({
         savedData[clickedArticleId] = article;
         console.log(article);
         localStorage.setItem(STORAGE_READ_KEY, JSON.stringify(savedData));
-      
+        
     }
   });
 }

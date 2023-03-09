@@ -335,7 +335,8 @@ function onAddToReadClick(evt) {
       evt.target.closest('.card')?.id ||
       evt.target.closest('.card')?.slug_name ||
       evt.target.closest('.card')?._id;
-   
+      const readCard = document.querySelector(`[id_card="${clickedArticleId}"]`);
+      readCard.style.display = 'block';
     
     setReadInLocalStor({
       resultsArr,

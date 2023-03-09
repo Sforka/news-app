@@ -5,7 +5,6 @@ import { ThemeSwitcher } from './js/themeSwitcher';
 import publishedDateFormatter from './js/publishedDateFormatter';
 import setFavoritesInLocalStor from './js/setFavoritesInLocalStore';
 import setReadInLocalStor from './js/setReadInLocalStore';
-
 const newsContainerRef = document.querySelector('.news_container');
 const body = document.querySelector('body');
 const searchInput = document.querySelector('.search_form');
@@ -139,7 +138,8 @@ function onAddToReadClick(evt) {
       evt.target.closest('.card')?.slug_name ||
       evt.target.closest('.card')?._id;
     const resultsArr = favoritesArrFedor;
-      console.log( evt.target.closest('.card').elements("."))
+    const readCard = document.querySelector(`[id_card="${clickedArticleId}"]`);
+  readCard.style.display = 'block';
     setReadInLocalStor({
       resultsArr,
       clickedArticleId,

@@ -16,7 +16,12 @@ import { onPaginationSearchNextClick } from './js/paginationSearch';
 // import publishedDateFormatter from './js/publishedDateFormatter';
 import { onSearchClick } from './js/header';
 import setFavoritesInLocalStor from './js/setFavoritesInLocalStore';
+
 import setReadInLocalStor from './js/setReadInLocalStore';
+
+import { changeSearchType } from './js/currentTypeOfSearch';
+
+
 
 
 const btnSearch = document.querySelector('.search_mob_btn');
@@ -30,6 +35,7 @@ const pagRefs = {
 const newsContainerRef = document.querySelector('.news_container');
 const body = document.querySelector('body');
 const searchInput = document.querySelector('.search_form');
+
 
 export const newsFetchApi = new NewsFetchApi();
 export const popularNewsPagination = new PaginationLogicPopular();
@@ -66,10 +72,14 @@ function getSectionList(e) {
   });
 }
 
-getPopularNews();
+if(!localStorage.getItem('searchQueryFromFavorites'))
+{getPopularNews();} else {
+  onSearchInputClick()
+}
 
 // приносить дані популярних новин
-function getPopularNews() {
+export function getPopularNews() {
+  // текущий поиск - популярных новостей
   newsFetchApi
     .fetchPopularNews()
     .then(({ data }) => {
@@ -104,6 +114,8 @@ function getPopularNews() {
     .catch(error => console.log(error));
 }
 
+
+categRefs.categsBlockEL.removeEventListener('click', onCategoryClick)
 // add by Volyanskiy start
 if (categRefs.currentPage === "index") {
   document.addEventListener('DOMContentLoaded', getSectionListData)
@@ -114,7 +126,10 @@ if (categRefs.currentPage === "index") {
 
 
 // приносить дані новин по категоріям
-function onCategoryClick(evt) {
+export function onCategoryClick(evt) {
+// текущий поиск - по категориям
+changeSearchType('category')
+
   newsFetchApi.offset = 0;
   categoryNewsPagination.resetPage();
 
@@ -170,14 +185,24 @@ function onCategoryClick(evt) {
 searchInput.addEventListener('submit', onSearchInputClick);
 
 // приносить дані за пошуковим запитом
-export function onSearchInputClick(evt) {
-  // если не нашли новостей, а потом ввели нормальный запрос, делаем заново  display none
-  document.querySelector('.without-news_container').style.display = 'none';
-  evt.preventDefault();
-  //  значення пошукового запиту
-  newsFetchApi.searchQuery = evt.target.elements.searchQuery.value;
-  newsFetchApi.resetPage();
+export function onSearchInputClick(event) {
+ evt = event;
+// текущий поиск - по ключевому слову
+ changeSearchType('searchInput')
 
+if(localStorage.getItem('searchQueryFromFavorites') === null) {
+  if(evt.target.className === 'search_form') {// если не нашли новостей, а потом ввели нормальный запрос, делаем заново  display none
+    evt.preventDefault();
+    //  значення пошукового запиту
+    newsFetchApi.searchQuery = evt.target.elements.searchQuery.value;
+
+ }
+  newsFetchApi.resetPage();
+  document.querySelector('.without-news_container').style.display = 'none';} else
+ { newsFetchApi.searchQuery = localStorage.getItem('searchQueryFromFavorites');}
+
+  localStorage.removeItem('searchQueryFromFavorites')
+  console.log(localStorage.getItem('searchQueryFromFavorites'));
   newsFetchApi
     .fetchBySearchQuery()
     .then(({ data: { response } }) => {
@@ -226,7 +251,7 @@ export function onSearchInputClick(evt) {
           newsFetchApi
             .fetchBySearchQuery()
             .then(({ data: { response } }) => {
-              console.log(response);
+
               const extraResultsArr = response.docs;
 
               searchNewsPagination.resultsArr.push(...extraResultsArr);

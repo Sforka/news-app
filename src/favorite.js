@@ -42,8 +42,9 @@ let favoritesArrFedor = [];
 
 function addFavorite() {
   const favorites = localStorage.getItem(STORAGE_FAVORITES_KEY);
-  
-  if (!favorites) {
+
+  if (!favorites || Object.entries(JSON.parse(favorites)).length === 0) {
+    console.log('1');
     withoutNewsContainer.style.display = 'flex';
   } else {
     const parsedFavorites = JSON.parse(favorites);

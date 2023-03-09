@@ -1,11 +1,11 @@
-import { changeOpenedPage } from './js/curentlyOpenedPage';
+
 import createmarkup from './js/news-card';
 import onSearchClick from './js/header';
 import { ThemeSwitcher } from './js/themeSwitcher';
 import publishedDateFormatter from './js/publishedDateFormatter';
 import setFavoritesInLocalStor from './js/setFavoritesInLocalStore';
-import { calendar } from './js/calendar';
-import { onSearchInputClick } from './index';
+
+
 const newsContainerRef = document.querySelector('.news_container');
 const body = document.querySelector('body');
 const searchInput = document.querySelector('.search_form');
@@ -13,13 +13,7 @@ const withoutNewsContainer = document.querySelector('.without-news_container');
 const STORAGE_FAVORITES_KEY = 'favorites';
 let markupAll = '';
 
-changeOpenedPage('favorite');
-import { currentlyOpenedPage } from './js/curentlyOpenedPage';
-console.log(currentlyOpenedPage);
 
-searchInput.removeEventListener('submit', onSearchInputClick);
-
-searchInput.addEventListener('submit', onSearchInputClick);
 //============= перемикач теми початок ==========
 
 const themeSwitcherEl = document.querySelector('.switch_input');

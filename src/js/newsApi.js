@@ -52,7 +52,7 @@ export default class NewsFetchApi {
   }
 
   fetchBySearchQuery() {
-    console.log(this.date);
+ 
     try {
       if (!this.date) {
         return axios.get(

@@ -17,11 +17,8 @@ import { onPaginationSearchNextClick } from './js/paginationSearch';
 import { onSearchClick } from './js/header';
 import setFavoritesInLocalStor from './js/setFavoritesInLocalStore';
 import { changeSearchType } from './js/currentTypeOfSearch';
-import { currentTypeOfSearch } from './js/currentTypeOfSearch';
-import { changeOpenedPage } from './js/curentlyOpenedPage';
-import { currentlyOpenedPage } from './js/curentlyOpenedPage';
-console.log("3");
-changeOpenedPage('index');
+
+
 
 const btnSearch = document.querySelector('.search_mob_btn');
 
@@ -70,12 +67,11 @@ function getSectionList(e) {
   });
 }
 
-// getPopularNews();
+getPopularNews();
 
 // приносить дані популярних новин
 export function getPopularNews() {
   // текущий поиск - популярных новостей
- changeSearchType('popular')
   newsFetchApi
     .fetchPopularNews()
     .then(({ data }) => {

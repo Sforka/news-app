@@ -1,11 +1,9 @@
 import { onCategoryClick, onSearchInputClick, getPopularNews } from "../index";
-import { currentlyOpenedPage } from "./curentlyOpenedPage";
+
 import { newsFetchApi } from "../index";
 import { currentTypeOfSearch } from "./currentTypeOfSearch";
 
-if(!currentlyOpenedPage.index)
-{return}
-console.log(currentlyOpenedPage);
+
 const CalendarDates = require("calendar-dates");
 const calendarDates = new CalendarDates();
 

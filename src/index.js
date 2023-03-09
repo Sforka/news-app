@@ -16,7 +16,11 @@ import { onPaginationSearchNextClick } from './js/paginationSearch';
 import publishedDateFormatter from './js/publishedDateFormatter';
 import { onSearchClick } from './js/header';
 import setFavoritesInLocalStor from './js/setFavoritesInLocalStore';
+
+import setReadInLocalStor from './js/setReadInLocalStore';
+
 import { changeSearchType } from './js/currentTypeOfSearch';
+
 
 
 
@@ -320,5 +324,27 @@ export function populateNews(markupAllPopular) {
 
   // Слушатель на клик по Добавить в избранное
   body.addEventListener('click', onAddToFavoritesClick);
+  body.addEventListener('click', onAddToReadClick);
+  
 }
 // Рендеринг всех карточек на странице с календарём. конец
+
+
+
+  //READ 
+
+function onAddToReadClick(evt) {
+  if (evt.target.className === 'card__read-more-search') {
+    const clickedArticleId =
+      evt.target.closest('.card')?.id ||
+      evt.target.closest('.card')?.slug_name ||
+      evt.target.closest('.card')?._id;
+   
+    
+    setReadInLocalStor({
+      resultsArr,
+      clickedArticleId,
+      evt,
+    });
+  }
+}

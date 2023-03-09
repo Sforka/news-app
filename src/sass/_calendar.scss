@@ -8,6 +8,33 @@ li {
     margin: 0;
 }
 
+.calendar-wrap {
+    position: relative;
+    // display: flex;
+}
+
+.calendar-title {
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 25px;
+    color: #111321;
+    @media screen and (max-width: 1279.98px){
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        border: 0;
+        padding: 0;
+        clip: rect(0 0 0 0);
+        -webkit-clip-path: inset(50%);
+        clip-path: inset(50%);
+        margin: -1px;
+        }
+}
+
 .date-field {
     position: absolute;
     display: block;
@@ -20,6 +47,7 @@ li {
     justify-content: space-between;
     padding: 5px 12px;
     z-index: 3;
+    right: 0;
 }
 
 
@@ -73,7 +101,18 @@ li {
     height: 303px;
     z-index: 2;
     overflow: hidden;
-   
+    //
+    // transform: translateY(-26px);
+    left: -90px;
+    top: -16px;
+    @include tablet {
+        left: -98px;
+        top: -16px;
+    }
+    @include desktop {
+        left: calc(154px + 37px);
+        top: -3px;
+    }
 }
 
 .calendar {

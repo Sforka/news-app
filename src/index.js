@@ -3,7 +3,7 @@ import NewsFetchApi from './js/newsApi';
 import { ThemeSwitcher } from './js/themeSwitcher';
 import createWidget from './js/weatherApi';
 import { calendar } from './js/calendar';
-import { categRefs, getSectionListData, createSectionMarkup, renderSectionMarkup, nameListButtonByMedia, nameListButtonByClick } from './js/categories';
+import { categRefs, getSectionListData, createSectionMarkup, renderSectionMarkup, nameListButtonByMedia, nameListButtonByClick, activeBtnColorHandler, categsListClose } from './js/categories';
 import PaginationLogicPopular from './js/paginationLogicPopular';
 import PaginationLogicCategory from './js/paginationLogicCategory';
 import PaginationLogicSearch from './js/paginationLogicSearch';
@@ -118,9 +118,10 @@ export function getPopularNews() {
 categRefs.categsBlockEL.removeEventListener('click', onCategoryClick)
 // add by Volyanskiy start
 if (categRefs.currentPage === "index") {
-  document.addEventListener('DOMContentLoaded', getSectionListData)
-  categRefs.categsBlockEL.addEventListener('click', onCategoryClick)
-}
+  document.addEventListener('DOMContentLoaded', getSectionListData);
+  categRefs.categsBlockEL.addEventListener('click', activeBtnColorHandler);
+  categRefs.categsBlockEL.addEventListener('click', onCategoryClick);
+  categRefs.categsBlockEL.addEventListener('click', categsListClose);}
 // add by Volyanskiy end
 
 
@@ -145,9 +146,10 @@ changeSearchType('category')
   // console.log(categRefs.categsListBtn)
   // console.log(categRefs.categsListBtn.textContent)
   // categRefs.categsListBtn.textContent=target.textContent;
-  nameListButtonByClick(String(target.textContent))
-  // newsFetchApi.searchSection = String(categRefs.newsSection);
-}
+
+  // nameListButtonByClick(String(target.textContent))
+  // временно откл.
+  newsFetchApi.searchSection = String(categRefs.newsSection);}
   // add by Volyanskiy end
  
 
@@ -335,7 +337,8 @@ function onAddToReadClick(evt) {
       evt.target.closest('.card')?.id ||
       evt.target.closest('.card')?.slug_name ||
       evt.target.closest('.card')?._id;
-   
+      const readCard = document.querySelector(`[id_card="${clickedArticleId}"]`);
+      readCard.style.display = 'block';
     
     setReadInLocalStor({
       resultsArr,

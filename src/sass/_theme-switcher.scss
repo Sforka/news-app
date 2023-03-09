@@ -67,6 +67,10 @@ body {
 //   // opacity: 1;
 // }
 
+.dark .calendar-title {
+  color: $primaryTextColorDarkTheme
+}
+
 .dark .wrapper {
   background-color: $backgroundColorDarkTheme;
 }

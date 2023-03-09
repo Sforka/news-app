@@ -1,3 +1,9 @@
+import { onCategoryClick, onSearchInputClick, getPopularNews } from "../index";
+
+import { newsFetchApi } from "../index";
+import { currentTypeOfSearch } from "./currentTypeOfSearch";
+
+
 const CalendarDates = require("calendar-dates");
 const calendarDates = new CalendarDates();
 
@@ -29,7 +35,7 @@ let currYear = dates.getFullYear();
 let currDate = dates.getDate();
 
 
-dataSelected.textContent = `${addLeadingZero(currDate)}/${addLeadingZero(currMonth + 1)}/${currYear}`;
+dataSelected.textContent = 'Pick a date';
 
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -151,6 +157,10 @@ function onDateSelection(event) {
     localStorage.setItem("data_select", JSON.stringify(formData)); 
 
     dataSelected.textContent = `${addLeadingZero(event.target.textContent)}/${addLeadingZero(months.indexOf(month.textContent) + 1)}/${year.textContent}`;
+
+    // записали дату поиска в для запроса newsFetchApi
+    newsFetchApi.date = (dataSelected.textContent).split('/').reverse().join('');
+
   
     onCloseCalendar(); 
 }
@@ -207,9 +217,27 @@ function onOpenCalendar() {
 btnCalendarClose.addEventListener("click", onCloseCalendar);
 
 function onCloseCalendar() {  
-    // calendar.classList.toggle('visually-hidden');
-    calendar.style.transform = "translateY(-120%)"; 
-      
+
+
+
+// тут, проверяем какой ти поиска, event это переменная пустышка
+if(newsFetchApi.date !== null){
+  if(currentTypeOfSearch.searchInput) {
+    console.log('12');
+    onSearchInputClick(event)    
+  }
+  if(currentTypeOfSearch.popular) {
+    getPopularNews(event)    
+  }
+  if(currentTypeOfSearch.category) {
+    onCategoryClick(event)    
+  }
+}
+
+    calendar.style.transform = "translateY(-120%)";    
+
+    calendar.classList.toggle('visually-hidden');
+
     btnCalendarClose.style.display = "none";
     btnCalendarOpen.style.display = "block";    
 

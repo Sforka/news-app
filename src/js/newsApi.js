@@ -16,6 +16,9 @@ export default class NewsFetchApi {
     this.page = 0;
     //   для пагінації пошуку за категоріями,
     this.offset = 0;
+    // дата из календаря
+    this.date = null;
+ 
   }
 
   fetchSectionList() {
@@ -49,9 +52,15 @@ export default class NewsFetchApi {
   }
 
   fetchBySearchQuery() {
+ 
     try {
+      if (!this.date) {
+        return axios.get(
+          `${URL}/search/v2/articlesearch.json?q=${this.searchQuery}&page=${this.page}&api-key=${KEY}`
+        );
+      }
       return axios.get(
-        `${URL}/search/v2/articlesearch.json?q=${this.searchQuery}&page=${this.page}&api-key=${KEY}`
+        `${URL}/search/v2/articlesearch.json?q=${this.searchQuery}&begin_date=${this.date}&end_date=${this.date}&page=${this.page}&api-key=${KEY}`
       );
     } catch (error) {
       console.log(error);

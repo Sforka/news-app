@@ -193,11 +193,8 @@ btnCalendarOpen.addEventListener("click", onOpenCalendar);
 
 function onOpenCalendar() {
     // calendar.classList.toggle('visually-hidden');
-    
-
-    // calendar.style.transform = "translateY(0)";
-     calendar.style.transform = "scale(1)";
-   
+    calendar.style.transform = "translateY(0)";
+            
     btnCalendarClose.style.display = "block";
     btnCalendarOpen.style.display = "none";
 
@@ -210,24 +207,22 @@ function onOpenCalendar() {
 btnCalendarClose.addEventListener("click", onCloseCalendar);
 
 function onCloseCalendar() {  
-    // calendar.style.transform = "translateY(-100%)"; 
-    calendar.style.transform = "scale(0)";
-   
-
     // calendar.classList.toggle('visually-hidden');
-   
-   
+    calendar.style.transform = "translateY(-120%)"; 
+      
     btnCalendarClose.style.display = "none";
     btnCalendarOpen.style.display = "block";    
 
     if (localStorage.getItem("theme") === "dark") {       
         dataSelected.style.color = "#F4F4F4";
+        dateField.style.backgroundColor = "#2E2E2E";
     } else {
         dataSelected.style.color = "#111321";
+        dateField.style.backgroundColor = "#F4F4F4";
     }
 
     dataSelected.style.opacity = "0.4";
-    dateField.style.backgroundColor = "transparent";
+    // dateField.style.backgroundColor = "transparent";
     iconCalendar.style.fill = "#4440F7";     
 }
 

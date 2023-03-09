@@ -43,6 +43,11 @@ let favoritesBtnText = "Add to favorite"
   return `
       <article class="card" id="${articleId}">
         <div class="card__img-container">
+          <div class="card__blur">
+            <p class="card__already-read">
+              Already read ✓
+            </p>
+          </div>
           <img class="card__img" src="${imgUrl}" alt="${articleTitle}">
           <p class="card__section-name">
             ${sectionName}

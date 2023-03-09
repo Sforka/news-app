@@ -127,6 +127,29 @@
 
     color: #111321;
   }
+
+  &__blur {
+    display: none;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(244, 244, 244, 0.4);
+  }
+
+  &__already-read {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 19px;
+
+    color: #06be65;
+  }
 }
 
 .fav-icon{

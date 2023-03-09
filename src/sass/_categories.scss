@@ -1,25 +1,109 @@
-.categories__btn {
+// должно быть в паршеле родителя
+.search_container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 24px; //mobile
+  @include tablet {
+    gap: 111px;
+  }
+}
   
+.section__categories {
+  display: flex;
+  flex-direction:row;
+  align-items: flex-start;
+}
+
+.categories__wrap {
+  display: flex;
+  gap: 14px;
+  @include tablet {
+    gap: 16px;
+  }
+}
+
+.section-btn,
+.other-btn {
+  @include fontCategs;
+  line-height: 16px;
+  text-align: center;
+  color: #4440F7;
+  flex-basis: 112px;
+  max-width: 148px;
+// display: flex;
+// flex-direction: row;
+// justify-content: center;
+// align-items: center;
+  gap: 10px; // для стрелочки
+  padding: 8px 21px;
+  
+  background: #FFFFFF;
+  border: 1px solid #4B48DB;
+  border-radius: 20px;
+}
+
+.section-btn:hover,
+.other-btn:hover {
+  background-color: #4440F6;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+/* Стили для кнопки,*/
+.btn-active {
+  background-color: #4440F6;
+  color: #FFFFFF;
 }
 
 .dropdown {
-    position: relative;
-    display: inline-block;
-    padding-right: 50px;
+  position: relative;
+  // display: inline-block;
   }
   
-  /* Стили для выпадающего списка */
-  .dropdown-content {
-    position: absolute;
-    display: none;
-    max-height: 380px;
-    overflow-y: scroll;
-    background-color: #F8F8F8;
-    border-radius: 30px;
-    padding: 14px 24px;
-    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
-    z-index: 100;
+/* Стили для выпадающего списка */
+.dropdown-content {
+  // display: none;
+  max-height: 380px;
+  max-width: 148px;
+  overflow-y: auto;
+  background-color: #F8F8F8;
+  border-radius: 30px;
+  padding: 14px 14px; //mob
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 3;
+  transform: translateY(0px);
+  opacity: 0;
+  transition: transform 0.4s ease, opacity 0.0s ease;
+  
+  // для проверки
+  // display: block;
+  // transform: translateY(0);
+  // opacity: 1;
+
+  @include tablet {
+    max-width: 168px;
+    padding: 14px 24px; //
   }
+} 
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+//   //видимый не по ховеру а по клику
+// .dropdown-content-visible {
+//     display: block;
+//     transform: translateY(0);
+//     opacity: 1;
+//   }
   
   .dropdown-ruler {
     position: absolute;
@@ -31,7 +115,46 @@
     opacity: 0.3;
   }
 
-  // /* Изменение внешнего вида полосы прокрутки */
+  /* Стили для элементов списка */
+  .dropdown-item {
+    @include fontCategs;
+    background: none;
+    border: none;
+    white-space: nowrap;
+    display: block;
+    width: 100%;
+    text-align: left;
+    color: #4440F6;
+    margin: 6px 0;
+    &:first-child{
+      margin: 0 0 6px;
+    }
+    &:last-child{
+      margin: 6px 0 0
+    }
+  }
+
+.section-btn,
+.other-btn,
+.dropdown-item {
+  max-width:148px;
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; /* отображение троеточия в конце обрезанного*/
+    @include tablet {
+    max-width: 168px;
+    }
+  }
+
+  
+  /* Стили для выделенного элемента списка */
+  .dropdown-item:hover,
+  .dropdown-item:active {
+  text-decoration: underline;
+  } 
+  
+
+   // /* Изменение внешнего вида полосы прокрутки */
   // .dropdown-content::-webkit-scrollbar {
   //   position: relative;
   //   width: 6px;
@@ -46,43 +169,4 @@
   //   border-radius: 3px;
   // }
 
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
 
-
-  /* Стили для кнопки, открывающей выпадающий список */
-.other-btn {
-    background-color: #4440F6;
-    color: #FFFFFF;
-    font-size: 16px;
-    padding: 10px 24px;
-    border: none;
-    border-radius: 60px;
-    cursor: pointer;
-  }
-
-
-  /* Стили для элементов списка */
-  .dropdown-item {
-    background: none;
-    border: none;
-    white-space: nowrap;
-    display: block;
-    width: 100%;
-    text-align: left;
-    font-size: 16px;
-    color: #4440F6;
-    padding: 6px 0;
-  }
-  
-  /* Стили для выделенного элемента списка */
-  .dropdown-item.active {
-    background-color: #4440F6;
-    color: #FFFFFF;
-  }
-  
-  /* Стили для открытого выпадающего списка */
-  .dropdown-list.show {
-    display: block;
-  }

@@ -203,8 +203,8 @@ btnCalendarOpen.addEventListener("click", onOpenCalendar);
 
 function onOpenCalendar() {
     // calendar.classList.toggle('visually-hidden');
-    calendar.classList.remove('calendar-open');    
-    calendar.classList.add('calendar-close'); 
+    calendar.classList.add('calendar-open');    
+    calendar.classList.remove('calendar-close'); 
             
     btnCalendarClose.style.display = "block";
     btnCalendarOpen.style.display = "none";
@@ -235,8 +235,8 @@ if(newsFetchApi.date !== null){
   }
 }
 
-    calendar.classList.add('calendar-open');    
-    calendar.classList.remove('calendar-close');    
+    calendar.classList.remove('calendar-open');    
+    calendar.classList.add('calendar-close');    
 
     // calendar.classList.toggle('visually-hidden');
 

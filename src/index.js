@@ -289,6 +289,7 @@ function onAddToFavoritesClick(evt) {
 
     if ((evt.target.textContent.contains = 'Add to favorites')) {
       evt.target.textContent = 'Remove from favorites';
+      
     }
     setFavoritesInLocalStor({
       resultsArr,

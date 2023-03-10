@@ -1,4 +1,3 @@
-
 import createmarkup from './js/news-card';
 import onSearchClick from './js/header';
 import { ThemeSwitcher } from './js/themeSwitcher';
@@ -115,12 +114,19 @@ addFavorite();
 function onAddToFavoritesClick(evt) {
   if (evt.target.className === 'card__btn') {
     const clickedArticleId =
+    evt.target.closest('.card')?.id ||
       evt.target.closest('.card')?.id ||
       evt.target.closest('.card')?.slug_name ||
       evt.target.closest('.card')?._id;
+    const resultsArr = favoritesArrFedor;
+    if ((evt.target.textContent.contains = 'Add to favorites')) {
+      evt.target.textContent = 'Remove from favorites';
+    }
 
       const compareString = evt.target.textContent.trim()
 
+      console.log(compareString);
+      console.log('Add to favorites');
 
       if ((compareString === 'Add to favorites')) {
         evt.target.nextElementSibling.classList.remove('fav-icon-add')
@@ -129,7 +135,7 @@ function onAddToFavoritesClick(evt) {
     } else { evt.target.nextElementSibling.classList.remove('fav-icon-remove')
     evt.target.nextElementSibling.classList.add('fav-icon-add')
     evt.target.textContent = 'Add to favorites'}
-    const resultsArr = favoritesArrFedor;
+
     setFavoritesInLocalStor({
       resultsArr,
       clickedArticleId,
@@ -137,6 +143,7 @@ function onAddToFavoritesClick(evt) {
     });
   }
 }
+
 
 function onAddToReadClick(evt) {
   if (evt.target.className === 'card__read-more-search') {

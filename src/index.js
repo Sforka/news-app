@@ -125,6 +125,8 @@ export function getPopularNews() {
 
 // приносить дані новин по категоріям
 export function onCategoryClick(evt) {
+  document.querySelector('.without-news_container').style.display =
+          'none';
 // текущий поиск - по категориям
 changeSearchType('category')
 
@@ -138,15 +140,6 @@ changeSearchType('category')
   const target = evt.target;
   if (target.classList.contains('section-btn') || target.classList.contains('dropdown-item')) {
   categRefs.newsSection = target.dataset.section;
-  // console.log(target);
-  // console.log(target.textContent);
-  // console.log(categRefs.categsListBtn)
-  // console.log(categRefs.categsListBtn.textContent)
-  // categRefs.categsListBtn.textContent=target.textContent;
-
-    // if (target.classList.contains('dropdown-item')){
-  // nameListButtonByClick(String(target.textContent))
-  // временно откл.
   newsFetchApi.searchSection = String(categRefs.newsSection);}
   // add by Volyanskiy end
  
@@ -202,7 +195,6 @@ if(localStorage.getItem('searchQueryFromFavorites') === null) {
  { newsFetchApi.searchQuery = localStorage.getItem('searchQueryFromFavorites');}
 
   localStorage.removeItem('searchQueryFromFavorites')
-  console.log(localStorage.getItem('searchQueryFromFavorites'));
   newsFetchApi
     .fetchBySearchQuery()
     .then(({ data: { response } }) => {

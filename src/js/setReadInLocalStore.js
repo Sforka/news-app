@@ -18,7 +18,7 @@ export default function setReadInLocalStor({
 
       article.dateOfReading = getTime();   
         savedData[clickedArticleId] = article;
-        console.log(article);
+        
         localStorage.setItem(STORAGE_READ_KEY, JSON.stringify(savedData));
         
     }

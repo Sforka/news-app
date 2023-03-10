@@ -29,6 +29,8 @@ let startSectionMarkup = '';
 let blockMarkup = '';
 const endSectionMarkup = '</ul></section>';
 const STORAGE_READ_KEY = 'read';
+
+
 getReadArticlesFromLocStor();
 //===отримання масиву статей з local storage ==========
 function getReadArticlesFromLocStor() {
@@ -47,8 +49,6 @@ function getReadArticlesFromLocStor() {
 function getUniqeDateOfRead(arr) {
   const parsedFavorites = arr;
   const favoritesKeys = Object.keys(parsedFavorites);
-  console.log(parsedFavorites)
-  console.log(favoritesKeys);
   
   for (const favoriteKey of favoritesKeys) {
     const parsedFavorite = parsedFavorites[`${favoriteKey}`];
@@ -72,13 +72,14 @@ function getUniqeDateOfRead(arr) {
     } = parsedFavorite;
     
     favoritesArrFedor.forEach(article => {
+      
      arrDateOfRead.push(article.dateOfReading);
     });
     arrUniqueDateOfRead = arrDateOfRead.filter(getOnlyUniqueArray);
+    console.log(arrUniqueDateOfRead);
    
   }
 } 
-console.log(favoritesArrFedor)
 renderPage(arrUniqueDateOfRead)
  
 //=== створення масиву статей по даті для блоку секції ==========
@@ -90,14 +91,14 @@ function renderPage(arrUniqueDateOfRead) {
   }
   fullMarkup = '';
   arrUniqueDateOfRead.forEach(date => {
-    
+    console.log(date);
     createSectionMarkup(date);
     getArticlesPerDate(date);
   
     createBlockMarkup(arrArticlesPerDate);
     sectionMarkup = startSectionMarkup + blockMarkup + endSectionMarkup;
     fullMarkup = fullMarkup + sectionMarkup;
-    
+    blockMarkup= '';
     return fullMarkup;
   });
   
@@ -122,16 +123,18 @@ function getArticlesPerDate(date) {
   arrArticlesPerDate = favoritesArrFedor.filter(
     article => article.dateOfReading == date
   );
-  
-  return arrArticlesPerDate;
+  console.log("125"+arrArticlesPerDate)
 }
 
 function createBlockMarkup(arr) {
+  console.log(arr)
   const parsedFavorites = arr;
   const favoritesKeys = Object.keys(parsedFavorites);
   for (const favoriteKey of favoritesKeys) {
     const parsedFavorite = parsedFavorites[`${favoriteKey}`];
-    createArrFedor.push(parsedFavorite);
+    const createArr = [];
+    createArr.push(parsedFavorite);
+    
     const {
       abstract,
       published_date,
@@ -147,6 +150,7 @@ function createBlockMarkup(arr) {
       id,
       _id,
       slug_name,
+      dateOfReading,
     } = parsedFavorite;
 
     const articleId = id || _id || slug_name;
@@ -170,12 +174,12 @@ function createBlockMarkup(arr) {
       }
 
       //   якщо треба інший розмір картинки
-      // console.log(media[0]['media-metadata']);
+     
     } catch (error) {
       imgUrl =
         'https://t4.ftcdn.net/jpg/00/89/55/15/240_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg';
     }
-
+    
     blockMarkup += createmarkup({
       publishedDate,
       sectionName,
@@ -185,8 +189,8 @@ function createBlockMarkup(arr) {
       imgUrl,
       articleId,
     });
-    console.log(blockMarkup);
     blockMarkup;
+
   }
 }
 

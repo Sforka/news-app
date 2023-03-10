@@ -37,7 +37,7 @@ export class ThemeSwitcher {
         if (this.currentPage === "index") {
           this.dataSelected.style.color = "#F4F4F4";
           this.dataSelected.style.backgroundColor = "#2E2E2E";
-          console.log(this.dataSelected.style.backgroundColor)
+          
           this.dateField.style.backgroundColor = "#2E2E2E";
         }
       }

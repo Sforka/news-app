@@ -83,7 +83,7 @@
   z-index: 2;
   overflow: hidden;
     @include tablet {
-    max-width: 168px;
+    min-width: 168px;
   }
 }
 

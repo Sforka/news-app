@@ -96,7 +96,7 @@ categRefs.categsBlockEL.innerHTML = sectionMarkup;
 // Now markup built, we cand find this elements
 categRefs.categsListBtn = document.querySelector('.other-btn');
 categRefs.categsListBtn.addEventListener("click", onCategListOpen)
-console.log(categRefs.categsListBtn)
+// console.log(categRefs.categsListBtn)
 categRefs.sectionButtons = document.querySelectorAll('.section-btn');
 categRefs.dropdownContent = document.querySelector(".dropdown-content");
 

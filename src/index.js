@@ -166,7 +166,13 @@ changeSearchType('category')
         pagRefs.next.removeEventListener('click', onPaginationSearchNextClick);
         pagRefs.prev.addEventListener('click', onPaginationCategoryPrevClick);
         pagRefs.next.addEventListener('click', onPaginationCategoryNextClick);
-        categoryNewsPagination.resultsArr = resultsArr;
+
+        if(newsFetchApi.date){resultsArr.forEach((el)=>{
+          const publishedDate = publishedDateFormatter(el.published_date).split('/').reverse().join('')
+          if(publishedDate === newsFetchApi.date){ categoryNewsPagination.resultsArr.push(el)}
+        })} else
+      {categoryNewsPagination.resultsArr = resultsArr;}
+        
         const markupAllCategory = categoryNewsPagination.getMarkupAll();
         populateNews(markupAllCategory);
       }
@@ -283,8 +289,6 @@ function onAddToFavoritesClick(evt) {
 
       const compareString = evt.target.textContent.trim()
 
-      console.log(compareString);
-      console.log('Add to favorites');
 
       if ((compareString === 'Add to favorites')) {
         evt.target.nextElementSibling.classList.remove('fav-icon-add')

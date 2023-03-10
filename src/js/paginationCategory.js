@@ -29,12 +29,13 @@ export function onPaginationCategoryNextClick() {
       1
   ) {
     newsFetchApi.offset += 20;
-    let totalNews;
+    let totalNews = '';
     newsFetchApi
       .fetchBySection()
       .then(({ data }) => {
         //   загальна кількість знайдених новин
         totalNews = data.num_results;
+
         const extraResultsArr = data.results;
 
         categoryNewsPagination.resultsArr.push(...extraResultsArr);
@@ -42,17 +43,17 @@ export function onPaginationCategoryNextClick() {
       .catch(error => console.log(error));
   }
   
-  if (categoryNewsPagination.page >= totalNews / categoryNewsPagination.newsPerPage +1) {
-    pagRefs.next.classList.add("hide");
-  } else {
-    pagRefs.next.classList.remove("hide");
-  }
+  // if (categoryNewsPagination.page >= totalNews / categoryNewsPagination.newsPerPage +1) {
+  //   pagRefs.next.classList.add("hide");
+  // } else {
+  //   pagRefs.next.classList.remove("hide");
+  // }
 
-  if (categoryNewsPagination.page > 1) {
-    pagRefs.prev.classList.remove("hide");
-  } else {
-    pagRefs.prev.classList.add("hide");
-  }
+  // if (categoryNewsPagination.page > 1) {
+  //   pagRefs.prev.classList.remove("hide");
+  // } else {
+  //   pagRefs.prev.classList.add("hide");
+  // }
 
   categoryNewsPagination.markupAll = '<div class="weatherWidget"></div>';
   const markupAll = categoryNewsPagination.getMarkupAll();

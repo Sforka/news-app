@@ -46,10 +46,10 @@
   color: #4440F7;
   flex-basis: 112px;
   max-width: 148px;
-// display: flex;
-// flex-direction: row;
-// justify-content: center;
-// align-items: center;
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
   gap: 10px; // для стрелочки
   padding: 8px 21px;
   
@@ -129,19 +129,19 @@
     text-align: left;
     color: #4440F6;
     padding: 6px 0;
-    column-gap: 6px;
-    // &:first-child{
-    //   margin: 0 0 6px;
-    // }
-    // &:last-child{
-    //   margin: 6px 0 0
-    // }
+    // gap: 12px;
+    &:first-child{
+      padding: 0 0 6px;
+    }
+    &:last-child{
+      padding: 6px 0 0
+    }
   }
 
-// .section-btn,
+.section-btn,
 .other-btn,
 .dropdown-item {
-  max-width:148px;
+  max-width:118px;
   white-space: nowrap; 
   overflow: hidden; 
   text-overflow: ellipsis; /* отображение троеточия в конце обрезанного*/

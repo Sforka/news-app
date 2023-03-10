@@ -115,13 +115,7 @@ export function getPopularNews() {
     .catch(error => console.log(error));
 }
 
-
 // categRefs.categsBlockEL.removeEventListener('click', onCategoryClick)
-// add by Volyanskiy start
-
-// add by Volyanskiy end
-
-
 
 // приносить дані новин по категоріям
 export function onCategoryClick(evt) {
@@ -140,14 +134,9 @@ changeSearchType('category')
   const target = evt.target;
   if (target.classList.contains('section-btn') || target.classList.contains('dropdown-item')) {
   categRefs.newsSection = target.dataset.section;
-  // categRefs.categsListBtn.textContent=target.textContent;
 
-    // if (target.classList.contains('dropdown-item')){
-  // nameListButtonByClick(String(target.textContent))
-  // временно откл.
   newsFetchApi.searchSection = String(categRefs.newsSection);}
   // add by Volyanskiy end
- 
 
   newsFetchApi
     .fetchBySection()

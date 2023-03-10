@@ -209,6 +209,7 @@ function onOpenCalendar() {
     btnCalendarOpen.style.display = "none";
 
     dataSelected.style.color = "#FFFFFF";
+    dataSelected.style.backgroundColor = "#4440F6";
     dataSelected.style.opacity = '1';
     dateField.style.backgroundColor = "#4440F6";
     iconCalendar.style.fill = "#FFFFFF";     
@@ -243,9 +244,11 @@ if(newsFetchApi.date !== null){
 
     if (localStorage.getItem("theme") === "dark") {       
         dataSelected.style.color = "#F4F4F4";
+        dataSelected.style.backgroundColor = "#2E2E2E";
         dateField.style.backgroundColor = "#2E2E2E";
     } else {
         dataSelected.style.color = "#111321";
+        dataSelected.style.backgroundColor = "#F4F4F4";
         dateField.style.backgroundColor = "#F4F4F4";
     }
 

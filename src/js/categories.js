@@ -19,7 +19,7 @@ if (categRefs.currentPage === "index") {
 
   categRefs.categsBlockEL.addEventListener('click', activeBtnColorHandler);
   categRefs.categsBlockEL.addEventListener('click', onCategoryClick);
-  categRefs.categsBlockEL.addEventListener('click', categsListClose);
+  categRefs.categsBlockEL.addEventListener('click', onDropdownItemClick);
 }
 
 export async function getSectionListData() {
@@ -76,7 +76,9 @@ export function createSectionMarkup(sectionName, displayName) {
   // Create dropdown list for rest of results
   sectionMarkup += '<div class="dropdown-positioner">';
   sectionMarkup += '<div class="dropdown">';
-  sectionMarkup += `<button class="other-btn">${categRefs.listButtonName}</button>`;
+  sectionMarkup += `<button class="other-btn">
+  ${categRefs.listButtonName}
+  </button>`;
   sectionMarkup += '<div class="dropdown-content">';
 
   for (let j = categRefs.buttonsQuantity; j < sectionName.length; j++) {
@@ -90,17 +92,24 @@ export function createSectionMarkup(sectionName, displayName) {
   renderSectionMarkup(sectionMarkup);
 }
 
+// svg to put in ".other-btn"
+    // <svg width="24" heigth="24" class="svg-item close">
+    // <use
+    //   href="/src/images/symbol-defs.svg#icon-Vector-Down"
+    //   width="24"
+    //   heigth="24">
+    // </use>
+    // </svg>
+// end
+
 export function renderSectionMarkup(sectionMarkup) {
 categRefs.categsBlockEL.innerHTML = sectionMarkup;
 
 // Now markup built, we cand find this elements
 categRefs.categsListBtn = document.querySelector('.other-btn');
 categRefs.categsListBtn.addEventListener("click", onCategListOpen)
-// console.log(categRefs.categsListBtn)
 categRefs.sectionButtons = document.querySelectorAll('.section-btn');
 categRefs.dropdownContent = document.querySelector(".dropdown-content");
-
-// console.log(categRefs.dropdownContent)
 };
 
 
@@ -109,7 +118,8 @@ categRefs.dropdownContent = document.querySelector(".dropdown-content");
 export function onCategListOpen() {
   categRefs.dropdownContent.classList.add('dropdown-content-open'); 
   categRefs.dropdownContent.classList.remove('dropdown-content-close');    
-//   categBtnIcon.style.fill = "#FFFFFF"; 
+  // categRefs.categsListBtn.style.fill = "#FFFFFF"; 
+
   categRefs.categsListBtn.removeEventListener("click", onCategListOpen);
   categRefs.categsListBtn.addEventListener("click", onCategListClose);   
 }
@@ -117,7 +127,8 @@ export function onCategListOpen() {
 export function onCategListClose() {  
   categRefs.dropdownContent.classList.add('dropdown-content-close');    
   categRefs.dropdownContent.classList.remove('dropdown-content-open'); 
-  //  iconCalendar.style.fill = "#4440F7";  
+  // categRefs.categsListBtn.style.fill = "#4440F7";  
+  
   categRefs.categsListBtn.removeEventListener("click", onCategListClose);
   categRefs.categsListBtn.addEventListener("click", onCategListOpen);  
   }
@@ -131,50 +142,15 @@ export function onCategListClose() {
     });
     evt.target.classList.add('btn-active');
   }
-
-  // classList.remove('show')
 };
 
-  // categRefs.categsBlockEL.addEventListener('click', categsListClose);
-
-  // const dropdownContent = document.querySelector(".dropdown-content");
-
-  // dropdownContent.addEventListener("click", categsListClose)
-  // function categsListClose(event) {
-  //   if (event.target.matches(".dropdown-item")) {
-  //     dropdownContent.classList.remove("show");
-  //   }
-  // };
   
-  // document.addEventListener("click", (event) => {
-  //   if (!event.target.matches(".other-btn") && !event.target.matches(".dropdown-item")) {
-  //     dropdownContent.classList.remove("show");
-  //   }
-  // });
-  
-  // const dropdownBtn = document.querySelector(".other-btn");
-  
-  // dropdownBtn.addEventListener("click", () => {
-  //   dropdownContent.classList.toggle("show");
-  // });
-
-  export function categsListClose(evt) {
-    evt.target.classList.remove('btn-active');
-    console.log(' categsListClose')
-    
-
-  const dropdownBtn = evt.target.closest('.other-btn');
-  const dropdownContent = dropdownBtn && dropdownBtn.nextElementSibling;
-  
-  if (dropdownBtn) {
-    dropdownContent.classList.toggle('dropdown-content-visible');
-  }
-
-  const dropdownItem = evt.target.closest('dropdown-item');
-  
-  if (dropdownItem) {
-    dropdownContent.classList.remove('dropdown-content-visible');
-  }
+  export function onDropdownItemClick(evt) {
+    let target = evt.target;
+    if (target.classList.contains('dropdown-item')) {
+      categRefs.categsListBtn.textContent=target.textContent;
+      onCategListClose();
+    }
 };
 
 // export { categRefs, getSectionListData, createSectionMarkup, renderSectionMarkup, nameListButtonByClick, activeBtnColorHandler, categsListClose, onCategListOpen };

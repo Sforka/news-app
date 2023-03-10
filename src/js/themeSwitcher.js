@@ -2,6 +2,7 @@ export class ThemeSwitcher {
     constructor(deskSwitchEl, mobSwitchEl) {
       this.themeSwitcherEl = deskSwitchEl;
       this.mobileSwitcherEl = mobSwitchEl;
+      this.dateField = document.querySelector('.date-field');
       this.dataSelected = document.querySelector(".data_selected");
       this.currentPage = document.querySelector('body').getAttribute('data-current-page');
       this.THEME_STORAGE_KEY = 'theme';
@@ -35,7 +36,9 @@ export class ThemeSwitcher {
         this.changeBodyClass(this.Theme.DARK, this.Theme.LIGHT);
         if (this.currentPage === "index") {
           this.dataSelected.style.color = "#F4F4F4";
-          // this.dataSelected.style.backgroundColor = "#111321";
+          this.dataSelected.style.backgroundColor = "#2E2E2E";
+          console.log(this.dataSelected.style.backgroundColor)
+          this.dateField.style.backgroundColor = "#2E2E2E";
         }
       }
   
@@ -43,7 +46,8 @@ export class ThemeSwitcher {
         this.changeBodyClass(this.Theme.LIGHT, this.Theme.DARK);
         if (this.currentPage === "index") {
           this.dataSelected.style.color = "#111321";
-          // this.dataSelected.style.backgroundColor = "#F4F4F4";
+          this.dataSelected.style.backgroundColor = "#F4F4F4";
+          this.dateField.style.backgroundColor = "#F4F4F4";
         }
       }
     }

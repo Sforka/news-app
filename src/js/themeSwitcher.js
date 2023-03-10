@@ -35,6 +35,7 @@ export class ThemeSwitcher {
         this.changeBodyClass(this.Theme.DARK, this.Theme.LIGHT);
         if (this.currentPage === "index") {
           this.dataSelected.style.color = "#F4F4F4";
+          // this.dataSelected.style.backgroundColor = "#111321";
         }
       }
   
@@ -42,6 +43,7 @@ export class ThemeSwitcher {
         this.changeBodyClass(this.Theme.LIGHT, this.Theme.DARK);
         if (this.currentPage === "index") {
           this.dataSelected.style.color = "#111321";
+          // this.dataSelected.style.backgroundColor = "#F4F4F4";
         }
       }
     }

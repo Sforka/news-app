@@ -22,12 +22,12 @@ let arrUniqueDateOfRead = [];
 let arrArticlesPerDate = [];
 let favoritesArrFedor = [];
 let createArrFedor = [];
-
+let read=""
 let fullMarkup = '';
 let sectionMarkup = '';
 let startSectionMarkup = '';
 let blockMarkup = '';
-const endSectionMarkup = '</ul></section>';
+const endSectionMarkup = '</ul></label> </section>';
 const STORAGE_READ_KEY = 'read';
 
 
@@ -38,7 +38,7 @@ function getReadArticlesFromLocStor() {
   if (!read) {
     withoutNewsContainer.style.display = 'block';
   } else {
-    arrArticlesFromLocStor = JSON.parse(read);
+   let arrArticlesFromLocStor = JSON.parse(read);
     getUniqeDateOfRead(arrArticlesFromLocStor);
 
   }
@@ -76,7 +76,7 @@ function getUniqeDateOfRead(arr) {
      arrDateOfRead.push(article.dateOfReading);
     });
     arrUniqueDateOfRead = arrDateOfRead.filter(getOnlyUniqueArray);
-    console.log(arrUniqueDateOfRead);
+
    
   }
 } 
@@ -91,7 +91,7 @@ function renderPage(arrUniqueDateOfRead) {
   }
   fullMarkup = '';
   arrUniqueDateOfRead.forEach(date => {
-    console.log(date);
+  
     createSectionMarkup(date);
     getArticlesPerDate(date);
   
@@ -108,14 +108,17 @@ function createSectionMarkup(date) {
   
   startSectionMarkup = `
     <section class = "section_read container"
-    <div class = "section-title">
-    <button class = "section-title_btn"__text>${date} <svg class="date-list__btn-icon" width="14" height="9" aria-hidden="true" style="position: absolute;>
-    <symbol id=" icon-vector-2-1"="" viewBox="0 0 50 32">
-    <path d="M5.867 0l-5.867 6.080 24.889 25.92 24.889-25.92-5.831-6.080-19.058 19.769-19.058-19.769z"></path>
-    </svg></button>
+    <div class = "section-title container">
     
-    </div>
-    <ul class = "news_container">`;
+    <label class="checkbox-btn checkbox">
+  <input type="checkbox">
+  <span class="btn-label">${date} <svg class=" date-list__btn-icon" width="14" height="9" aria-hidden="true" style="position: absolute;>
+  <symbol id="icon-vector-2-1"="" viewBox="0 0 50 32">
+  <path d="M5.867 0l-5.867 6.080 24.889 25.92 24.889-25.92-5.831-6.080-19.058 19.769-19.058-19.769z"></path>
+  </svg></button></span>
+  <div class="under_line"></div>
+
+    <div class = "news_container popup">`;
   return startSectionMarkup;
 }
 
@@ -123,11 +126,9 @@ function getArticlesPerDate(date) {
   arrArticlesPerDate = favoritesArrFedor.filter(
     article => article.dateOfReading == date
   );
-  console.log("125"+arrArticlesPerDate)
 }
 
 function createBlockMarkup(arr) {
-  console.log(arr)
   const parsedFavorites = arr;
   const favoritesKeys = Object.keys(parsedFavorites);
   for (const favoriteKey of favoritesKeys) {
@@ -203,12 +204,7 @@ function getOnlyUniqueArray(value, index, self) {
 
 body.insertAdjacentHTML('beforeend', fullMarkup);
 
-let div = document.querySelector('.news_container');
-document.querySelector('.section-title_btn').addEventListener('click', (e) => {
-  div.style.display = getComputedStyle(div).display == 'grid' ? 'none' : 'grid';
-  console.log(e);
-  e.target.elements.style.transform = 'rotateX(180deg)'; 
-});
+
 
 //============= перемикач теми початок ==========
 
@@ -223,27 +219,10 @@ themeSwitcherEl.addEventListener('change', themeSwitcher.onThemeToggle);
 themeSwitcher.renderTheme();
 //============= перемикач теми кінець ============
 
-// начало. переформатирование даты
-function publishedDateFormatter(date) {
-  return formatDate(new Date(date));
-}
-
-function formatDate(date) {
-  return [
-    padTo2Digits(date.getDate()),
-    padTo2Digits(date.getMonth() + 1),
-    date.getFullYear(),
-  ].join('/');
-}
-
-function padTo2Digits(num) {
-  return num.toString().padStart(2, '0');
-}
-// конецю переформатирование даты
-
 // Начало. Проверка на клик по Добавить в избранное
 body.addEventListener('click', onAddToFavoritesClick);
 body.addEventListener('click', onAddToReadClick);
+
 function onAddToFavoritesClick(evt) {
   if (evt.target.className === 'card__btn') {
     const clickedArticleId =

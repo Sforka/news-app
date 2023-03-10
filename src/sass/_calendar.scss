@@ -103,9 +103,10 @@ li {
     position: relative;
     position: absolute;
     width: 250px;
-    height: 303px;
+    height: 325px;
     z-index: 2;
     overflow: hidden;
+    text-align: center;
     //
     // transform: translateY(-26px);
     left: 90px;
@@ -280,4 +281,12 @@ li {
     background-color: #4440F7;
     border-radius: 50%;
     border: 10px solid #4440F7;
+}
+
+.resetDate {
+    margin-top: 5px;
+    padding: 5px;
+    color: #FFFFFF;
+ background-color: #4440F7;
+ border-radius: 5px;
 }

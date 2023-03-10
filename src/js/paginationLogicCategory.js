@@ -1,5 +1,6 @@
 import createmarkup from './news-card';
 import publishedDateFormatter from './publishedDateFormatter';
+import { pagRefs } from '../index';
 
 export default class PaginationLogicCategory {
   constructor() {
@@ -9,6 +10,7 @@ export default class PaginationLogicCategory {
     // это приходит из функции пагинации!!!!!!!!!!!!!!!!!!!!!!!!!!
     this.newsPerPage = 7;
     this.markupAll = '<div class="weatherWidget"></div>';
+    this.total = 0;
   }
 
   getResultForPage() {
@@ -22,7 +24,7 @@ export default class PaginationLogicCategory {
   getMarkupAll() {
     this.markupAll = '<div class="weatherWidget"></div>';
     if (this.getResultForPage().length < this.newsPerPage) {
-      console.log('отключить кнопку вперед');
+      pagRefs.next.classList.add(".hide");
     }
     this.getResultForPage().forEach(
       ({

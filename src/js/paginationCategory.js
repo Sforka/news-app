@@ -1,6 +1,7 @@
 import { categoryNewsPagination } from '../index';
 import { populateNews } from '../index';
 import { newsFetchApi } from '../index';
+import { pagRefs } from '../index';
 
 //=== пагинация по категориям новостей -- начало
 export function onPaginationCategoryPrevClick() {
@@ -10,12 +11,13 @@ export function onPaginationCategoryPrevClick() {
   const markupAll = categoryNewsPagination.getMarkupAll();
   populateNews(markupAll);
   if (categoryNewsPagination.page === 0) {
-    console.log('отключить кнопку назад');
+    pagRefs.prev.classList.add("hide");
+    pagRefs.next.classList.remove("hide");
   }
 }
 export function onPaginationCategoryNextClick() {
   categoryNewsPagination.page += 1;
-
+  
   // так как сервер отдаёт по 20 новостей, а мы отображаем меньше, проверяем или нужно еще догружать
   if (
     categoryNewsPagination.page ===
@@ -27,7 +29,7 @@ export function onPaginationCategoryNextClick() {
       1
   ) {
     newsFetchApi.offset += 20;
-
+    let totalNews;
     newsFetchApi
       .fetchBySection()
       .then(({ data }) => {
@@ -38,6 +40,18 @@ export function onPaginationCategoryNextClick() {
         categoryNewsPagination.resultsArr.push(...extraResultsArr);
       })
       .catch(error => console.log(error));
+  }
+  
+  if (categoryNewsPagination.page >= totalNews / categoryNewsPagination.newsPerPage +1) {
+    pagRefs.next.classList.add("hide");
+  } else {
+    pagRefs.next.classList.remove("hide");
+  }
+
+  if (categoryNewsPagination.page > 1) {
+    pagRefs.prev.classList.remove("hide");
+  } else {
+    pagRefs.prev.classList.add("hide");
   }
 
   categoryNewsPagination.markupAll = '<div class="weatherWidget"></div>';

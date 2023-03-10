@@ -9,6 +9,7 @@ export default class PaginationLogicPopular {
     // это приходит из функции пагинации
     this.newsPerPage = 7;
     this.markupAll = '<div class="weatherWidget"></div>';
+    this.total = 0; //Общее количество новостей. Нужно для опредения последней страницы.
   }
 
   getResultForPage() {

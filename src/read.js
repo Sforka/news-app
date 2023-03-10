@@ -106,12 +106,13 @@ function renderPage(arrUniqueDateOfRead) {
 function createSectionMarkup(date) {
   
   startSectionMarkup = `
-    <section class = "section container"
+    <section class = "section_read container"
     <div class = "section-title">
-    <p class = "section-title"__text>${date}</p>
-    <svg class="section-title__icon" width="12" height="8">
-        <use href="./images/symbol-defs.svg#"icon-Vector-Down"></use>
-    </svg>
+    <button class = "section-title_btn"__text>${date} <svg class="date-list__btn-icon" width="14" height="9" aria-hidden="true" style="position: absolute;>
+    <symbol id=" icon-vector-2-1"="" viewBox="0 0 50 32">
+    <path d="M5.867 0l-5.867 6.080 24.889 25.92 24.889-25.92-5.831-6.080-19.058 19.769-19.058-19.769z"></path>
+    </svg></button>
+    
     </div>
     <ul class = "news_container">`;
   return startSectionMarkup;
@@ -198,8 +199,12 @@ function getOnlyUniqueArray(value, index, self) {
 
 body.insertAdjacentHTML('beforeend', fullMarkup);
 
-
-
+let div = document.querySelector('.news_container');
+document.querySelector('.section-title_btn').addEventListener('click', (e) => {
+  div.style.display = getComputedStyle(div).display == 'grid' ? 'none' : 'grid';
+  console.log(e);
+  e.target.elements.style.transform = 'rotateX(180deg)'; 
+});
 
 //============= перемикач теми початок ==========
 
@@ -252,6 +257,7 @@ function onAddToFavoritesClick(evt) {
     });
   }
 }
+
 
 function onAddToReadClick(evt) {
   if (evt.target.className === 'card__read-more-search') {

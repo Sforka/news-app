@@ -61,7 +61,7 @@ async function fetchCurrentWeather() {
   // получаем название города
   
   const cityData = await axios.get(
-    `http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=5&appid=${APIKEY}`
+    `https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=5&appid=${APIKEY}`
   );
   // название города
   const city = cityData.data[0].name;

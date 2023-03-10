@@ -80,7 +80,6 @@ li {
 
 .calendar_icon{
     fill: #4440F7;
-   
 }
 
 .btn_calendar_open {
@@ -108,12 +107,13 @@ li {
     overflow: hidden;
     text-align: center;
     //
-    // transform: translateY(-26px);
-    left: 90px;
-    top: -16px;
+    z-index: 0;
+    left: 14px;
+    top: 0px;
     @include tablet {
         left: -170px;
         top: -16px;
+        z-index: 2;
     }
     @include desktop {
         left: calc(-10px - 37px);
@@ -146,9 +146,6 @@ li {
         transition-duration: 500ms;
         transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);  
     }
-
-   
-    
 }
 
 .calendar_month_next {

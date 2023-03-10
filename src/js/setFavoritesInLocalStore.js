@@ -19,7 +19,8 @@ export default function setFavoritesInLocalStor({
       if (savedData[clickedArticleId]) {
         delete savedData[`${clickedArticleId}`];
 
-        if ((evt.target.textContent.contains = 'Remove from favorites')) {
+        const compareString = evt.target.textContent
+        if ((compareString === 'Remove from favorites')) {
           evt.target.textContent = 'Add to favorites';
           evt.target.textContent = 'Add to favorites'; 
 

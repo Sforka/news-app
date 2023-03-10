@@ -1,6 +1,7 @@
 import { searchNewsPagination } from '../index';
 import { populateNews } from '../index';
 import { newsFetchApi } from '../index';
+import { pagRefs } from '../index';
 
 //=== пагинация по категориям новостей -- начало
 export function onPaginationSearchPrevClick() {
@@ -10,8 +11,9 @@ export function onPaginationSearchPrevClick() {
   const markupAll = searchNewsPagination.getMarkupAll();
   populateNews(markupAll);
   if (searchNewsPagination.page === 0) {
-    console.log('отключить кнопку назад');
+    pagRefs.prev.classList.add("hide");
   }
+  pagRefs.next.classList.remove("hide");
 }
 export function onPaginationSearchNextClick() {
   searchNewsPagination.page += 1;
@@ -40,5 +42,10 @@ export function onPaginationSearchNextClick() {
   searchNewsPagination.markupAll = '<div class="weatherWidget"></div>';
   const markupAll = searchNewsPagination.getMarkupAll();
   populateNews(markupAll);
+
+  if (searchNewsPagination.total / searchNewsPagination.newsPerPage < searchNewsPagination.page + 1) {
+    pagRefs.next.classList.add("hide");
+  }
+  pagRefs.prev.classList.remove("hide");
 }
 //=== пагинация по категориям новостей -- конец

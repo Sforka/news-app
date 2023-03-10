@@ -9,6 +9,7 @@ export default class PaginationLogicSearch {
     // это приходит из функции пагинации
     this.newsPerPage = 7;
     this.markupAll = '<div class="weatherWidget"></div>';
+    this.total = 0;
   }
 
   getResultForPage() {

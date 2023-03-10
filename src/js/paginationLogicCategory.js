@@ -24,7 +24,7 @@ export default class PaginationLogicCategory {
   getMarkupAll() {
     this.markupAll = '<div class="weatherWidget"></div>';
     if (this.getResultForPage().length < this.newsPerPage) {
-      pagRefs.next.classList.add(".hide");
+      pagRefs.next.classList.add("hide");
     }
     this.getResultForPage().forEach(
       ({

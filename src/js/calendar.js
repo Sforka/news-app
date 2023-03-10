@@ -21,6 +21,7 @@ const days = document.querySelector(".days");
 const calendar = document.querySelector(".calendar");
 const iconCalendar = document.querySelector(".calendar_icon");
 const calendarBox = document.querySelector(".calendar-box");
+const resetBtn = document.querySelector('.resetDate')
 
 
 //    formData.day, formData.month, formData.year  для даних дня місяця і року
@@ -66,6 +67,7 @@ monthNext.addEventListener("click", onNextMonth);
 monthDown.addEventListener("click", onDownMonth)
 yearNext.addEventListener("click", onNextYear);
 yearBack.addEventListener("click", onBackYear);
+resetBtn.addEventListener('click', onResetClick)
 
 
 function onNextMonth() {   
@@ -201,7 +203,7 @@ function createMarkup(mayDates) {
 btnCalendarOpen.addEventListener("click", onOpenCalendar);
 
 function onOpenCalendar() {
-    // calendar.classList.toggle('visually-hidden');
+   
     calendar.classList.add('calendar-open');    
     calendar.classList.remove('calendar-close'); 
             
@@ -220,8 +222,8 @@ function onCloseCalendar() {
 
 
 
-// тут, проверяем какой ти поиска, event это переменная пустышка
-if(newsFetchApi.date !== null){
+// тут, проверяем какой тип поиска, event это переменная пустышка
+
   if(currentTypeOfSearch.searchInput) {
     onSearchInputClick(event)    
   }
@@ -231,12 +233,10 @@ if(newsFetchApi.date !== null){
   if(currentTypeOfSearch.category) {
     onCategoryClick(event)    
   }
-}
+
 
     calendar.classList.remove('calendar-open');    
     calendar.classList.add('calendar-close');    
-
-    // calendar.classList.toggle('visually-hidden');
 
     btnCalendarClose.style.display = "none";
     btnCalendarOpen.style.display = "block";    
@@ -254,3 +254,8 @@ if(newsFetchApi.date !== null){
     iconCalendar.style.fill = "#4440F7";     
 }
 
+function onResetClick() {
+    dataSelected.textContent = 'Pick a date';
+    newsFetchApi.date = null;
+    onCloseCalendar();
+}

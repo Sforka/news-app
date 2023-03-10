@@ -28,7 +28,7 @@ import { changeSearchType } from './js/currentTypeOfSearch';
 const btnSearch = document.querySelector('.search_mob_btn');
 
 btnSearch.addEventListener('click', onSearchClick);
-export const pagRefs = {
+const pagRefs = {
   prev: document.querySelector('.pag-arrow--prev'),
   next: document.querySelector('.pag-arrow--next'),
 };
@@ -87,10 +87,6 @@ export function getPopularNews() {
     .then(({ data }) => {
       //   загальна кількість знайдених новин
       const totalNews = data.num_results;
-      popularNewsPagination.total = totalNews;
-      if (popularNewsPagination.page === 0) {
-        pagRefs.prev.classList.add("hide");
-      }
       // это нужно для избранного
       resultsArr = data.results;
       // проверка если нету новостей.
@@ -162,15 +158,12 @@ changeSearchType('category')
       const totalNews = data.num_results;
       // это нужно для избранного
       resultsArr = data.results;
-      categoryNewsPagination.total = totalNews;
-      
+
       // проверка если нету новостей.
       if (data.results === null) {
         newsContainerRef.innerHTML = '';
         document.querySelector('.without-news_container').style.display =
           'block';
-        pagRefs.prev.classList.add("hide");
-        pagRefs.next.classList.add("hide");
       } else {
         categoryNewsPagination.resultsArr = [];
         pagRefs.prev.removeEventListener('click', onPaginationPopularPrevClick);
@@ -182,19 +175,6 @@ changeSearchType('category')
         categoryNewsPagination.resultsArr = resultsArr;
         const markupAllCategory = categoryNewsPagination.getMarkupAll();
         populateNews(markupAllCategory);
-
-        if (totalNews > 0){
-          document.querySelector('.without-news_container').style.display = 'none';
-        }
-
-        if (categoryNewsPagination.page === 0) {
-          pagRefs.prev.classList.add("hide");
-        }
-        if (categoryNewsPagination.total / categoryNewsPagination.newsPerPage < categoryNewsPagination.page +1) {
-          pagRefs.next.classList.add("hide");
-        } else {
-          pagRefs.next.classList.remove("hide");
-        }
       }
     })
     .catch(error => console.log(error.response.statusText));
@@ -228,7 +208,6 @@ if(localStorage.getItem('searchQueryFromFavorites') === null) {
 
       //   загальна кількість знайдених новин
       totalNews = response.meta.hits;
-      searchNewsPagination.total = totalNews;
       // это нужно для избранного
       resultsArr = response.docs;
 
@@ -237,8 +216,6 @@ if(localStorage.getItem('searchQueryFromFavorites') === null) {
         newsContainerRef.innerHTML = '';
         document.querySelector('.without-news_container').style.display =
           'block';
-        pagRefs.prev.classList.add("hide");
-        pagRefs.next.classList.add("hide");
       } else {
         searchNewsPagination.resultsArr = [];
         pagRefs.prev.removeEventListener('click', onPaginationPopularPrevClick);
@@ -282,15 +259,6 @@ if(localStorage.getItem('searchQueryFromFavorites') === null) {
         // ++++++++++++++++++++++
         const markupAllSearch = searchNewsPagination.getMarkupAll();
         populateNews(markupAllSearch);
-        if (searchNewsPagination.page === 0) {
-          pagRefs.prev.classList.add("hide");
-        }
-
-        if (searchNewsPagination.total / searchNewsPagination.newsPerPage < searchNewsPagination.page + 1) {
-          pagRefs.next.classList.add("hide");
-        } else {
-          pagRefs.next.classList.remove("hide");
-        }
       }
     })
     .catch(error => console.log(error));
@@ -318,18 +286,10 @@ function onAddToFavoritesClick(evt) {
       evt.target.closest('.card')?.id ||
       evt.target.closest('.card')?.slug_name ||
       evt.target.closest('.card')?._id;
-const addTofavorites = 'Add to favorites'
-const RemoveFromfavorites = 'Remove from favorites'
-
-    if ((evt.target.textContent.contains = addTofavorites)); {
-
-      evt.target.textContent = RemoveFromfavorites;
-
 
     if ((evt.target.textContent.contains = 'Add to favorites')) {
       evt.target.textContent = 'Remove from favorites';
       
-
     }
     setFavoritesInLocalStor({
       resultsArr,

@@ -1,6 +1,6 @@
 import createmarkup from './news-card';
 import publishedDateFormatter from './publishedDateFormatter';
-
+import { pagRefs } from '../index';
 export default class PaginationLogicSearch {
   constructor() {
     // эта страница для уже загруженных новостей
@@ -23,7 +23,7 @@ export default class PaginationLogicSearch {
   getMarkupAll() {
     this.markupAll = '<div class="weatherWidget"></div>';
     if (this.getResultForPage().length < this.newsPerPage) {
-      console.log('отключить кнопку вперед');
+       pagRefs.next.classList.add("hide");
     }
     this.getResultForPage().forEach(
           ({

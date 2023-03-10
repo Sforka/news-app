@@ -5,6 +5,7 @@ import { pagRefs } from '../index';
 //=== пагинация популярных новостей -- начало
 export function onPaginationPopularPrevClick() {
   popularNewsPagination.page -= 1;
+    pagRefs.next.classList.remove("hide");
   popularNewsPagination.markupAll = '<div class="weatherWidget"></div>';
   const markupAll = popularNewsPagination.getMarkupAll();
   populateNews(markupAll);
@@ -20,7 +21,7 @@ export function onPaginationPopularNextClick() {
   populateNews(markupAll);
   pagRefs.prev.classList.remove("hide");
   if (popularNewsPagination.total / popularNewsPagination.newsPerPage < popularNewsPagination.page +1) {
-    pagRefs.next.classList.add("hide");
+  
   }
 }
 //=== пагинация популярных новостей -- конец

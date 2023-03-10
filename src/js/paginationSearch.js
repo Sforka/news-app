@@ -13,10 +13,12 @@ export function onPaginationSearchPrevClick() {
   if (searchNewsPagination.page === 0) {
     pagRefs.prev.classList.add("hide");
   }
-  pagRefs.next.classList.remove("hide");
+  // pagRefs.next.classList.remove("hide");
 }
 export function onPaginationSearchNextClick() {
   searchNewsPagination.page += 1;
+   pagRefs.prev.classList.remove("hide");
+
 
   // так как сервер отдаёт по 20 новостей, а мы отображаем меньше, проверяем или нужно еще догружать
   if (
@@ -43,9 +45,9 @@ export function onPaginationSearchNextClick() {
   const markupAll = searchNewsPagination.getMarkupAll();
   populateNews(markupAll);
 
-  if (searchNewsPagination.total / searchNewsPagination.newsPerPage < searchNewsPagination.page + 1) {
-    pagRefs.next.classList.add("hide");
-  }
-  pagRefs.prev.classList.remove("hide");
+  // if (searchNewsPagination.total / searchNewsPagination.newsPerPage < searchNewsPagination.page + 1) {
+  //   pagRefs.next.classList.add("hide");
+  // }
+  // pagRefs.prev.classList.remove("hide");
 }
 //=== пагинация по категориям новостей -- конец

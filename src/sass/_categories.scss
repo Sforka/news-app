@@ -61,7 +61,12 @@
 
 .dropdown {
   position: relative;
-    // display: inline-block;
+  // display: inline-block;
+  // position: absolute;
+  // width: 170px;
+  // height: 385px;
+  // z-index: 3;
+  // overflow: hidden;
   }
   
 /* Стили для выпадающего списка */
@@ -132,17 +137,18 @@
     background: none;
     border: none;
     white-space: nowrap;
-    display: block;
+    display: flex;
     width: 100%;
     text-align: left;
     color: #4440F6;
-    margin: 6px 0;
-    &:first-child{
-      margin: 0 0 6px;
-    }
-    &:last-child{
-      margin: 6px 0 0
-    }
+    padding: 6px 0;
+    column-gap: 6px;
+    // &:first-child{
+    //   margin: 0 0 6px;
+    // }
+    // &:last-child{
+    //   margin: 6px 0 0
+    // }
   }
 
 .section-btn,

@@ -320,7 +320,8 @@ function onAddToFavoritesClick(evt) {
       evt.target.closest('.card')?._id;
 const addTofavorites = 'Add to favorites'
     if ((evt.target.textContent.contains = addTofavorites)); {
-      evt.target.textContent = 'Remove from favorites';
+      const addTofavorites = 'Add to favorites'
+      evt.target.textContent = addTofavorites;
     }
     setFavoritesInLocalStor({
       resultsArr,

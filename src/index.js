@@ -3,7 +3,8 @@ import NewsFetchApi from './js/newsApi';
 import { ThemeSwitcher } from './js/themeSwitcher';
 import createWidget from './js/weatherApi';
 import { calendar } from './js/calendar';
-import { categRefs, getSectionListData, createSectionMarkup, renderSectionMarkup, nameListButtonByMedia, nameListButtonByClick, activeBtnColorHandler, categsListClose } from './js/categories';
+import { categRefs } from'./js/categories';
+import'./js/categories';
 import PaginationLogicPopular from './js/paginationLogicPopular';
 import PaginationLogicCategory from './js/paginationLogicCategory';
 import PaginationLogicSearch from './js/paginationLogicSearch';
@@ -115,13 +116,9 @@ export function getPopularNews() {
 }
 
 
-categRefs.categsBlockEL.removeEventListener('click', onCategoryClick)
+// categRefs.categsBlockEL.removeEventListener('click', onCategoryClick)
 // add by Volyanskiy start
-if (categRefs.currentPage === "index") {
-  document.addEventListener('DOMContentLoaded', getSectionListData);
-  categRefs.categsBlockEL.addEventListener('click', activeBtnColorHandler);
-  categRefs.categsBlockEL.addEventListener('click', onCategoryClick);
-  categRefs.categsBlockEL.addEventListener('click', categsListClose);}
+
 // add by Volyanskiy end
 
 
@@ -147,6 +144,7 @@ changeSearchType('category')
   // console.log(categRefs.categsListBtn.textContent)
   // categRefs.categsListBtn.textContent=target.textContent;
 
+    // if (target.classList.contains('dropdown-item')){
   // nameListButtonByClick(String(target.textContent))
   // временно откл.
   newsFetchApi.searchSection = String(categRefs.newsSection);}

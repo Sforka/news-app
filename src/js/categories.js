@@ -1,17 +1,28 @@
 import NewsFetchApi from './newsApi';
+import { onCategoryClick } from '../index';
+
 const newsFetchApi = new NewsFetchApi()
 
-const categRefs = {
+export const categRefs = {
 currentPage: document.querySelector('body').getAttribute('data-current-page'),
 categsBlockEL: document.querySelector('.categories__wrap'),
 categsListBtn: null,
+dropdownContent: null,
 sectionButtons: null,
 newsSection: '',
 buttonsQuantity: '0',
 listButtonName: 'Categories',
 }
 
-async function getSectionListData() {
+if (categRefs.currentPage === "index") {
+  document.addEventListener('DOMContentLoaded', getSectionListData);
+
+  categRefs.categsBlockEL.addEventListener('click', activeBtnColorHandler);
+  categRefs.categsBlockEL.addEventListener('click', onCategoryClick);
+  categRefs.categsBlockEL.addEventListener('click', categsListClose);
+}
+
+export async function getSectionListData() {
   try {
     const response = await newsFetchApi.fetchSectionList();
     const { data: { results } } = response;
@@ -26,7 +37,7 @@ async function getSectionListData() {
   }
 }
 
-function selectButtonsQuantity() {
+export function selectButtonsQuantity() {
 
   if (window.matchMedia('(min-width: 768px) and (max-width: 1279.98px)').matches) {
     categRefs.buttonsQuantity = 4
@@ -41,20 +52,19 @@ function selectButtonsQuantity() {
 }
 
 
-function nameListButtonByClick(buttonText){
-  // if
+export function nameListButtonByClick(buttonText){
   categRefs.categsListBtn.textContent = buttonText;
 }
 
 
-function nameListButtonByMedia() {
+export function nameListButtonByMedia() {
   if (window.matchMedia('(min-width: 768px)').matches && categRefs.buttonsQuantity != 0) {
     // console.log('у нас не мобилка!')
     categRefs.listButtonName = 'Other'
   }
 }
 
-function createSectionMarkup(sectionName, displayName) {
+export function createSectionMarkup(sectionName, displayName) {
   let sectionMarkup = '';
   selectButtonsQuantity();
   nameListButtonByMedia();
@@ -78,24 +88,53 @@ function createSectionMarkup(sectionName, displayName) {
   renderSectionMarkup(sectionMarkup);
 }
 
-function renderSectionMarkup(sectionMarkup) {
+export function renderSectionMarkup(sectionMarkup) {
 categRefs.categsBlockEL.innerHTML = sectionMarkup;
-// Now markup built, we cand find this element 
-categRefs.categsListBtn = document.querySelector('.other-btn')
-//new
+
+// Now markup built, we cand find this elements
+categRefs.categsListBtn = document.querySelector('.other-btn');
+categRefs.categsListBtn.addEventListener("click", onCategListOpen)
+console.log(categRefs.categsListBtn)
 categRefs.sectionButtons = document.querySelectorAll('.section-btn');
+categRefs.dropdownContent = document.querySelector(".dropdown-content");
+
+// console.log(categRefs.dropdownContent)
 };
 
 
-function activeBtnColorHandler(evt) {
+// ---------відкриття і закриття меню---------
+
+export function onCategListOpen() {
+
+  categRefs.dropdownContent.classList.remove('dropdown-content-close');    
+  categRefs.dropdownContent.classList.add('dropdown-content-open'); 
+//   categBtnIcon.style.fill = "#FFFFFF"; 
+
+  categRefs.categsListBtn.removeEventListener("click", onCategListOpen);
+  categRefs.categsListBtn.addEventListener("click", onCategListClose);   
+}
+
+// btnCalendarClose.addEventListener("click", onCloseCalendar);
+
+export function onCategListClose() {  
+
+  categRefs.dropdownContent.classList.add('dropdown-content-close');    
+  categRefs.dropdownContent.classList.remove('dropdown-content-open'); 
+  //  iconCalendar.style.fill = "#4440F7";  
+
+  categRefs.categsListBtn.removeEventListener("click", onCategListClose);
+  categRefs.categsListBtn.addEventListener("click", onCategListOpen);  
+  }
+
+  export function activeBtnColorHandler(evt) {
   console.log('activeBtnColorHandler')
-  // if (evt.target.matches('.section-btn, .other-btn')) {
-  //   const buttons = document.querySelectorAll('.section-btn, .other-btn');
-  //   buttons.forEach(button => {
-  //     button.classList.remove('btn-active');
-  //   });
-  //   evt.target.classList.add('btn-active');
-  // }
+  if (evt.target.matches('.section-btn, .other-btn')) {
+    const buttons = document.querySelectorAll('.section-btn, .other-btn');
+    buttons.forEach(button => {
+      button.classList.remove('btn-active');
+    });
+    evt.target.classList.add('btn-active');
+  }
   // classList.remove('show')
 };
 
@@ -123,7 +162,7 @@ function activeBtnColorHandler(evt) {
   //   dropdownContent.classList.toggle("show");
   // });
 
-  function categsListClose(evt) {
+  export function categsListClose(evt) {
     console.log(' categsListClose')
   // const dropdownBtn = evt.target.closest('.other-btn');
   // const dropdownContent = dropdownBtn && dropdownBtn.nextElementSibling;
@@ -139,4 +178,4 @@ function activeBtnColorHandler(evt) {
   // }
 };
 
-export {categRefs, getSectionListData, createSectionMarkup, renderSectionMarkup, nameListButtonByClick, activeBtnColorHandler, categsListClose };
+// export { categRefs, getSectionListData, createSectionMarkup, renderSectionMarkup, nameListButtonByClick, activeBtnColorHandler, categsListClose, onCategListOpen };

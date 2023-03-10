@@ -19,7 +19,7 @@ if (categRefs.currentPage === "index") {
 
   categRefs.categsBlockEL.addEventListener('click', activeBtnColorHandler);
   categRefs.categsBlockEL.addEventListener('click', onCategoryClick);
-  categRefs.categsBlockEL.addEventListener('click', categsListClose);
+  
 }
 
 export async function getSectionListData() {
@@ -75,8 +75,8 @@ export function createSectionMarkup(sectionName, displayName) {
   }
   // Create dropdown list for rest of results
   sectionMarkup += '<div class="dropdown">';
-  sectionMarkup += `<button class="other-btn">${categRefs.listButtonName}</button>`;
-  sectionMarkup += '<div class="dropdown-content">';
+  sectionMarkup += `<button class="other-btn btn-active">${categRefs.listButtonName}</button>`;
+  sectionMarkup += '<div class="dropdown-content dropdown-content-open">';
 
   for (let j = categRefs.buttonsQuantity; j < sectionName.length; j++) {
     sectionMarkup += `<button class ="dropdown-item" type='button' data-section="${sectionName[j]}">${displayName[j]}</button>`;
@@ -128,7 +128,6 @@ export function onCategListClose() {
   }
 
   export function activeBtnColorHandler(evt) {
-  console.log('activeBtnColorHandler')
   if (evt.target.matches('.section-btn, .other-btn')) {
     const buttons = document.querySelectorAll('.section-btn, .other-btn');
     buttons.forEach(button => {
@@ -165,20 +164,22 @@ export function onCategListClose() {
   // });
 
   export function categsListClose(evt) {
+    evt.target.classList.remove('btn-active');
     console.log(' categsListClose')
+    
 
-  // const dropdownBtn = evt.target.closest('.other-btn');
-  // const dropdownContent = dropdownBtn && dropdownBtn.nextElementSibling;
+  const dropdownBtn = evt.target.closest('.other-btn');
+  const dropdownContent = dropdownBtn && dropdownBtn.nextElementSibling;
   
-  // if (dropdownBtn) {
-  //   dropdownContent.classList.toggle('dropdown-content-visible');
-  // }
+  if (dropdownBtn) {
+    dropdownContent.classList.toggle('dropdown-content-visible');
+  }
 
-  // const dropdownItem = evt.target.closest('dropdown-item');
+  const dropdownItem = evt.target.closest('dropdown-item');
   
-  // if (dropdownItem) {
-  //   dropdownContent.classList.remove('dropdown-content-visible');
-  // }
+  if (dropdownItem) {
+    dropdownContent.classList.remove('dropdown-content-visible');
+  }
 };
 
 // export { categRefs, getSectionListData, createSectionMarkup, renderSectionMarkup, nameListButtonByClick, activeBtnColorHandler, categsListClose, onCategListOpen };

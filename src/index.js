@@ -125,6 +125,8 @@ export function getPopularNews() {
 
 // приносить дані новин по категоріям
 export function onCategoryClick(evt) {
+  document.querySelector('.without-news_container').style.display =
+          'none';
 // текущий поиск - по категориям
 changeSearchType('category')
 

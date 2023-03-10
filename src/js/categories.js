@@ -59,7 +59,7 @@ export function nameListButtonByClick(buttonText){
 
 export function nameListButtonByMedia() {
   if (window.matchMedia('(min-width: 768px)').matches && categRefs.buttonsQuantity != 0) {
-    // console.log('у нас не мобилка!')
+    
     categRefs.listButtonName = 'Other'
   }
 }
@@ -102,6 +102,7 @@ categRefs.dropdownContent = document.querySelector(".dropdown-content");
 };
 
 
+
 // ---------відкриття і закриття меню---------
 
 export function onCategListOpen() {
@@ -135,6 +136,7 @@ export function onCategListClose() {
     });
     evt.target.classList.add('btn-active');
   }
+
   // classList.remove('show')
 };
 
@@ -164,6 +166,7 @@ export function onCategListClose() {
 
   export function categsListClose(evt) {
     console.log(' categsListClose')
+
   // const dropdownBtn = evt.target.closest('.other-btn');
   // const dropdownContent = dropdownBtn && dropdownBtn.nextElementSibling;
   

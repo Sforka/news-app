@@ -170,8 +170,7 @@ function onDateSelection(event) {
  async function mainAsync() {
     const data = new Date(Number(year.textContent), months.indexOf(month.textContent));
 
-    const mayDates = await calendarDates.getDates(data);
-    // console.log(mayDates);  
+    const mayDates = await calendarDates.getDates(data); 
     
      // -------колір поточної дати
 
@@ -224,7 +223,6 @@ function onCloseCalendar() {
 // тут, проверяем какой ти поиска, event это переменная пустышка
 if(newsFetchApi.date !== null){
   if(currentTypeOfSearch.searchInput) {
-    console.log('12');
     onSearchInputClick(event)    
   }
   if(currentTypeOfSearch.popular) {

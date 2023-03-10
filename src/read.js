@@ -22,7 +22,7 @@ let arrUniqueDateOfRead = [];
 let arrArticlesPerDate = [];
 let favoritesArrFedor = [];
 let createArrFedor = [];
-
+let read=""
 let fullMarkup = '';
 let sectionMarkup = '';
 let startSectionMarkup = '';
@@ -34,7 +34,7 @@ const STORAGE_READ_KEY = 'read';
 getReadArticlesFromLocStor();
 //===отримання масиву статей з local storage ==========
 function getReadArticlesFromLocStor() {
-  let read = localStorage.getItem(STORAGE_READ_KEY);
+  read = localStorage.getItem(STORAGE_READ_KEY);
   if (!read) {
     withoutNewsContainer.style.display = 'block';
   } else {
@@ -76,7 +76,7 @@ function getUniqeDateOfRead(arr) {
      arrDateOfRead.push(article.dateOfReading);
     });
     arrUniqueDateOfRead = arrDateOfRead.filter(getOnlyUniqueArray);
-    console.log(arrUniqueDateOfRead);
+
    
   }
 } 
@@ -91,7 +91,7 @@ function renderPage(arrUniqueDateOfRead) {
   }
   fullMarkup = '';
   arrUniqueDateOfRead.forEach(date => {
-    console.log(date);
+  
     createSectionMarkup(date);
     getArticlesPerDate(date);
   
@@ -126,11 +126,9 @@ function getArticlesPerDate(date) {
   arrArticlesPerDate = favoritesArrFedor.filter(
     article => article.dateOfReading == date
   );
-  console.log("125"+arrArticlesPerDate)
 }
 
 function createBlockMarkup(arr) {
-  console.log(arr)
   const parsedFavorites = arr;
   const favoritesKeys = Object.keys(parsedFavorites);
   for (const favoriteKey of favoritesKeys) {
@@ -224,7 +222,6 @@ themeSwitcher.renderTheme();
 // Начало. Проверка на клик по Добавить в избранное
 body.addEventListener('click', onAddToFavoritesClick);
 body.addEventListener('click', onAddToReadClick);
-body.addEventListener('click', onAddToClick);
 
 function onAddToFavoritesClick(evt) {
   if (evt.target.className === 'card__btn') {

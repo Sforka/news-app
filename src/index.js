@@ -77,6 +77,7 @@ if(!localStorage.getItem('searchQueryFromFavorites'))
 export function getPopularNews() {
   popularNewsPagination.resultsArr = []
   // текущий поиск - популярных новостей
+  
   newsFetchApi
     .fetchPopularNews()
     .then(({ data }) => {

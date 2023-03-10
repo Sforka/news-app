@@ -6,9 +6,18 @@
   font-weight: $fw;
   letter-spacing: $ls + em;
 }
+
 @mixin fontShort($fs, $lh) {
   font-size: $fs + px;
   line-height: calc($lh / $fs);  
+}
+
+@mixin fontCategs {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  @content;
 }
 
 @mixin mobile {

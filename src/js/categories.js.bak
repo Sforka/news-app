@@ -139,4 +139,4 @@ function activeBtnColorHandler(evt) {
   // }
 };
 
-export {categRefs, getSectionListData, createSectionMarkup, renderSectionMarkup, nameListButtonByClick, activeBtnColorHandler, categsListClose };
+export {categRefs, getSectionListData, createSectionMarkup, renderSectionMarkup, nameListButtonByClick };

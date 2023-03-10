@@ -1,3 +1,9 @@
+import { onCategoryClick, onSearchInputClick, getPopularNews } from "../index";
+
+import { newsFetchApi } from "../index";
+import { currentTypeOfSearch } from "./currentTypeOfSearch";
+
+
 const CalendarDates = require("calendar-dates");
 const calendarDates = new CalendarDates();
 
@@ -14,6 +20,7 @@ const btnCalendarClose = document.querySelector(".btn_calendar_close");
 const days = document.querySelector(".days");
 const calendar = document.querySelector(".calendar");
 const iconCalendar = document.querySelector(".calendar_icon");
+const calendarBox = document.querySelector(".calendar-box");
 
 
 //    formData.day, formData.month, formData.year  для даних дня місяця і року
@@ -28,7 +35,7 @@ let currYear = dates.getFullYear();
 let currDate = dates.getDate();
 
 
-dataSelected.textContent = `${addLeadingZero(currDate)}/${addLeadingZero(currMonth + 1)}/${currYear}`;
+dataSelected.textContent = 'Pick a date';
 
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -150,6 +157,10 @@ function onDateSelection(event) {
     localStorage.setItem("data_select", JSON.stringify(formData)); 
 
     dataSelected.textContent = `${addLeadingZero(event.target.textContent)}/${addLeadingZero(months.indexOf(month.textContent) + 1)}/${year.textContent}`;
+
+    // записали дату поиска в для запроса newsFetchApi
+    newsFetchApi.date = (dataSelected.textContent).split('/').reverse().join('');
+
   
     onCloseCalendar(); 
 }
@@ -191,10 +202,10 @@ function createMarkup(mayDates) {
 btnCalendarOpen.addEventListener("click", onOpenCalendar);
 
 function onOpenCalendar() {
-    calendar.classList.toggle('visually-hidden');
-
-    calendar.style.transform = "translateY(0)";
-   
+    // calendar.classList.toggle('visually-hidden');
+    calendar.classList.add('calendar-open');    
+    calendar.classList.remove('calendar-close'); 
+            
     btnCalendarClose.style.display = "block";
     btnCalendarOpen.style.display = "none";
 
@@ -207,31 +218,41 @@ function onOpenCalendar() {
 btnCalendarClose.addEventListener("click", onCloseCalendar);
 
 function onCloseCalendar() {  
-    calendar.style.transform = "translateY(-100%)";    
 
-    calendar.classList.toggle('visually-hidden');
-   
+
+
+// тут, проверяем какой ти поиска, event это переменная пустышка
+if(newsFetchApi.date !== null){
+  if(currentTypeOfSearch.searchInput) {
+    console.log('12');
+    onSearchInputClick(event)    
+  }
+  if(currentTypeOfSearch.popular) {
+    getPopularNews(event)    
+  }
+  if(currentTypeOfSearch.category) {
+    onCategoryClick(event)    
+  }
+}
+
+    calendar.classList.remove('calendar-open');    
+    calendar.classList.add('calendar-close');    
+
+    // calendar.classList.toggle('visually-hidden');
+
     btnCalendarClose.style.display = "none";
     btnCalendarOpen.style.display = "block";    
 
     if (localStorage.getItem("theme") === "dark") {       
         dataSelected.style.color = "#F4F4F4";
+        dateField.style.backgroundColor = "#2E2E2E";
     } else {
         dataSelected.style.color = "#111321";
-    }
-
-
-    // dataSelected.style.color = "#111321";
-    if (localStorage.getItem("theme") === "dark") { 
-        dataSelected.style.color = "#F4F4F4"; 
-    }
-    else {
-        dataSelected.style.color = "#111321";
+        dateField.style.backgroundColor = "#F4F4F4";
     }
 
     dataSelected.style.opacity = "0.4";
-    dateField.style.backgroundColor = "transparent";
-    iconCalendar.style.fill = "#4440F7";
-     
+    // dateField.style.backgroundColor = "transparent";
+    iconCalendar.style.fill = "#4440F7";     
 }
 

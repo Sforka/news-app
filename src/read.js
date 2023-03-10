@@ -2,6 +2,8 @@ import createmarkup from './js/news-card';
 import onSearchClick from './js/header';
 import { ThemeSwitcher } from './js/themeSwitcher';
 import publishedDateFormatter from './js/publishedDateFormatter';
+import setFavoritesInLocalStor from './js/setFavoritesInLocalStore';
+import setReadInLocalStor from './js/setReadInLocalStore';
 
 
 const newsContainerRef = document.querySelector('.news_container');
@@ -9,6 +11,8 @@ const body = document.querySelector('body');
 const bodyRead = document.querySelector('.body');
 const searchInput = document.querySelector('.search_form');
 const withoutNewsContainer = document.querySelector('.without-news_container')
+
+
 
 let markupAll = '';
 let resultsArr = '';
@@ -234,54 +238,40 @@ function padTo2Digits(num) {
 // конецю переформатирование даты
 
 // Начало. Проверка на клик по Добавить в избранное
+body.addEventListener('click', onAddToFavoritesClick);
+body.addEventListener('click', onAddToReadClick);
 function onAddToFavoritesClick(evt) {
   if (evt.target.className === 'card__btn') {
     const clickedArticleId =
-      evt.target.closest('.card')?.id ||
+    evt.target.closest('.card')?.id ||
       evt.target.closest('.card')?.slug_name ||
       evt.target.closest('.card')?._id;
+    const resultsArr = favoritesArrFedor;
+    if ((evt.target.textContent.contains = 'Add to favorites')) {
+      evt.target.textContent = 'Remove from favorites';
+    }
     setFavoritesInLocalStor({
       resultsArr,
       clickedArticleId,
+      evt,
     });
   }
 }
 
-// Конец. Проверка на клик по Добавить в избранное
 
-//===добавляет избранное в локальное хранилище ==========
-function setFavoritesInLocalStor({ resultsArr, clickedArticleId }) {
-  resultsArr.forEach(article => {
-    if (
-      article.id == clickedArticleId ||
-      article.slug_name == clickedArticleId ||
-      article._id == clickedArticleId
-    ) {
-      let savedData = localStorage.getItem(STORAGE_FAVORITES_KEY);
-
-      // проверка или есть уже обьект
-      savedData = savedData ? JSON.parse(savedData) : {};
-
-      if (savedData[clickedArticleId]) {
-        delete savedData[`${clickedArticleId}`];
-
-        localStorage.setItem(STORAGE_FAVORITES_KEY, JSON.stringify(savedData));
-        return;
-      } else {
-        savedData[clickedArticleId] = article;
-
-        localStorage.setItem(STORAGE_FAVORITES_KEY, JSON.stringify(savedData));
-      }
-    }
-  });
+function onAddToReadClick(evt) {
+  if (evt.target.className === 'card__read-more-search') {
+    const clickedArticleId =
+      evt.target.closest('.card')?.id ||
+      evt.target.closest('.card')?.slug_name ||
+      evt.target.closest('.card')?._id;
+    const resultsArr = favoritesArrFedor;
+  const readCard = document.querySelector(`[id_card="${clickedArticleId}"]`);
+  readCard.style.display = 'block';
+    setReadInLocalStor({
+      resultsArr,
+      clickedArticleId,
+      evt,
+    });
+  }
 }
-//== добавляет избранное в локальное хранилище. конец ==========
-
-//=== Подчеркивание активной ссылки на страницу -- начало
-
-// import './js/currentPage'
-
-//=== Подчеркивание активной ссылки на страницу -- конец
-
-
-

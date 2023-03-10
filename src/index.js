@@ -3,7 +3,7 @@ import NewsFetchApi from './js/newsApi';
 import { ThemeSwitcher } from './js/themeSwitcher';
 import createWidget from './js/weatherApi';
 import { calendar } from './js/calendar';
-import { categRefs, getSectionListData, createSectionMarkup, renderSectionMarkup, nameListButtonByMedia, nameListButtonByClick } from './js/categories';
+import { categRefs, getSectionListData, createSectionMarkup, renderSectionMarkup, nameListButtonByMedia, nameListButtonByClick, activeBtnColorHandler, categsListClose } from './js/categories';
 import PaginationLogicPopular from './js/paginationLogicPopular';
 import PaginationLogicCategory from './js/paginationLogicCategory';
 import PaginationLogicSearch from './js/paginationLogicSearch';
@@ -16,7 +16,12 @@ import { onPaginationSearchNextClick } from './js/paginationSearch';
 // import publishedDateFormatter from './js/publishedDateFormatter';
 import { onSearchClick } from './js/header';
 import setFavoritesInLocalStor from './js/setFavoritesInLocalStore';
+
 import setReadInLocalStor from './js/setReadInLocalStore';
+
+import { changeSearchType } from './js/currentTypeOfSearch';
+
+
 
 
 const btnSearch = document.querySelector('.search_mob_btn');
@@ -30,6 +35,7 @@ const pagRefs = {
 const newsContainerRef = document.querySelector('.news_container');
 const body = document.querySelector('body');
 const searchInput = document.querySelector('.search_form');
+
 
 export const newsFetchApi = new NewsFetchApi();
 export const popularNewsPagination = new PaginationLogicPopular();
@@ -66,10 +72,14 @@ function getSectionList(e) {
   });
 }
 
-getPopularNews();
+if(!localStorage.getItem('searchQueryFromFavorites'))
+{getPopularNews();} else {
+  onSearchInputClick()
+}
 
 // приносить дані популярних новин
-function getPopularNews() {
+export function getPopularNews() {
+  // текущий поиск - популярных новостей
   newsFetchApi
     .fetchPopularNews()
     .then(({ data }) => {
@@ -81,7 +91,7 @@ function getPopularNews() {
       if (resultsArr.length === 0) {
         newsContainerRef.innerHTML = '';
         document.querySelector('.without-news_container').style.display =
-          'flex';
+          'block';
       } else {
         pagRefs.prev.removeEventListener(
           'click',
@@ -104,17 +114,23 @@ function getPopularNews() {
     .catch(error => console.log(error));
 }
 
+
+categRefs.categsBlockEL.removeEventListener('click', onCategoryClick)
 // add by Volyanskiy start
 if (categRefs.currentPage === "index") {
-  document.addEventListener('DOMContentLoaded', getSectionListData)
-  categRefs.categsBlockEL.addEventListener('click', onCategoryClick)
-}
+  document.addEventListener('DOMContentLoaded', getSectionListData);
+  categRefs.categsBlockEL.addEventListener('click', activeBtnColorHandler);
+  categRefs.categsBlockEL.addEventListener('click', onCategoryClick);
+  categRefs.categsBlockEL.addEventListener('click', categsListClose);}
 // add by Volyanskiy end
 
 
 
 // приносить дані новин по категоріям
-function onCategoryClick(evt) {
+export function onCategoryClick(evt) {
+// текущий поиск - по категориям
+changeSearchType('category')
+
   newsFetchApi.offset = 0;
   categoryNewsPagination.resetPage();
 
@@ -130,9 +146,10 @@ function onCategoryClick(evt) {
   // console.log(categRefs.categsListBtn)
   // console.log(categRefs.categsListBtn.textContent)
   // categRefs.categsListBtn.textContent=target.textContent;
-  nameListButtonByClick(String(target.textContent))
-  // newsFetchApi.searchSection = String(categRefs.newsSection);
-}
+
+  // nameListButtonByClick(String(target.textContent))
+  // временно откл.
+  newsFetchApi.searchSection = String(categRefs.newsSection);}
   // add by Volyanskiy end
  
 
@@ -150,7 +167,7 @@ function onCategoryClick(evt) {
       if (data.results === null) {
         newsContainerRef.innerHTML = '';
         document.querySelector('.without-news_container').style.display =
-          'flex';
+          'block';
       } else {
         categoryNewsPagination.resultsArr = [];
         pagRefs.prev.removeEventListener('click', onPaginationPopularPrevClick);
@@ -170,14 +187,24 @@ function onCategoryClick(evt) {
 searchInput.addEventListener('submit', onSearchInputClick);
 
 // приносить дані за пошуковим запитом
-export function onSearchInputClick(evt) {
-  // если не нашли новостей, а потом ввели нормальный запрос, делаем заново  display none
-  document.querySelector('.without-news_container').style.display = 'none';
-  evt.preventDefault();
-  //  значення пошукового запиту
-  newsFetchApi.searchQuery = evt.target.elements.searchQuery.value;
-  newsFetchApi.resetPage();
+export function onSearchInputClick(event) {
+ evt = event;
+// текущий поиск - по ключевому слову
+ changeSearchType('searchInput')
 
+if(localStorage.getItem('searchQueryFromFavorites') === null) {
+  if(evt.target.className === 'search_form') {// если не нашли новостей, а потом ввели нормальный запрос, делаем заново  display none
+    evt.preventDefault();
+    //  значення пошукового запиту
+    newsFetchApi.searchQuery = evt.target.elements.searchQuery.value;
+
+ }
+  newsFetchApi.resetPage();
+  document.querySelector('.without-news_container').style.display = 'none';} else
+ { newsFetchApi.searchQuery = localStorage.getItem('searchQueryFromFavorites');}
+
+  localStorage.removeItem('searchQueryFromFavorites')
+  console.log(localStorage.getItem('searchQueryFromFavorites'));
   newsFetchApi
     .fetchBySearchQuery()
     .then(({ data: { response } }) => {
@@ -193,7 +220,7 @@ export function onSearchInputClick(evt) {
       if (resultsArr.length === 0) {
         newsContainerRef.innerHTML = '';
         document.querySelector('.without-news_container').style.display =
-          'flex';
+          'block';
       } else {
         searchNewsPagination.resultsArr = [];
         pagRefs.prev.removeEventListener('click', onPaginationPopularPrevClick);
@@ -226,7 +253,7 @@ export function onSearchInputClick(evt) {
           newsFetchApi
             .fetchBySearchQuery()
             .then(({ data: { response } }) => {
-              console.log(response);
+
               const extraResultsArr = response.docs;
 
               searchNewsPagination.resultsArr.push(...extraResultsArr);
@@ -310,7 +337,8 @@ function onAddToReadClick(evt) {
       evt.target.closest('.card')?.id ||
       evt.target.closest('.card')?.slug_name ||
       evt.target.closest('.card')?._id;
-   
+      const readCard = document.querySelector(`[id_card="${clickedArticleId}"]`);
+      readCard.style.display = 'block';
     
     setReadInLocalStor({
       resultsArr,

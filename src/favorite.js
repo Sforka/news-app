@@ -1,10 +1,10 @@
 
-import createmarkup from './js/news-card';
-import onSearchClick from './js/header';
+import {createmarkup} from './js/news-card';
+import {onSearchClick} from './js/header';
 import { ThemeSwitcher } from './js/themeSwitcher';
-import publishedDateFormatter from './js/publishedDateFormatter';
-import setFavoritesInLocalStor from './js/setFavoritesInLocalStore';
-import setReadInLocalStor from './js/setReadInLocalStore';
+import {publishedDateFormatter} from './js/publishedDateFormatter';
+import {setFavoritesInLocalStor} from './js/setFavoritesInLocalStore';
+import {setReadInLocalStor} from './js/setReadInLocalStore';
 const newsContainerRef = document.querySelector('.news_container');
 const body = document.querySelector('body');
 const searchInput = document.querySelector('.search_form');

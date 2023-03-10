@@ -1,13 +1,13 @@
-import createmarkup from './js/news-card';
-import NewsFetchApi from './js/newsApi';
+import {createmarkup} from './js/news-card';
+import {NewsFetchApi} from './js/newsApi';
 import { ThemeSwitcher } from './js/themeSwitcher';
 import createWidget from './js/weatherApi';
 import { calendar } from './js/calendar';
 import { categRefs } from'./js/categories';
 import'./js/categories';
-import PaginationLogicPopular from './js/paginationLogicPopular';
-import PaginationLogicCategory from './js/paginationLogicCategory';
-import PaginationLogicSearch from './js/paginationLogicSearch';
+import {PaginationLogicPopular} from './js/paginationLogicPopular';
+import {PaginationLogicCategory} from './js/paginationLogicCategory';
+import {PaginationLogicSearch} from './js/paginationLogicSearch';
 import { onPaginationPopularNextClick } from './js/paginationPopular';
 import { onPaginationPopularPrevClick } from './js/paginationPopular';
 import { onPaginationCategoryPrevClick } from './js/paginationCategory';
@@ -16,9 +16,9 @@ import { onPaginationSearchPrevClick } from './js/paginationSearch';
 import { onPaginationSearchNextClick } from './js/paginationSearch';
 import publishedDateFormatter from './js/publishedDateFormatter';
 import { onSearchClick } from './js/header';
-import setFavoritesInLocalStor from './js/setFavoritesInLocalStore';
+import {setFavoritesInLocalStor} from './js/setFavoritesInLocalStore';
 
-import setReadInLocalStor from './js/setReadInLocalStore';
+import {setReadInLocalStor} from './js/setReadInLocalStore';
 
 import { changeSearchType } from './js/currentTypeOfSearch';
 

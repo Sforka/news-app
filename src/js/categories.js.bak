@@ -77,7 +77,7 @@ export function createSectionMarkup(sectionName, displayName) {
   sectionMarkup += '<div class="dropdown-positioner">';
   sectionMarkup += '<div class="dropdown">';
   sectionMarkup += `<button class="other-btn">${categRefs.listButtonName}</button>`;
-  sectionMarkup += '<div class="dropdown-content">';
+  sectionMarkup += '<div class="dropdown-content dropdown-content-open">';
 
   for (let j = categRefs.buttonsQuantity; j < sectionName.length; j++) {
     sectionMarkup += `<button class ="dropdown-item" type='button' data-section="${sectionName[j]}">${displayName[j]}</button>`;

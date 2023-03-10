@@ -26,7 +26,7 @@ export default function createmarkup({
     }
   }
   // проверка или новость есть в локальном избранное
-  let favoritesBtnText = 'Add to favorite';
+  let favoritesBtnText = 'Add to favorites';
   const favorites = localStorage.getItem(STORAGE_FAVORITES_KEY);
   if (favorites) {
     const parsedFavorites = JSON.parse(favorites);

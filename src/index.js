@@ -281,12 +281,19 @@ function onAddToFavoritesClick(evt) {
       evt.target.closest('.card')?.slug_name ||
       evt.target.closest('.card')?._id;
 
-      const compareString = evt.target.textContent
-      if ((compareString === 'Add to favorites')) {
-        evt.target.textContent = 'Remove from favorites';
-      
+      const compareString = evt.target.textContent.trim()
 
-    }
+      console.log(compareString);
+      console.log('Add to favorites');
+
+      if ((compareString === 'Add to favorites')) {
+        evt.target.nextElementSibling.classList.remove('fav-icon-add')
+        evt.target.nextElementSibling.classList.add('fav-icon-remove')
+        evt.target.textContent = 'Remove from favorites';
+    } else { evt.target.nextElementSibling.classList.remove('fav-icon-remove')
+    evt.target.nextElementSibling.classList.add('fav-icon-add')
+    evt.target.textContent = 'Add to favorites'}
+
     setFavoritesInLocalStor({
       resultsArr,
       clickedArticleId,

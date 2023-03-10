@@ -19,10 +19,10 @@ export default function setFavoritesInLocalStor({
       if (savedData[clickedArticleId]) {
         delete savedData[`${clickedArticleId}`];
 
-        const compareString = evt.target.textContent
+        const compareString = evt.target.textContent.trim()
         if ((compareString === 'Remove from favorites')) {
           evt.target.textContent = 'Add to favorites';
-          evt.target.textContent = 'Add to favorites'; 
+  
 
         }
 

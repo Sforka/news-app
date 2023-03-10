@@ -287,9 +287,8 @@ function onAddToFavoritesClick(evt) {
       evt.target.closest('.card')?.slug_name ||
       evt.target.closest('.card')?._id;
 
-const compareString = evt.target.textContent
-    if ((compareString === 'Add to favorites')) {
-      evt.target.textContent = 'Remove from favorites';
+      if ((evt.target.textContent.contains = 'Add to favorites')) {
+        evt.target.textContent = 'Remove from favorites';
       
 
     }

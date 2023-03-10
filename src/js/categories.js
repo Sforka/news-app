@@ -49,7 +49,7 @@ function nameListButtonByClick(buttonText){
 
 function nameListButtonByMedia() {
   if (window.matchMedia('(min-width: 768px)').matches && categRefs.buttonsQuantity != 0) {
-    // console.log('у нас не мобилка!')
+    
     categRefs.listButtonName = 'Other'
   }
 }
@@ -88,7 +88,7 @@ categRefs.sectionButtons = document.querySelectorAll('.section-btn');
 
 
 function activeBtnColorHandler(evt) {
-  console.log('activeBtnColorHandler')
+
   // if (evt.target.matches('.section-btn, .other-btn')) {
   //   const buttons = document.querySelectorAll('.section-btn, .other-btn');
   //   buttons.forEach(button => {
@@ -124,7 +124,7 @@ function activeBtnColorHandler(evt) {
   // });
 
   function categsListClose(evt) {
-    console.log(' categsListClose')
+   
   // const dropdownBtn = evt.target.closest('.other-btn');
   // const dropdownContent = dropdownBtn && dropdownBtn.nextElementSibling;
   

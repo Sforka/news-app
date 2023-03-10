@@ -1,7 +1,7 @@
 //=== Подчеркивание активной ссылки на страницу
 
 let currentPage = document.querySelector('body').getAttribute('data-current-page'); 
-// console.log(currentPage)
+
 if (currentPage === "index") {
   document.querySelector('.nav_link[data-href="index"]').classList.add('nav_link--current');  
 } else if (currentPage === "favorite") {

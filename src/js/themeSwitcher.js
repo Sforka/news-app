@@ -33,7 +33,6 @@ export class ThemeSwitcher {
         this.themeSwitcherEl.setAttribute('checked', true);
         this.mobileSwitcherEl.setAttribute('checked', true);
         this.changeBodyClass(this.Theme.DARK, this.Theme.LIGHT);
-        // console.log(this.dataSelected)
         if (this.currentPage === "index") {
           this.dataSelected.style.color = "#F4F4F4";
         }

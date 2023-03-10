@@ -6,9 +6,16 @@
   justify-content: flex-start;
   align-items: center;
   gap: 24px; //mobile
+  margin-top: 24px;
+  padding-bottom: 40px;
   @include tablet {
     gap: calc(148px + 111px);
     margin-top: 28px;
+    margin-bottom: 48px;
+    padding-bottom: 0px;
+  }
+  @include desktop {
+    margin-bottom: 60px;
   }
 }
   
@@ -64,99 +71,39 @@
   color: #FFFFFF;
 }
 
-// .dropdown {
-//   position: relative;
-//   // display: inline-block;
-//   // position: absolute;
-//   // width: 170px;
-//   // height: 385px;
-//   // z-index: 3;
-//   // overflow: hidden;
-//   }
-  
+.other-btn {
+  position: absolute;
+  z-index: 10;
+}
 
 .dropdown{
   position: absolute;
-  min-width: 168px; //148
+  min-width: 148px;
   height: 420px;
   z-index: 2;
   overflow: hidden;
-  //
-  // transform: translateY(-26px);
-  // left: -90px;
-  // top: -16px;
-  // @include tablet {
-  //     left: -98px;
-  //     top: -16px;
-  // }
-  // @include desktop {
-  //     left: calc(154px + 37px);
-  //     top: -3px;
-  // }
+    @include tablet {
+    max-width: 168px;
+  }
 }
-
-
-// /* Стили для выпадающего списка */
-// .dropdown-content {
-//   display: block;
-
-//   max-height: 380px;
-//   max-width: 148px;
-//   overflow-y: auto;
-//   background-color: #F8F8F8;
-//   border-radius: 30px;
-//   padding: 14px 14px; //mob
-//   box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
-//   position: absolute;
-//   // top: 100%;
-//   top: 30px;
-//   left: 0;
-//   z-index: 3;
-//   transform: translateY(-120%);
-//   &-open {
-//     display: none;
-//     // height: 0px;
-//     transform: translateY(-120%);    
-//     transition-property: transform;
-//     transition-duration: 500ms;
-//     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-//     }
-//     &-close {
-//     transform: translateY(0);    
-//     transition-property: transform;
-//     transition-duration: 500ms;
-//     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);  
-//     }   
-
-//   // opacity: 0;
-//   // transition: transform 0.4s ease, opacity 0.0s ease;
-//   // для проверки
-//   // display: block;
-//   // transform: translateY(0);
-//   // opacity: 1;
-
-//   @include tablet {
-//     max-width: 168px;
-//     padding: 14px 24px; //
-//   }
-// } 
 
 .dropdown-content {
   position: absolute;
-  top: 0;
-  right: 0;
-  max-width: 168px; //148
+  top: 31px;
+  left: 0;
+  max-width: 148px;
   max-height: 380px;
   overflow-y: auto;
   background-color: #F8F8F8;
-  box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
-  padding: 15px 16px 15px;
-  z-index: 2;
-  top: 31px;
-  left: 0;
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 30px;
+  padding: 14px 14px;
+  z-index: 6;
   transform: translateY(-120%);
-
+    @include tablet {
+    max-width: 168px;
+    padding: 14px 24px; //
+  }
   &-close {
       transform: translateY(-120%);    
       transition-property: transform;
@@ -169,22 +116,7 @@
       transition-duration: 500ms;
       transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);  
   }
-  
 }
-
-
-  // .dropdown:hover .dropdown-content {
-  //   display: block;
-  //   transform: translateY(0);
-  //   opacity: 1;
-  // }
-
-//   //видимый не по ховеру а по клику
-// .dropdown-content-visible {
-//     display: block;
-//     transform: translateY(0);
-//     opacity: 1;
-//   }
   
   /* Стили для элементов списка */
   .dropdown-item {

@@ -107,12 +107,13 @@ li {
     z-index: 2;
     overflow: hidden;
     //
-    // transform: translateY(-26px);
-    left: 90px;
-    top: -16px;
+    z-index: 0;
+    left: 14px;
+    top: 0px;
     @include tablet {
         left: -170px;
         top: -16px;
+        z-index: 2;
     }
     @include desktop {
         left: calc(-10px - 37px);

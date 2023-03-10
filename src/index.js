@@ -140,6 +140,11 @@ changeSearchType('category')
   const target = evt.target;
   if (target.classList.contains('section-btn') || target.classList.contains('dropdown-item')) {
   categRefs.newsSection = target.dataset.section;
+  // categRefs.categsListBtn.textContent=target.textContent;
+
+    // if (target.classList.contains('dropdown-item')){
+  // nameListButtonByClick(String(target.textContent))
+  // временно откл.
   newsFetchApi.searchSection = String(categRefs.newsSection);}
   // add by Volyanskiy end
  

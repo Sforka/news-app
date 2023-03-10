@@ -28,7 +28,7 @@ import { changeSearchType } from './js/currentTypeOfSearch';
 const btnSearch = document.querySelector('.search_mob_btn');
 
 btnSearch.addEventListener('click', onSearchClick);
-const pagRefs = {
+export const pagRefs = {
   prev: document.querySelector('.pag-arrow--prev'),
   next: document.querySelector('.pag-arrow--next'),
 };

@@ -232,9 +232,6 @@ function onAddToFavoritesClick(evt) {
 
       const compareString = evt.target.textContent.trim()
 
-      console.log(compareString);
-      console.log('Add to favorites');
-
       if ((compareString === 'Add to favorites')) {
         evt.target.nextElementSibling.classList.remove('fav-icon-add')
         evt.target.nextElementSibling.classList.add('fav-icon-remove')
@@ -242,7 +239,7 @@ function onAddToFavoritesClick(evt) {
     } else { evt.target.nextElementSibling.classList.remove('fav-icon-remove')
     evt.target.nextElementSibling.classList.add('fav-icon-add')
     evt.target.textContent = 'Add to favorites'}
-
+    const resultsArr = favoritesArrFedor;
     setFavoritesInLocalStor({
       resultsArr,
       clickedArticleId,

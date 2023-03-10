@@ -29,7 +29,7 @@ function getTime(){
   const date = new Date().getDate();
   const month = (new Date().getMonth() + 1);
   const year = new Date().getFullYear();
-  DateOfRead = (`${date}/${month}/${year}`)
+  let DateOfRead = (`${date}/${month}/${year}`)
   return DateOfRead;
 }
 //== добавляет избранное в локальное хранилище. конец ==========

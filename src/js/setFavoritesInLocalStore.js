@@ -15,7 +15,6 @@ export default function setFavoritesInLocalStor({
       // проверка или есть уже обьект
       savedData = savedData ? JSON.parse(savedData) : {};
 
-      console.dir(evt.target.nextElementSibling);
       if (savedData[clickedArticleId]) {
         delete savedData[`${clickedArticleId}`];
 

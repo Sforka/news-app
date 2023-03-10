@@ -319,7 +319,12 @@ function onAddToFavoritesClick(evt) {
       evt.target.closest('.card')?.slug_name ||
       evt.target.closest('.card')?._id;
 const addTofavorites = 'Add to favorites'
+const RemoveFromfavorites = 'Remove from favorites'
+
     if ((evt.target.textContent.contains = addTofavorites)); {
+
+      evt.target.textContent = RemoveFromfavorites;
+
       const addTofavorites = 'Add to favorites'
       evt.target.textContent = addTofavorites;
     }

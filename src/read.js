@@ -34,11 +34,11 @@ const STORAGE_READ_KEY = 'read';
 getReadArticlesFromLocStor();
 //===отримання масиву статей з local storage ==========
 function getReadArticlesFromLocStor() {
-  read = localStorage.getItem(STORAGE_READ_KEY);
+  let read = localStorage.getItem(STORAGE_READ_KEY);
   if (!read) {
     withoutNewsContainer.style.display = 'block';
   } else {
-    arrArticlesFromLocStor = JSON.parse(read);
+   let arrArticlesFromLocStor = JSON.parse(read);
     getUniqeDateOfRead(arrArticlesFromLocStor);
 
   }

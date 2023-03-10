@@ -10,7 +10,12 @@ li {
 
 .calendar-wrap {
     position: relative;
-    // display: flex;
+    display: flex;
+
+}
+
+.calendar-box-positioner {
+    position: relative;
 }
 
 .calendar-title {
@@ -103,14 +108,14 @@ li {
     overflow: hidden;
     //
     // transform: translateY(-26px);
-    left: -90px;
+    left: 90px;
     top: -16px;
     @include tablet {
-        left: -98px;
+        left: -170px;
         top: -16px;
     }
     @include desktop {
-        left: calc(154px + 37px);
+        left: calc(-10px - 37px);
         top: -3px;
     }
 }

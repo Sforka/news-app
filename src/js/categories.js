@@ -74,6 +74,7 @@ export function createSectionMarkup(sectionName, displayName) {
     sectionMarkup += `<button data-section="${sectionName[i]}" class="section-btn">${displayName[i]}</button>`;
   }
   // Create dropdown list for rest of results
+  sectionMarkup += '<div class="dropdown-positioner">';
   sectionMarkup += '<div class="dropdown">';
   sectionMarkup += `<button class="other-btn btn-active">${categRefs.listButtonName}</button>`;
   sectionMarkup += '<div class="dropdown-content dropdown-content-open">';
@@ -84,6 +85,7 @@ export function createSectionMarkup(sectionName, displayName) {
 
   sectionMarkup += '</div>'
   sectionMarkup += '<div class="dropdown-ruler"></div>'
+  sectionMarkup += '</div>';
   sectionMarkup += '</div>';
   renderSectionMarkup(sectionMarkup);
 }
@@ -104,28 +106,22 @@ categRefs.dropdownContent = document.querySelector(".dropdown-content");
 
 
 // ---------відкриття і закриття меню---------
-
 export function onCategListOpen() {
-
-  categRefs.dropdownContent.classList.remove('dropdown-content-close');    
   categRefs.dropdownContent.classList.add('dropdown-content-open'); 
+  categRefs.dropdownContent.classList.remove('dropdown-content-close');    
 //   categBtnIcon.style.fill = "#FFFFFF"; 
-
   categRefs.categsListBtn.removeEventListener("click", onCategListOpen);
   categRefs.categsListBtn.addEventListener("click", onCategListClose);   
 }
 
-// btnCalendarClose.addEventListener("click", onCloseCalendar);
-
 export function onCategListClose() {  
-
   categRefs.dropdownContent.classList.add('dropdown-content-close');    
   categRefs.dropdownContent.classList.remove('dropdown-content-open'); 
   //  iconCalendar.style.fill = "#4440F7";  
-
   categRefs.categsListBtn.removeEventListener("click", onCategListClose);
   categRefs.categsListBtn.addEventListener("click", onCategListOpen);  
   }
+
 
   export function activeBtnColorHandler(evt) {
   if (evt.target.matches('.section-btn, .other-btn')) {
@@ -138,7 +134,6 @@ export function onCategListClose() {
 
   // classList.remove('show')
 };
-
 
   // categRefs.categsBlockEL.addEventListener('click', categsListClose);
 

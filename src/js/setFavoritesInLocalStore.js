@@ -1,6 +1,3 @@
-//===добавляет избранное в локальное хранилище ==========
-
-
 export default function setFavoritesInLocalStor({
   resultsArr,
   clickedArticleId,
@@ -23,6 +20,7 @@ export default function setFavoritesInLocalStor({
         delete savedData[`${clickedArticleId}`];
 
         if ((evt.target.textContent.contains = 'Remove from favorites')) {
+          evt.target.textContent = 'Add to favorites';
           evt.target.textContent = 'Add to favorites'; 
 
         }
@@ -37,4 +35,3 @@ export default function setFavoritesInLocalStor({
     }
   });
 }
-//== добавляет избранное в локальное хранилище. конец ==========

@@ -286,17 +286,12 @@ function onAddToFavoritesClick(evt) {
       evt.target.closest('.card')?.id ||
       evt.target.closest('.card')?.slug_name ||
       evt.target.closest('.card')?._id;
-<<<<<<< HEAD
 
-    if ((evt.target.textContent.contains = 'Add to favorites')) {
+const compareString = evt.target.textContent
+    if ((compareString === 'Add to favorites')) {
       evt.target.textContent = 'Remove from favorites';
       
-=======
-const addTofavorites = 'Add to favorites'
-    if ((evt.target.textContent.contains = addTofavorites)); {
-      const addTofavorites = 'Add to favorites'
-      evt.target.textContent = addTofavorites;
->>>>>>> parent of 5d732f7 (Merge pull request #94 from Sforka/fav3)
+
     }
     setFavoritesInLocalStor({
       resultsArr,

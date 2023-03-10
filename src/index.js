@@ -325,8 +325,11 @@ const RemoveFromfavorites = 'Remove from favorites'
 
       evt.target.textContent = RemoveFromfavorites;
 
-      const addTofavorites = 'Add to favorites'
-      evt.target.textContent = addTofavorites;
+
+    if ((evt.target.textContent.contains = 'Add to favorites')) {
+      evt.target.textContent = 'Remove from favorites';
+      
+
     }
     setFavoritesInLocalStor({
       resultsArr,

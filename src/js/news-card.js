@@ -1,6 +1,6 @@
 const STORAGE_FAVORITES_KEY = 'favorites';
-const favIcon = '<svg class="fav-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="#4440F6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 3C4.239 3 2 5.216 2 7.95c0 2.207.875 7.445 9.488 12.74a.985.985 0 0 0 1.024 0C21.125 15.395 22 10.157 22 7.95C22 5.216 19.761 3 17 3s-5 3-5 3s-2.239-3-5-3Z"/></svg>'
 
+let favIconClass = "fav-icon-add";
 
 export default function createmarkup({
   publishedDate,
@@ -26,7 +26,7 @@ export default function createmarkup({
     }
   }
   // проверка или новость есть в локальном избранное
-let favoritesBtnText = "Add to favorite"
+  let favoritesBtnText = 'Add to favorite';
   const favorites = localStorage.getItem(STORAGE_FAVORITES_KEY);
   if (favorites) {
     const parsedFavorites = JSON.parse(favorites);
@@ -36,10 +36,15 @@ let favoritesBtnText = "Add to favorite"
       const { id, _id, slug_name } = parsedFavorite;
 
       const articleIdInFavorites = id || _id || slug_name;
-      if (articleId === articleIdInFavorites) { favoritesBtnText = 'Remove from favorites' }
+      if (articleId === articleIdInFavorites) {
+        favoritesBtnText = 'Remove from favorites';
+        favIconClass = "fav-icon-remove";
+      } else {favIconClass = "fav-icon-add";}
     }
   }
 
+ let favIcon =
+    `<svg class="fav-icon ${favIconClass}" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 3C4.239 3 2 5.216 2 7.95c0 2.207.875 7.445 9.488 12.74a.985.985 0 0 0 1.024 0C21.125 15.395 22 10.157 22 7.95C22 5.216 19.761 3 17 3s-5 3-5 3s-2.239-3-5-3Z"/></svg>`;
   return `
       <article class="card" id="${articleId}">
 
@@ -48,7 +53,7 @@ let favoritesBtnText = "Add to favorite"
             <p class="card__already-read">
               Already read ✓
             </p>
-          </div>
+            </div>
           <img class="card__img" src="${imgUrl}" alt="${articleTitle}">
           <p class="card__section-name">
             ${sectionName}

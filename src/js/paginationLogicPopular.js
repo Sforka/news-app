@@ -23,6 +23,8 @@ export default class PaginationLogicPopular {
   getMarkupAll() {
     this.markupAll = '<div class="weatherWidget"></div>';
     if (this.getResultForPage().length < this.newsPerPage) {
+    
+    }
     this.getResultForPage().forEach(
       ({ abstract, published_date, section, title, media, url, id }) => {
         const articleId = id;

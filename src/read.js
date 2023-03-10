@@ -27,7 +27,7 @@ let fullMarkup = '';
 let sectionMarkup = '';
 let startSectionMarkup = '';
 let blockMarkup = '';
-const endSectionMarkup = '</ul></section>';
+const endSectionMarkup = '</ul></label> </section>';
 const STORAGE_READ_KEY = 'read';
 
 
@@ -108,14 +108,17 @@ function createSectionMarkup(date) {
   
   startSectionMarkup = `
     <section class = "section_read container"
-    <div class = "section-title">
-    <button class = "section-title_btn"__text>${date} <svg class="date-list__btn-icon" width="14" height="9" aria-hidden="true" style="position: absolute;>
-    <symbol id=" icon-vector-2-1"="" viewBox="0 0 50 32">
-    <path d="M5.867 0l-5.867 6.080 24.889 25.92 24.889-25.92-5.831-6.080-19.058 19.769-19.058-19.769z"></path>
-    </svg></button>
+    <div class = "section-title container">
     
-    </div>
-    <ul class = "news_container">`;
+    <label class="checkbox-btn checkbox">
+  <input type="checkbox">
+  <span class="btn-label">${date} <svg class=" date-list__btn-icon" width="14" height="9" aria-hidden="true" style="position: absolute;>
+  <symbol id="icon-vector-2-1"="" viewBox="0 0 50 32">
+  <path d="M5.867 0l-5.867 6.080 24.889 25.92 24.889-25.92-5.831-6.080-19.058 19.769-19.058-19.769z"></path>
+  </svg></button></span>
+  <div class="under_line"></div>
+
+    <div class = "news_container popup">`;
   return startSectionMarkup;
 }
 
@@ -203,12 +206,7 @@ function getOnlyUniqueArray(value, index, self) {
 
 body.insertAdjacentHTML('beforeend', fullMarkup);
 
-let div = document.querySelector('.news_container');
-document.querySelector('.section-title_btn').addEventListener('click', (e) => {
-  div.style.display = getComputedStyle(div).display == 'grid' ? 'none' : 'grid';
-  console.log(e);
-  e.target.elements.style.transform = 'rotateX(180deg)'; 
-});
+
 
 //============= перемикач теми початок ==========
 
@@ -244,6 +242,8 @@ function padTo2Digits(num) {
 // Начало. Проверка на клик по Добавить в избранное
 body.addEventListener('click', onAddToFavoritesClick);
 body.addEventListener('click', onAddToReadClick);
+body.addEventListener('click', onAddToClick);
+
 function onAddToFavoritesClick(evt) {
   if (evt.target.className === 'card__btn') {
     const clickedArticleId =
@@ -277,5 +277,25 @@ function onAddToReadClick(evt) {
       clickedArticleId,
       evt,
     });
+  }
+}
+
+// let div = document.querySelector('.news_container');
+// document.querySelector('.section-title_btn').addEventListener('click', (e) => {
+//   div.style.display = getComputedStyle(div).display == 'grid' ? 'none' : 'grid';
+//   console.log(e);
+//   e.target.elements.style.transform = 'rotateX(180deg)'; 
+// });
+
+function onAddToClick(evt) {
+  if (evt.target.className === 'section-title_btn') {
+    const clickedArticleId =
+      evt.target.closest('.section-title_btn')?.id
+    
+  const readListBtn = document.querySelector(`[id_card="${clickedArticleId}"]`);
+  console.log("нажимаю"+ clickedArticleId);
+
+
+   
   }
 }

@@ -23,7 +23,7 @@ export default class PaginationLogicSearch {
   getMarkupAll() {
     this.markupAll = '<div class="weatherWidget"></div>';
     if (this.getResultForPage().length < this.newsPerPage) {
-      console.log('отключить кнопку вперед');
+      
     }
     this.getResultForPage().forEach(
           ({
@@ -46,7 +46,7 @@ export default class PaginationLogicSearch {
             try {
               imgUrl = imgUrl = 'https://www.nytimes.com/' + multimedia[0].url;
               //   якщо треба інший розмір картинки
-              // console.log(media[0]['media-metadata']);
+              
             } catch (error) {
               imgUrl =
                 'https://t4.ftcdn.net/jpg/00/89/55/15/240_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg';

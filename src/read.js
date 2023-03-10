@@ -279,23 +279,3 @@ function onAddToReadClick(evt) {
     });
   }
 }
-
-// let div = document.querySelector('.news_container');
-// document.querySelector('.section-title_btn').addEventListener('click', (e) => {
-//   div.style.display = getComputedStyle(div).display == 'grid' ? 'none' : 'grid';
-//   console.log(e);
-//   e.target.elements.style.transform = 'rotateX(180deg)'; 
-// });
-
-function onAddToClick(evt) {
-  if (evt.target.className === 'section-title_btn') {
-    const clickedArticleId =
-      evt.target.closest('.section-title_btn')?.id
-    
-  const readListBtn = document.querySelector(`[id_card="${clickedArticleId}"]`);
-  console.log("нажимаю"+ clickedArticleId);
-
-
-   
-  }
-}
